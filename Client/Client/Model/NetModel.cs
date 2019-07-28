@@ -16,8 +16,6 @@ namespace GameClient
         public float locationX { get; set; }
         [ProtoMember(4)]
         public float locationZ { get; set; }
-        [ProtoMember(5)]
-        public int times { get; set; }
     }
 
     //S2CMove用 所有人位置信息
@@ -52,7 +50,5 @@ namespace GameClient
         public float x { get; set; }
         [ProtoMember(2)]
         public float z { get; set; }
-        [ProtoMember(3)]
-        public int times { get; set; }
     }
 }

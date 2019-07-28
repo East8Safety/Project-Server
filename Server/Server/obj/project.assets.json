@@ -960,23 +960,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Safety\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\zzzz\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DATA\\Project\\VSProject\\Server\\Server\\GameServer.csproj",
+      "projectUniqueName": "D:\\_VSProject\\Project-Server\\Server\\Server\\GameServer.csproj",
       "projectName": "GameServer",
-      "projectPath": "D:\\DATA\\Project\\VSProject\\Server\\Server\\GameServer.csproj",
-      "packagesPath": "C:\\Users\\Safety\\.nuget\\packages\\",
-      "outputPath": "D:\\DATA\\Project\\VSProject\\Server\\Server\\obj\\",
+      "projectPath": "D:\\_VSProject\\Project-Server\\Server\\Server\\GameServer.csproj",
+      "packagesPath": "C:\\Users\\zzzz\\.nuget\\packages\\",
+      "outputPath": "D:\\_VSProject\\Project-Server\\Server\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Safety\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\zzzz\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

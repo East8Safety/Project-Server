@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 
@@ -23,8 +24,8 @@ namespace GameServer
         {
             while (true)
             {
-                GameProcess.instance.UpdateMove();              
-                Thread.Sleep(10);
+                GameProcess.instance.UpdateMove();
+                Thread.Sleep(20);
             }
         }
     }

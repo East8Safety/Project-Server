@@ -7,7 +7,7 @@ namespace GameServer
         static void Main(string[] args)
         {
             Server.instance.ThreadStart();
-            Server.instance.ThreadSendStart();
+            //Server.instance.ThreadSendStart();
             Server.instance.ThreadReceiveStart();
 
             ServerUpdate.instance.ThreadStart();

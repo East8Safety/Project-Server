@@ -12,14 +12,9 @@ namespace GameServer
 
         public void ServerSendStart()
         {
-            while (true)
+            while (Server.instance.messageWaited.Count > 0)
             {
-                if(Server.instance.messageWaited.Count > 0)
-                {
-                    Send();
-                    continue;
-                }
-                Thread.Sleep(10);
+                Send();
             }
         }
 

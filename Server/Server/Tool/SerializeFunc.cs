@@ -36,7 +36,7 @@ namespace GameServer
         }
 
         //反序列化
-        public T DeSerialize<T>(byte[] msg) where T : class
+        public T DeSerialize<T>(byte[] msg)
         {
             using (MemoryStream ms = new MemoryStream(msg, false))
             {

@@ -53,7 +53,7 @@ namespace GameClient
                 return;
             }
 
-            BeginReceive(client);
+            ReceiveData.instance.BeginReceive(client);
 
             while (true)
             {
@@ -61,7 +61,7 @@ namespace GameClient
                 {
                     return;
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(10);
             }
         }
     }

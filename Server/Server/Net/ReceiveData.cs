@@ -16,7 +16,7 @@ namespace GameServer
             {
                 if (Server.instance.clientPools == null)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(100);
                     continue;
                 }
                 foreach (var client in Server.instance.clientPools)
@@ -27,10 +27,10 @@ namespace GameServer
                     }
                     BeginReceive(client.Value);
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(10);
             }
         }
-
+        
         public void BeginReceive(Client client)
         {
             try
@@ -49,6 +49,7 @@ namespace GameServer
         {
             try
             {
+                Console.WriteLine(System.DateTime.Now.Millisecond + "  接受到信息开始  ");
                 Message msg;
                 Client client = result.AsyncState as Client;
                 //获取消息的长度
@@ -70,7 +71,9 @@ namespace GameServer
                     lock (Server.instance.messageReceived)
                     {
                         Server.instance.messageReceived.Enqueue(msg);
+                        Console.WriteLine("收到了消息"+msg.messageType);
                     }
+                    Console.WriteLine(System.DateTime.Now.Millisecond + "  接受到信息结束  ");
                     //尾递归，再次监听客户端消息
                     BeginReceive(client);
                 }

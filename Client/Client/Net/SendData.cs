@@ -16,7 +16,7 @@ namespace GameClient
             {
                 if (Client.instance.messageWaited.Count > 0)
                 {
-                    Send();
+                    SendData.instance.Send();
                     continue;
                 }
                 Thread.Sleep(10);

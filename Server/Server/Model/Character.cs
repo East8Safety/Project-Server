@@ -13,6 +13,5 @@ namespace GameServer
         public float z { get; set; }
         public float locationX { get; set; }
         public float locationZ { get; set; }
-        public int times { get; set; }
     }
 }

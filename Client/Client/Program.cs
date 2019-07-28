@@ -24,19 +24,14 @@ namespace GameClient
 
             //byte[] b = SerializeFunc.instance.Serialize(allCharLocation);
             //AllCharLocation allCharLocation2 = SerializeFunc.instance.DeSerialize<AllCharLocation>(b);
-            int a = 1;
-            int b = 0;
+            //int a = 0;
 
             while (true)
             {
-                if (b > 100)
-                {
-                    Console.ReadKey();
-                }
                 if(canSend == true)
                 {
                     Move move = new Move();
-                    move.x = 1; move.z = 1;move.times = a;
+                    move.x = 1; move.z = 1;
                     Message msg = new Message();
                     msg.messageType = (int)messageType.C2SMove;
                     msg.msg = SerializeFunc.instance.Serialize(move);
@@ -45,8 +40,6 @@ namespace GameClient
                     {
                         Client.instance.messageWaited.Enqueue(msg);
                     }
-                    Console.WriteLine(string.Format("Send Message: {0} {1}:{2}", a, DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
-                    a++;
                 }
                 
 
@@ -66,7 +59,6 @@ namespace GameClient
                         foreach (var item in allCharLocation.allCharLocation)
                         {
                             var location = item.Value;
-                            Console.WriteLine(string.Format("Receive Message: {0} {1}:{2}", location.times, DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
                             Console.WriteLine(string.Format("Char:{0} location: {1} {2}", item.Key, location.locationX, location.locationZ));
                         }
                         break;
@@ -82,8 +74,8 @@ namespace GameClient
                     default:
                         break;
                 }
-                b++;
-                //Thread.Sleep(10);
+
+                Thread.Sleep(10);
             }
             
         }

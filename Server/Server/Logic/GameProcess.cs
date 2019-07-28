@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 
@@ -9,6 +10,8 @@ namespace GameServer
     {
         public static readonly GameProcess instance = new GameProcess();
 
+        AllCharLocation allCharLocation = new AllCharLocation() { allCharLocation = new Dictionary<int, Location>() };
+
         public void CreateCharacter(int clientId)
         {
             var character = CharacterController.instance.Create();
@@ -17,39 +20,36 @@ namespace GameServer
             CharacterController.instance.Init(character, 0, 0);
             CharacterManager.instance.AddCharacter(character);
         }
-
+        
         public void UpdateMove()
         {
-            AllCharLocation allCharLocation = new AllCharLocation();
-            allCharLocation.allCharLocation = new Dictionary<int, Location>();
-            if (CharacterManager.instance.charDic.Count == 0)
-            {
-                return;
-            }
-            foreach (var item in CharacterManager.instance.charDic)
-            {
-                Location location = new Location();
-                var character = item.Value;
-                location.x = character.x;
-                location.z = character.z;
-                location.times = character.times;
-                location.locationX = character.locationX;
-                location.locationZ = character.locationZ;
-                allCharLocation.allCharLocation.Add(character.charId, location);
-            }
-
-            if(Server.instance.clientPools == null)
-            {
-                return;
-            }
-            foreach (var item in Server.instance.clientPools)
-            {
-                Client client = item.Value;
-                if (client.socket != null)
-                {
-                    GameProcess.instance.SendMessage(client.clientId, (int)messageType.S2CMove, allCharLocation);
-                }
-            }
+            //allCharLocation.allCharLocation.Clear();
+            //if (CharacterManager.instance.charDic.Count == 0)
+            //{
+            //    return;
+            //}
+            //foreach (var item in CharacterManager.instance.charDic)
+            //{
+            //    Location location = new Location();
+            //    var character = item.Value;
+            //    location.x = character.x;
+            //    location.z = character.z;
+            //    location.locationX = character.locationX;
+            //    location.locationZ = character.locationZ;
+            //    allCharLocation.allCharLocation.Add(character.charId, location);
+            //}
+            //if (Server.instance.clientPools == null)
+            //{
+            //    return;
+            //}
+            //foreach (var item in Server.instance.clientPools)
+            //{
+            //    Client client = item.Value;
+            //    if (client.socket != null)
+            //    {
+            //        GameProcess.instance.SendMessage(client.clientId, (int)messageType.S2CMove, allCharLocation);
+            //    }
+            //}
         }
 
         public void UpdateCharacters()
@@ -79,17 +79,47 @@ namespace GameServer
             mCharId.charId = charId;
             GameProcess.instance.SendMessage(clientId, (int)messageType.S2CSendCharId, mCharId);
         }
-
+        int a = 1;
         public void ClientMove(int charId, Move model)
         {
             Character character;
             CharacterManager.instance.charDic.TryGetValue(charId, out character);
             character.x = model.x;
             character.z = model.z;
-            character.times = model.times;
             character.locationX += model.x;
             character.locationZ += model.z;
-            Console.WriteLine(string.Format("Deal Message: {0} {1}:{2}", model.times, DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
+            Console.WriteLine(System.DateTime.Now.Millisecond +"  adasdas  "+a);
+
+
+            allCharLocation.allCharLocation.Clear();
+            if (CharacterManager.instance.charDic.Count == 0)
+            {
+                return;
+            }
+            foreach (var item in CharacterManager.instance.charDic)
+            {
+                Location location = new Location();
+                var character2 = item.Value;
+                location.x = character2.x;
+                location.z = character2.z;
+                location.locationX = character2.locationX;
+                location.locationZ = character2.locationZ;
+                allCharLocation.allCharLocation.Add(character2.charId, location);
+            }
+            if (Server.instance.clientPools == null)
+            {
+                return;
+            }
+            foreach (var item in Server.instance.clientPools)
+            {
+                Client client = item.Value;
+                if (client.socket != null)
+                {
+                    GameProcess.instance.SendMessage(client.clientId, (int)messageType.S2CMove, allCharLocation);
+                }
+            }
+            Console.WriteLine(System.DateTime.Now.Millisecond + "  adasdas  " + a);
+            a++;
         }
 
         public void SendMessage<T>(int clientId, int messageType, T model)
@@ -102,6 +132,7 @@ namespace GameServer
             {
                 Server.instance.messageWaited.Enqueue(msg);
             }
+            SendData.instance.ServerSendStart();
         }
 
         public void ReceiveMessage()
@@ -119,7 +150,6 @@ namespace GameServer
             {
                 case (int)messageType.C2SMove:
                     Move move = SerializeFunc.instance.DeSerialize<Move>(msg.msg);
-                    Console.WriteLine(string.Format("Receive Message: {0} {1}:{2}", move.times, DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
                     EventManager.instance.AddEvent(() =>
                     {
                         int charId;
