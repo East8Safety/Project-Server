@@ -12,33 +12,26 @@ namespace GameClient
         static void Main(string[] args)
         {
             Client.instance.Connect();
-
             Client.instance.ThreadSendStart();
             Client.instance.ThreadReceiveStart();
-
-            //AllCharLocation allCharLocation = new AllCharLocation();
-            //allCharLocation.allCharLocation = new Dictionary<int, Location>();
-            //Location l = new Location();
-            //l.x = 1; l.z = 2; l.locationX = 3; l.locationZ = 4;
-            //allCharLocation.allCharLocation.Add(1, l);
-
-            //byte[] b = SerializeFunc.instance.Serialize(allCharLocation);
-            //AllCharLocation allCharLocation2 = SerializeFunc.instance.DeSerialize<AllCharLocation>(b);
-            //int a = 0;
-
+            int a = 0;
             while (true)
             {
                 if(canSend == true)
                 {
-                    Move move = new Move();
-                    move.x = 1; move.z = 1;
-                    Message msg = new Message();
-                    msg.messageType = (int)messageType.C2SMove;
-                    msg.msg = SerializeFunc.instance.Serialize(move);
-
-                    lock (Client.instance.messageWaited)
+                    if (a < 100)
                     {
-                        Client.instance.messageWaited.Enqueue(msg);
+                        Move move = new Move();
+                        move.x = 1; move.z = 1;
+                        Message msg = new Message();
+                        msg.messageType = (int)messageType.C2SMove;
+                        msg.msg = SerializeFunc.instance.Serialize(move);
+
+                        lock (Client.instance.messageWaited)
+                        {
+                            Client.instance.messageWaited.Enqueue(msg);
+                        }
+                        a++;
                     }
                 }
                 
@@ -59,7 +52,8 @@ namespace GameClient
                         foreach (var item in allCharLocation.allCharLocation)
                         {
                             var location = item.Value;
-                            Console.WriteLine(string.Format("Char:{0} location: {1} {2}", item.Key, location.locationX, location.locationZ));
+                            Console.WriteLine(string.Format("Char:{0} location: {1} {2} {3}:{4}", item.Key, location.locationX, location.locationZ,
+                                DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
                         }
                         break;
                     case (int)messageType.S2CSendCharId:
@@ -67,17 +61,15 @@ namespace GameClient
                         canSend = true;
                         Console.WriteLine(string.Format("This client's charId: {0}", charId.charId));
                         break;
-                    case (int)messageType.S2CUpdateChar:
-                        AllCharIds allCharIds = SerializeFunc.instance.DeSerialize<AllCharIds>(msg2.msg);
-                        Console.WriteLine(string.Format("Client count: {0}", allCharIds.charIds.Count));
+                    case (int)messageType.S2CJoinNewPlayer:
+                        NewCharId newCharId = SerializeFunc.instance.DeSerialize<NewCharId>(msg2.msg);
+                        Console.WriteLine(string.Format("New Char: {0}", newCharId.charId));
                         break;
                     default:
                         break;
                 }
-
-                Thread.Sleep(10);
+                Thread.Sleep(20);
             }
-            
         }
     }
 }

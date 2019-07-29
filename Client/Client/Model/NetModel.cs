@@ -26,12 +26,12 @@ namespace GameClient
         public Dictionary<int, Location> allCharLocation { get; set; }
     }
 
-    //S2CUpdateChar用 所有人charId
+    //S2CJoinNewPlayer用 新玩家charId
     [ProtoContract]
-    public class AllCharIds
+    public class NewCharId
     {
         [ProtoMember(1)]
-        public List<int> charIds { get; set; }
+        public int charId { get; set; }
     }
 
     //S2CSendCharId用 分配给客户端的charId

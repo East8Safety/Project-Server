@@ -43,8 +43,10 @@ namespace GameClient
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 35353);
             socket.Connect(ip);
-
-            this.socket = socket;
+            if (socket.Connected)
+            {
+                this.socket = socket;
+            }
         }
 
         public void Receive(byte[] data)
