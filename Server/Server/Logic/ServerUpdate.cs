@@ -9,23 +9,48 @@ namespace GameServer
     class ServerUpdate
     {
         public static readonly ServerUpdate instance = new ServerUpdate();
-        public Thread serverUpdateThread;
 
-        public void ThreadStart()
-        {
-            serverUpdateThread = new Thread(()=> {
-                Update();
-            });
-            serverUpdateThread.Name = "serverUpdateThread";
-            serverUpdateThread.Start();
-        }
+        AllCharLocation allCharLocation = new AllCharLocation() { allCharLocation = new Dictionary<int, Location>()};
 
+        //服务器update
         public void Update()
         {
             while (true)
             {
-                GameProcess.instance.UpdateMove();
+                UpdateMove();
                 Thread.Sleep(20);
+            }
+        }
+
+        //更新位置信息
+        public void UpdateMove()
+        {
+            allCharLocation.allCharLocation.Clear();
+            if (CharacterManager.instance.charDic.Count == 0)
+            {
+                return;
+            }
+            foreach (var item in CharacterManager.instance.charDic)
+            {
+                Location location = new Location();
+                var character = item.Value;
+                location.x = character.x;
+                location.z = character.z;
+                location.locationX = character.locationX;
+                location.locationZ = character.locationZ;
+                allCharLocation.allCharLocation.TryAdd(character.charId, location);
+            }
+            if (Server.instance.clientPools.Count == 0)
+            {
+                return;
+            }
+            foreach (var item in Server.instance.clientPools)
+            {
+                Client client = item.Value;
+                if (client.socket != null)
+                {
+                    SendData.instance.SendMessage(client.clientId, (int)messageType.S2CMove, allCharLocation);
+                }
             }
         }
     }

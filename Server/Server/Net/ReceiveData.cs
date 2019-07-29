@@ -9,35 +9,14 @@ namespace GameServer
     public class ReceiveData
     {
         public static readonly ReceiveData instance = new ReceiveData();
-
-        public void ServerReceiveStart()
-        {
-            while (true)
-            {
-                if (Server.instance.clientPools == null)
-                {
-                    Thread.Sleep(100);
-                    continue;
-                }
-                foreach (var client in Server.instance.clientPools)
-                {
-                    if (client.Value.socket == null || client.Value.isBeginReceive == true)
-                    {
-                        continue;
-                    }
-                    BeginReceive(client.Value);
-                }
-                Thread.Sleep(10);
-            }
-        }
         
+        //开始接收
         public void BeginReceive(Client client)
         {
             try
             {
                 client.socket.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None,
                     EndReceive, client);
-                client.isBeginReceive = true;
             }
             catch (Exception ex)
             {
@@ -45,11 +24,11 @@ namespace GameServer
             }
         }
 
+        //接收完回调
         public void EndReceive(IAsyncResult result)
         {
             try
             {
-                Console.WriteLine(System.DateTime.Now.Millisecond + "  接受到信息开始  ");
                 Message msg;
                 Client client = result.AsyncState as Client;
                 //获取消息的长度
@@ -68,13 +47,7 @@ namespace GameServer
                         return;
                     }
                     msg.clientId = client.clientId;
-                    lock (Server.instance.messageReceived)
-                    {
-                        Server.instance.messageReceived.Enqueue(msg);
-                        Console.WriteLine("收到了消息"+msg.messageType);
-                    }
-                    Console.WriteLine(System.DateTime.Now.Millisecond + "  接受到信息结束  ");
-                    //尾递归，再次监听客户端消息
+                    ReceiveMessage(msg);
                     BeginReceive(client);
                 }
 
@@ -82,6 +55,25 @@ namespace GameServer
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public void ReceiveMessage(Message msg)
+        {
+            switch (msg.messageType)
+            {
+                case (int)messageType.C2SMove:
+                    Move move = SerializeFunc.instance.DeSerialize<Move>(msg.msg);
+                    EventManager.instance.AddEvent(() =>
+                    {
+                        int charId;
+                        Server.instance.clientId2CharId.TryGetValue(msg.clientId, out charId);
+                        GameProcess.instance.ClientMove(charId, move);
+                    });
+
+                    return;
+                default:
+                    return;
             }
         }
     }

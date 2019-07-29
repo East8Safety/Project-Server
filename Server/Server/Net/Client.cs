@@ -15,8 +15,8 @@ namespace GameServer
         public const int size = 1024;
         //收取缓存
         public List<byte> receiveCache;
+        //clientId
         public int clientId = 0;
-        public bool isBeginReceive = false;
 
         public Client()
         {

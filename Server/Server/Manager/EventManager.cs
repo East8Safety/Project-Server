@@ -8,36 +8,31 @@ namespace GameServer
     class EventManager
     {
         public static readonly EventManager instance = new EventManager();
-
+        
+        //等待执行的事件
         public Queue<Action> waitEvents = new Queue<Action>();
-        public Thread evebtManagerThread;
-
-        public void ThreadStart()
+        
+        //开启主逻辑线程
+        public void Start()
         {
             Action ac;
-            evebtManagerThread = new Thread(() =>
+            while (true)
             {
-                while (true)
+                if (waitEvents.Count > 0)
                 {
-                    if (waitEvents.Count > 0)
+                    lock (waitEvents)
                     {
-                        lock (waitEvents)
+                        ac = waitEvents.Dequeue();
+                        if (ac != null)
                         {
-                            ac = waitEvents.Dequeue();
-                            if (ac != null)
-                            {
-                                ac();
-                            }
-                            continue;
+                            ac();
                         }
                     }
-                    Thread.Sleep(10);
                 }
-            });
-            evebtManagerThread.Name = "evebtManagerThread";
-            evebtManagerThread.Start();
+            }
         }
 
+        //加入事件
         public void AddEvent(Action ac)
         {
             if (ac == null)

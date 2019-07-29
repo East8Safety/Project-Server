@@ -8,8 +8,10 @@ namespace GameServer
     {
         public static CharacterController instance = new CharacterController();
 
+        //角色递增Id
         public static int charGuid = 1000;
 
+        //创建角色
         public Character Create()
         {
             Character character = new Character();
@@ -18,6 +20,7 @@ namespace GameServer
             return character;
         }
 
+        //初始化角色
         public void Init(Character character, float locationX, float locationZ)
         {
             character.x = 0;

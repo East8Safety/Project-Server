@@ -10,14 +10,19 @@ namespace GameServer
     {
         public static readonly SendData instance = new SendData();
 
+        //开启发送
         public void ServerSendStart()
         {
-            while (Server.instance.messageWaited.Count > 0)
+            while (true)
             {
-                Send();
+                if(Server.instance.messageWaited.Count > 0)
+                {
+                    Send();
+                }
             }
         }
 
+        //发送数据
         public void Send()
         {
             //取出消息
@@ -54,6 +59,19 @@ namespace GameServer
                     len = data.Length - i * Client.size;
                 }
                 client.socket.Send(data, i * Client.size, len, SocketFlags.None);
+            }
+        }
+
+        //放入发送队列
+        public void SendMessage<T>(int clientId, int messageType, T model)
+        {
+            Message msg = new Message();
+            msg.clientId = clientId;
+            msg.messageType = messageType;
+            msg.msg = SerializeFunc.instance.Serialize(model);
+            lock (Server.instance.messageWaited)
+            {
+                Server.instance.messageWaited.Enqueue(msg);
             }
         }
     }

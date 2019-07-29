@@ -8,7 +8,6 @@ namespace GameServer
     public class NetCode
     {
         public static readonly NetCode Instance = new NetCode();
-
         //编码，加入包头
         public byte[] Encode(int messageType, byte[] data)
         {
@@ -44,6 +43,8 @@ namespace GameServer
             //根据长度，判断内容是否传递完毕
             if (len > ms.Length - ms.Position)
             {
+                br.Close();
+                ms.Close();
                 return null;
             }
             //获取数据

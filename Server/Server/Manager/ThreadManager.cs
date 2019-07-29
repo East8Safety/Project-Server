@@ -9,24 +9,62 @@ namespace GameServer
     {
         public static readonly ThreadManager instance = new ThreadManager();
 
-        public Thread dealReceiveMsgThread;
+        public Thread listeningThread;
+        public Thread serverSendThread;
+        public Thread serverReceiveThread;
+        public Thread eventManagerThread;
+        public Thread serverUpdateThread;
 
-        public void ThreadStart()
+        public void AllThreadStart()
         {
-            dealReceiveMsgThread = new Thread(()=>
+            ListeningThreadStart();
+            ServerSendThreadStart();
+            EventManagerThreadStart();
+            ServerUpdateThreadStart();
+        }
+
+        //开启监听线程
+        public void ListeningThreadStart()
+        {
+            listeningThread = new Thread(() =>
             {
-                while (true)
-                {
-                    if(Server.instance.messageReceived.Count > 0)
-                    {
-                        GameProcess.instance.ReceiveMessage();
-                        continue;
-                    }
-                    Thread.Sleep(10);
-                }
+                Server.instance.Start();
             });
-            dealReceiveMsgThread.Name = "dealReceiveMsgThread";
-            dealReceiveMsgThread.Start();
+            listeningThread.Name = "listeningThread";
+            listeningThread.Start();
+        }
+
+        //开启发送线程
+        public void ServerSendThreadStart()
+        {
+            serverSendThread = new Thread(() =>
+            {
+                SendData.instance.ServerSendStart();
+            });
+            serverSendThread.Name = "serverSendThread";
+            serverSendThread.Start();
+        }
+
+        //开启主逻辑线程
+        public void EventManagerThreadStart()
+        {
+
+            eventManagerThread = new Thread(() =>
+            {
+                EventManager.instance.Start();
+            });
+            eventManagerThread.Name = "eventManagerThread";
+            eventManagerThread.Start();
+        }
+
+        //开启服务器update线程
+        public void ServerUpdateThreadStart()
+        {
+            serverUpdateThread = new Thread(() => {
+                ServerUpdate.instance.Update();
+            });
+            serverUpdateThread.Name = "serverUpdateThread";
+            serverUpdateThread.Start();
         }
     }
 }
