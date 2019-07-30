@@ -9,12 +9,13 @@ namespace GameServer
     {
         public static readonly NetCode Instance = new NetCode();
         //编码，加入包头
-        public byte[] Encode(int messageType, byte[] data)
+        public byte[] Encode(int clientId, int messageType, byte[] data)
         {
-            byte[] result = new byte[data.Length + 8];
+            byte[] result = new byte[data.Length + 12];
             //使用流将编码写二进制
             MemoryStream ms = new MemoryStream();
             BinaryWriter br = new BinaryWriter(ms);
+            br.Write(clientId);
             br.Write(messageType);
             br.Write(data.Length);
             br.Write(data);
@@ -30,14 +31,14 @@ namespace GameServer
         {
             Message msg = new Message();
 
-            //首先要获取长度，整形4个字节，如果字节数不足4个字节
-            if (cache.Count < 8)
+            if (cache.Count < 12)
             {
                 return null;
             }
             //读取数据
             MemoryStream ms = new MemoryStream(cache.ToArray());
             BinaryReader br = new BinaryReader(ms);
+            int clientId = br.ReadInt32();
             int messageType = br.ReadInt32();
             int len = br.ReadInt32();
             //根据长度，判断内容是否传递完毕
@@ -58,6 +59,7 @@ namespace GameServer
 
             msg.msg = result;
             msg.messageType = messageType;
+            msg.clientId = clientId;
             return msg;
         }
     }

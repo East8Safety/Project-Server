@@ -49,7 +49,7 @@ namespace GameServer
                 return;
             }
 
-            byte[] data = NetCode.Instance.Encode(msg.messageType, msg.msg);
+            byte[] data = NetCode.Instance.Encode(msg.clientId, msg.messageType, msg.msg);
             int count = data.Length / Client.size;
             int len = Client.size;
             for (int i = 0; i < count + 1; i++)

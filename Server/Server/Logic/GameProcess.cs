@@ -35,6 +35,7 @@ namespace GameServer
         public void SendCharId(int clientId, int charId)
         {
             CharId mCharId = new CharId();
+            mCharId.clientId = clientId;
             mCharId.charId = charId;
             SendData.instance.SendMessage(clientId, (int)messageType.S2CSendCharId, mCharId);
         }
@@ -52,6 +53,16 @@ namespace GameServer
             character.z = model.z;
             character.locationX += model.x;
             character.locationZ += model.z;
+        }
+
+        public void ClientAttack(C2SAttackModel data)
+        {
+            var weaponId = data.weaponId;
+            var x = data.locationX;
+            var z = data.locationZ;
+            GameMap gameMap;
+            GamMapManager.instance.mapDic.TryGetValue(0, out gameMap);
+            gameMap.gameMap[(int)x, (int)z] = weaponId;
         }
     }
 }

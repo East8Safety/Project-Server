@@ -29,7 +29,6 @@ namespace GameServer
         {
             try
             {
-                Message msg;
                 Client client = result.AsyncState as Client;
                 //获取消息的长度
                 int len = client.socket.EndReceive(result);
@@ -67,23 +66,7 @@ namespace GameServer
                 return;
             }
 
-            msg.clientId = 0;
-
-            switch (msg.messageType)
-            {
-                case (int)messageType.C2SMove:
-                    Move move = SerializeFunc.instance.DeSerialize<Move>(msg.msg);
-                    EventManager.instance.AddEvent(() =>
-                    {
-                        int charId;
-                        Server.instance.clientId2CharId.TryGetValue(msg.clientId, out charId);
-                        GameProcess.instance.ClientMove(charId, move);
-                    });
-
-                    return;
-                default:
-                    return;
-            }
+            MessageController.instance.ReceiveMsgControl(msg);
         }
 
         public void Start()

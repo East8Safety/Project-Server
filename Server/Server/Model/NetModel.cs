@@ -39,6 +39,8 @@ namespace GameServer
     public class CharId
     {
         [ProtoMember(1)]
+        public int clientId { get; set; }
+        [ProtoMember(2)]
         public int charId { get; set; }
     }
 
@@ -50,5 +52,17 @@ namespace GameServer
         public float x { get; set; }
         [ProtoMember(2)]
         public float z { get; set; }
+    }
+
+    [ProtoContract]
+    //C2SAttack用 客户端发来的攻击消息
+    public class C2SAttackModel
+    {
+        [ProtoMember(1)]
+        public int weaponId { get; set; }
+        [ProtoMember(2)]
+        public float locationX { get; set; }
+        [ProtoMember(3)]
+        public float locationZ { get; set; }
     }
 }
