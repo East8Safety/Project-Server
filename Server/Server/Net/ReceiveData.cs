@@ -9,7 +9,7 @@ namespace GameServer
     public class ReceiveData
     {
         public static readonly ReceiveData instance = new ReceiveData();
-        
+
         //开始接收
         public void BeginReceive(Client client)
         {
@@ -37,17 +37,12 @@ namespace GameServer
                 {
                     byte[] data = new byte[len];
                     Buffer.BlockCopy(client.buffer, 0, data, 0, len);
-
-                    client.receiveCache.AddRange(data);
-                    msg = NetCode.Instance.Decode(ref client.receiveCache);
                     
-                    if(msg == null)
+                    lock (Server.instance.receiveCache)
                     {
-                        BeginReceive(client);
-                        return;
+                        Server.instance.receiveCache.AddRange(data);
                     }
-                    msg.clientId = client.clientId;
-                    ReceiveMessage(msg);
+                    
                     BeginReceive(client);
                 }
 
@@ -58,8 +53,22 @@ namespace GameServer
             }
         }
 
-        public void ReceiveMessage(Message msg)
+        //读取接收的消息
+        public void ReceiveMessage()
         {
+            Message msg;
+            lock (Server.instance.receiveCache)
+            {
+                msg = NetCode.Instance.Decode(ref Server.instance.receiveCache);
+            }
+
+            if (msg == null)
+            {
+                return;
+            }
+
+            msg.clientId = 0;
+
             switch (msg.messageType)
             {
                 case (int)messageType.C2SMove:
@@ -74,6 +83,14 @@ namespace GameServer
                     return;
                 default:
                     return;
+            }
+        }
+
+        public void Start()
+        {
+            while (true)
+            {
+                ReceiveMessage();
             }
         }
     }

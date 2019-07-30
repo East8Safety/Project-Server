@@ -21,6 +21,7 @@ namespace GameServer
             ServerSendThreadStart();
             EventManagerThreadStart();
             ServerUpdateThreadStart();
+            ServerReceiveThread();
         }
 
         //开启监听线程
@@ -65,6 +66,17 @@ namespace GameServer
             });
             serverUpdateThread.Name = "serverUpdateThread";
             serverUpdateThread.Start();
+        }
+
+        //开启接收线程
+        public void ServerReceiveThread()
+        {
+            serverReceiveThread = new Thread(() =>
+            {
+                ReceiveData.instance.Start();
+            });
+            serverReceiveThread.Name = "serverReceiveThread";
+            serverReceiveThread.Start();
         }
     }
 }

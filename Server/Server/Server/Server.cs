@@ -19,18 +19,19 @@ namespace GameServer
         private int port = 35353;
         //clientId递增
         private static int clientGuid = 0;
+        public List<byte> receiveCache;
         //等待发送的消息
         public Queue<Message> messageWaited;
         //用户
         public Dictionary<int, Client> clientPools;
         //clientId与charId绑定
         public Dictionary<int, int> clientId2CharId;
-        //线程
         
 
         private Server()
         {
             messageWaited = new Queue<Message>();
+            receiveCache = new List<byte>();
             clientPools = new Dictionary<int, Client>(maxClient);
             clientId2CharId = new Dictionary<int, int>();
             
