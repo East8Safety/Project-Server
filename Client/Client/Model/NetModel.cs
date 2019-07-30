@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GameClient
 {
+    //位置坐标
     [ProtoContract]
     public class Location
     {

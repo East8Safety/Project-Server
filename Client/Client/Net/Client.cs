@@ -23,8 +23,6 @@ namespace GameClient
         public List<byte> receiveCache;
         //等待发送的消息
         public Queue<Message> messageWaited;
-        //已接收的消息
-        public Queue<Message> messageReceived;
 
         //线程
         public Thread clientReceiveThread;
@@ -35,9 +33,9 @@ namespace GameClient
             buffer = new byte[size];
             receiveCache = new List<byte>();
             messageWaited = new Queue<Message>();
-            messageReceived = new Queue<Message>();
         }
 
+        //连接
         public void Connect()
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -46,24 +44,19 @@ namespace GameClient
             if (socket.Connected)
             {
                 this.socket = socket;
+                ReceiveData.instance.BeginReceive(this);
             }
         }
 
+        //接收数据
         public void Receive(byte[] data)
         {
-            Message msg;
             //将接收到的数据放入数据池中
             try
             {
-                receiveCache.AddRange(data);
-                msg = NetCode.Instance.Decode(ref receiveCache);
-                if (msg == null)
+                lock (receiveCache)
                 {
-                    return;
-                }
-                lock (messageReceived)
-                {
-                   messageReceived.Enqueue(msg);
+                    receiveCache.AddRange(data);
                 }
             }
             catch (Exception e)
@@ -72,15 +65,17 @@ namespace GameClient
             }
         }
 
+        //开启处理接收的消息线程
         public void ThreadReceiveStart()
         {
             clientReceiveThread = new Thread(() =>
             {
-                ReceiveData.instance.ClientReceiveStart(this);
+                ReceiveData.instance.ClientReceiveStart();
             });
             clientReceiveThread.Start();
         }
 
+        //开启发送线程
         public void ThreadSendStart()
         {
             clientSendThread = new Thread(() =>

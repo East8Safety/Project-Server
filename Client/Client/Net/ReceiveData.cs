@@ -10,6 +10,7 @@ namespace GameClient
     {
         public static readonly ReceiveData instance = new ReceiveData();
 
+        //开始接收数据
         public void BeginReceive(Client client)
         {
             try
@@ -23,6 +24,7 @@ namespace GameClient
             }
         }
 
+        //接收完毕
         public void EndReceive(IAsyncResult result)
         {
             try
@@ -46,22 +48,51 @@ namespace GameClient
             }
         }
 
-        public void ClientReceiveStart(Client client)
+        //开始取出缓存数据
+        public void ClientReceiveStart()
         {
-            if (!client.socket.Connected)
+            while (true)
+            {
+                ReceiveMessage();
+            }
+        }
+
+        //取出数据还原包
+        public void ReceiveMessage()
+        {
+            Message msg;
+            lock (Client.instance.receiveCache)
+            {
+                msg = NetCode.Instance.Decode(ref Client.instance.receiveCache);
+            }
+
+            if (msg == null)
             {
                 return;
             }
 
-            ReceiveData.instance.BeginReceive(client);
-
-            while (true)
+            switch (msg.messageType)
             {
-                if (!client.socket.Connected)
-                {
-                    return;
-                }
-                Thread.Sleep(10);
+                case (int)messageType.S2CMove:
+                    AllCharLocation allCharLocation = SerializeFunc.instance.DeSerialize<AllCharLocation>(msg.msg);
+                    foreach (var item in allCharLocation.allCharLocation)
+                    {
+                        var location = item.Value;
+                        Console.WriteLine(string.Format("Char:{0} location: {1} {2} {3}:{4}", item.Key, location.locationX, location.locationZ,
+                            DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
+                    }
+                    break;
+                case (int)messageType.S2CSendCharId:
+                    CharId charId = SerializeFunc.instance.DeSerialize<CharId>(msg.msg);
+                    Program.canSend = true;
+                    Console.WriteLine(string.Format("This client's charId: {0}", charId.charId));
+                    break;
+                case (int)messageType.S2CJoinNewPlayer:
+                    NewCharId newCharId = SerializeFunc.instance.DeSerialize<NewCharId>(msg.msg);
+                    Console.WriteLine(string.Format("New Char: {0}", newCharId.charId));
+                    break;
+                default:
+                    break;
             }
         }
     }
