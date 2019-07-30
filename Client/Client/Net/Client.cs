@@ -15,6 +15,8 @@ namespace GameClient
 
         //连接客户端的Socket
         public Socket socket;
+        //服务器分配的clientId
+        public int clientId;
         //用于存放接收数据
         public byte[] buffer;
         //每次接受和发送数据的大小

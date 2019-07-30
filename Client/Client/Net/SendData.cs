@@ -37,7 +37,7 @@ namespace GameClient
                 }
             }
 
-            byte[] data = NetCode.Instance.Encode(msg.msg, msg.messageType);
+            byte[] data = NetCode.Instance.Encode(msg.clientId, msg.messageType, msg.msg);
             int count = data.Length / Client.size;
             int len = Client.size;
             for (int i = 0; i < count + 1; i++)

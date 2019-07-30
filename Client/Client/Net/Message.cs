@@ -6,6 +6,8 @@ namespace GameClient
 {
     public class Message
     {
+        //clientId
+        public int clientId { get; set; }
         //消息类型
         public int messageType { get; set; }
         //数据

@@ -83,9 +83,10 @@ namespace GameClient
                     }
                     break;
                 case (int)messageType.S2CSendCharId:
-                    CharId charId = SerializeFunc.instance.DeSerialize<CharId>(msg.msg);
+                    CharId data = SerializeFunc.instance.DeSerialize<CharId>(msg.msg);
+                    Client.instance.clientId = data.clientId;
                     Program.canSend = true;
-                    Console.WriteLine(string.Format("This client's charId: {0}", charId.charId));
+                    Console.WriteLine(string.Format("This client's charId: {0}", data.charId));
                     break;
                 case (int)messageType.S2CJoinNewPlayer:
                     NewCharId newCharId = SerializeFunc.instance.DeSerialize<NewCharId>(msg.msg);

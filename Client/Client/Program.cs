@@ -26,7 +26,8 @@ namespace GameClient
                     {
                         
                         move.x = 1; move.z = 1;
-                        
+
+                        msg.clientId = Client.instance.clientId;
                         msg.messageType = (int)messageType.C2SMove;
                         msg.msg = SerializeFunc.instance.Serialize(move);
 
