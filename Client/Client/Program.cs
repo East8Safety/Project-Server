@@ -9,33 +9,53 @@ namespace GameClient
     {
         public static bool canSend = false;
 
+        public static bool isAttack = false;
+
         static void Main(string[] args)
         {
             Client.instance.Connect();
             Client.instance.ThreadSendStart();
             Client.instance.ThreadReceiveStart();
 
-            int a = 0;
+            
+
             while (true)
             {
-                C2SMoveModel move = new C2SMoveModel();
-                Message msg = new Message();
+                if(canSend == true && isAttack == false)
+                {
+                    C2SAttackModel data = new C2SAttackModel();
+                    Message msg = new Message();
+
+                    data.weaponId = 101;
+                    data.locationX = 23;
+                    data.locationZ = 54;
+
+                    msg.clientId = Client.instance.clientId;
+                    msg.messageType = (int)messageType.C2SAttack;
+                    msg.msg = SerializeFunc.instance.Serialize(data);
+
+                    lock (Client.instance.messageWaited)
+                    {
+                        Client.instance.messageWaited.Enqueue(msg);
+                    }
+
+                    isAttack = true;
+                }
+
                 if (canSend == true)
                 {
-                    if (a < 100)
+                    C2SMoveModel move = new C2SMoveModel();
+                    Message msg = new Message();
+
+                    move.x = 1; move.z = 1;
+
+                    msg.clientId = Client.instance.clientId;
+                    msg.messageType = (int)messageType.C2SMove;
+                    msg.msg = SerializeFunc.instance.Serialize(move);
+
+                    lock (Client.instance.messageWaited)
                     {
-                        
-                        move.x = 1; move.z = 1;
-
-                        msg.clientId = Client.instance.clientId;
-                        msg.messageType = (int)messageType.C2SMove;
-                        msg.msg = SerializeFunc.instance.Serialize(move);
-
-                        lock (Client.instance.messageWaited)
-                        {
-                            Client.instance.messageWaited.Enqueue(msg);
-                        }
-                        a++;
+                        Client.instance.messageWaited.Enqueue(msg);
                     }
                 }
                 
