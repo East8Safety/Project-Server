@@ -10,7 +10,7 @@ namespace GameServer
     {
         public static readonly ServerUpdate instance = new ServerUpdate();
 
-        AllCharLocation allCharLocation = new AllCharLocation() { allCharLocation = new Dictionary<int, Location>()};
+        S2CMoveModel allCharLocation = new S2CMoveModel() { allCharLocation = new Dictionary<int, Location>()};
 
         //服务器update
         public void Update()

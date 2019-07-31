@@ -10,12 +10,12 @@ namespace GameServer
     {
         public static readonly GameProcess instance = new GameProcess();
 
-        AllCharLocation allCharLocation = new AllCharLocation() { allCharLocation = new Dictionary<int, Location>() };
+        S2CMoveModel allCharLocation = new S2CMoveModel() { allCharLocation = new Dictionary<int, Location>() };
 
         //加入新玩家
         public void JoinNewPlayer(int charId)
         {
-            NewCharId data = new NewCharId();
+            S2CJoinNewPlayerModel data = new S2CJoinNewPlayerModel();
             data.charId = charId;
             if (Server.instance.clientPools.Count == 0)
             {
@@ -34,14 +34,14 @@ namespace GameServer
         //发送客户端自己的charId
         public void SendCharId(int clientId, int charId)
         {
-            CharId mCharId = new CharId();
+            S2CSendCharIdModel mCharId = new S2CSendCharIdModel();
             mCharId.clientId = clientId;
             mCharId.charId = charId;
             SendData.instance.SendMessage(clientId, (int)messageType.S2CSendCharId, mCharId);
         }
         
         //客户端移动
-        public void ClientMove(int charId, Move model)
+        public void ClientMove(int charId, C2SMoveModel model)
         {
             Character character;
             CharacterManager.instance.charDic.TryGetValue(charId, out character);

@@ -13,7 +13,7 @@ namespace GameServer
             switch (msg.messageType)
             {
                 case (int)messageType.C2SMove:
-                    Move move = SerializeFunc.instance.DeSerialize<Move>(msg.msg);
+                    C2SMoveModel move = SerializeFunc.instance.DeSerialize<C2SMoveModel>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
                         int charId;
