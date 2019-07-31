@@ -21,7 +21,7 @@ namespace GameClient
 
     //S2CMove用 所有人位置信息
     [ProtoContract]
-    public class AllCharLocation
+    public class S2CMoveModel
     {
         [ProtoMember(1)]
         public Dictionary<int, Location> allCharLocation { get; set; }
@@ -29,7 +29,7 @@ namespace GameClient
 
     //S2CJoinNewPlayer用 新玩家charId
     [ProtoContract]
-    public class NewCharId
+    public class S2CJoinNewPlayerModel
     {
         [ProtoMember(1)]
         public int charId { get; set; }
@@ -37,7 +37,7 @@ namespace GameClient
 
     //S2CSendCharId用 分配给客户端的charId
     [ProtoContract]
-    public class CharId
+    public class S2CSendCharIdModel
     {
         [ProtoMember(1)]
         public int clientId { get; set; }
@@ -47,7 +47,7 @@ namespace GameClient
 
     //C2SMove用 客户端发来的移动信息
     [ProtoContract]
-    public class Move
+    public class C2SMoveModel
     {
         [ProtoMember(1)]
         public float x { get; set; }

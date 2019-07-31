@@ -74,7 +74,7 @@ namespace GameClient
             switch (msg.messageType)
             {
                 case (int)messageType.S2CMove:
-                    AllCharLocation allCharLocation = SerializeFunc.instance.DeSerialize<AllCharLocation>(msg.msg);
+                    S2CMoveModel allCharLocation = SerializeFunc.instance.DeSerialize<S2CMoveModel>(msg.msg);
                     foreach (var item in allCharLocation.allCharLocation)
                     {
                         var location = item.Value;
@@ -83,13 +83,13 @@ namespace GameClient
                     }
                     break;
                 case (int)messageType.S2CSendCharId:
-                    CharId data = SerializeFunc.instance.DeSerialize<CharId>(msg.msg);
+                    S2CSendCharIdModel data = SerializeFunc.instance.DeSerialize<S2CSendCharIdModel>(msg.msg);
                     Client.instance.clientId = data.clientId;
                     Program.canSend = true;
                     Console.WriteLine(string.Format("This client's charId: {0}", data.charId));
                     break;
                 case (int)messageType.S2CJoinNewPlayer:
-                    NewCharId newCharId = SerializeFunc.instance.DeSerialize<NewCharId>(msg.msg);
+                    S2CJoinNewPlayerModel newCharId = SerializeFunc.instance.DeSerialize<S2CJoinNewPlayerModel>(msg.msg);
                     Console.WriteLine(string.Format("New Char: {0}", newCharId.charId));
                     break;
                 default:

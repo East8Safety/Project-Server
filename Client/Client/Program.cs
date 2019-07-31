@@ -18,7 +18,7 @@ namespace GameClient
             int a = 0;
             while (true)
             {
-                Move move = new Move();
+                C2SMoveModel move = new C2SMoveModel();
                 Message msg = new Message();
                 if (canSend == true)
                 {
