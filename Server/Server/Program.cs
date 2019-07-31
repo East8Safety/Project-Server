@@ -6,7 +6,7 @@ namespace GameServer
     {
         static void Main(string[] args)
         {
-            GamMapManager.instance.CreateMap();
+            GameMapManager.instance.CreateMap();
             ThreadManager.instance.AllThreadStart();
         }
     }

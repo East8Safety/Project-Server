@@ -17,6 +17,7 @@ namespace GameServer
             Character character = new Character();
             charGuid++;
             character.charId = charGuid;
+            ConsoleLog.instance.Info(string.Format("创建一个新角色,角色Id: {0}", character.charId));
             return character;
         }
 
@@ -27,6 +28,7 @@ namespace GameServer
             character.z = 0;
             character.locationX = locationX;
             character.locationZ = locationZ;
+            ConsoleLog.instance.Info(string.Format("初始化新角色,角色位置: {0} {1}", locationX, locationZ));
         }
     }
 }

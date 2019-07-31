@@ -18,7 +18,7 @@ namespace GameServer
             while (true)
             {
                 UpdateMove();
-                Thread.Sleep(20);
+                Thread.Sleep(10);
             }
         }
 

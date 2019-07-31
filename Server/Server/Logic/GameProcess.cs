@@ -10,7 +10,8 @@ namespace GameServer
     {
         public static readonly GameProcess instance = new GameProcess();
 
-        S2CMoveModel allCharLocation = new S2CMoveModel() { allCharLocation = new Dictionary<int, Location>() };
+        //计时器
+        Timer myTimer;
 
         //加入新玩家
         public void JoinNewPlayer(int charId)
@@ -39,13 +40,13 @@ namespace GameServer
             mCharId.charId = charId;
             SendData.instance.SendMessage(clientId, (int)messageType.S2CSendCharId, mCharId);
         }
-        
+
         //客户端移动
         public void ClientMove(int charId, C2SMoveModel model)
         {
             Character character;
             CharacterManager.instance.charDic.TryGetValue(charId, out character);
-            if(character == null)
+            if (character == null)
             {
                 return;
             }
@@ -61,8 +62,25 @@ namespace GameServer
             var x = data.locationX;
             var z = data.locationZ;
             GameMap gameMap;
-            GamMapManager.instance.mapDic.TryGetValue(0, out gameMap);
+            GameMapManager.instance.mapDic.TryGetValue(0, out gameMap);
             gameMap.gameMap[(int)x, (int)z] = weaponId;
+
+            Bomb bomb = new Bomb();
+            bomb.weaponId = weaponId; bomb.x = (int)x;bomb.z = (int)z;
+
+            ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},炸弹位置: {1} {2}", weaponId, x, z));
+
+            myTimer = new Timer(new TimerCallback(BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
+        }
+
+        public void BombTrigger(object state)
+        {
+            Bomb bomb = (Bomb)state;
+            GameMap gameMap;
+            GameMapManager.instance.mapDic.TryGetValue(0, out gameMap);
+            gameMap.gameMap[bomb.x, bomb.z] = 0;
+
+            ConsoleLog.instance.Info(string.Format("炸弹爆炸,武器Id: {0},炸弹位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
         }
     }
 }

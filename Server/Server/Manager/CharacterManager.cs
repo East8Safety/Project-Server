@@ -24,6 +24,7 @@ namespace GameServer
         public void AddCharacter(Character character)
         {
             charDic.TryAdd(character.charId, character);
+            ConsoleLog.instance.Info(string.Format("增加角色，角色Id: {0}", character.charId));
         }
     }
 }

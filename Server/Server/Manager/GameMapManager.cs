@@ -4,9 +4,9 @@ using System.Text;
 
 namespace GameServer
 {
-    public class GamMapManager
+    public class GameMapManager
     {
-        public static readonly GamMapManager instance = new GamMapManager();
+        public static readonly GameMapManager instance = new GameMapManager();
 
         public Dictionary<int, GameMap> mapDic = new Dictionary<int, GameMap>();
         public static int mapGuid = 0;
@@ -27,6 +27,8 @@ namespace GameServer
 
             mapDic.TryAdd(gameMap.mapId, gameMap);
             mapGuid++;
+
+            ConsoleLog.instance.Info(string.Format("创建地图,地图d: {0}", gameMap.mapId));
         }
     }
 }

@@ -45,7 +45,7 @@ namespace GameServer
         {
             //监听
             socket.Listen(maxClient);
-            Console.WriteLine("Server Start OK!");
+            ConsoleLog.instance.Info(string.Format("服务器启动"));
 
             socket.BeginAccept(AsyncAccept, null);
 
@@ -61,13 +61,15 @@ namespace GameServer
             {
                 //结束监听，同时获取到客户端
                 Socket userSocket = socket.EndAccept(result);
-                Console.WriteLine("Client Connected");
+                
                 //来了一个客户端
                 Client client = new Client();
                 client.clientId = clientGuid;
                 clientGuid++;
                 client.socket = userSocket;
                 clientPools.Add(client.clientId, client);
+
+                ConsoleLog.instance.Info(string.Format("客户端连接 clientId: {0}", client.clientId));
 
                 ReceiveData.instance.BeginReceive(client);
 
