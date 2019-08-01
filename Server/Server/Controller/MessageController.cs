@@ -30,11 +30,9 @@ namespace GameServer
                     });
                     break;
 
-                    return;
                 default:
                     return;
             }
         }
-
     }
 }

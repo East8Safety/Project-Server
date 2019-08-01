@@ -19,6 +19,7 @@ namespace GameServer
         private int port = 35353;
         //clientId递增
         private static int clientGuid = 0;
+        //接收消息缓存
         public List<byte> receiveCache;
         //等待发送的消息
         public Queue<Message> messageWaited;
@@ -26,7 +27,6 @@ namespace GameServer
         public Dictionary<int, Client> clientPools;
         //clientId与charId绑定
         public Dictionary<int, int> clientId2CharId;
-        
 
         private Server()
         {

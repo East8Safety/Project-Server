@@ -10,7 +10,6 @@ namespace GameServer
     {
         public static readonly GameProcess instance = new GameProcess();
 
-        //计时器
         Timer myTimer;
 
         //加入新玩家
@@ -75,12 +74,15 @@ namespace GameServer
 
         public void BombTrigger(object state)
         {
-            Bomb bomb = (Bomb)state;
-            GameMap gameMap;
-            GameMapManager.instance.mapDic.TryGetValue(0, out gameMap);
-            gameMap.gameMap[bomb.x, bomb.z] = 0;
+            EventManager.instance.AddEvent(()=>
+            {
+                Bomb bomb = (Bomb)state;
+                GameMap gameMap;
+                GameMapManager.instance.mapDic.TryGetValue(0, out gameMap);
+                gameMap.gameMap[bomb.x, bomb.z] = 0;
 
-            ConsoleLog.instance.Info(string.Format("炸弹爆炸,武器Id: {0},炸弹位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
+                ConsoleLog.instance.Info(string.Format("炸弹爆炸,武器Id: {0},炸弹位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
+            });
         }
     }
 }
