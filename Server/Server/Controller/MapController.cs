@@ -27,7 +27,7 @@ namespace GameServer
             {
                 for (int j = 0; j < height; j++)
                 {
-                    gameMap.gameMap[i, j] = 0;
+                    gameMap.gameMap[i, j] = ReadJson.instance.map[i,j];
                 }
             }
         }
