@@ -10,14 +10,18 @@ namespace GameServer
     {
         public static readonly ServerUpdate instance = new ServerUpdate();
 
-        S2CMoveModel allCharLocation = new S2CMoveModel() { allCharLocation = new Dictionary<int, Location>()};
+        S2CMove allCharLocation = new S2CMove() { allCharLocation = new Dictionary<int, Location>()};
+        public static bool isSendLocation = false;
 
         //服务器update
         public void Update()
         {
             while (true)
             {
-                UpdateMove();
+                if (isSendLocation == true)
+                {
+                    UpdateMove();
+                }
                 Thread.Sleep(30);
             }
         }
@@ -44,14 +48,16 @@ namespace GameServer
             {
                 return;
             }
-            foreach (var item in Server.instance.clientPools)
-            {
-                Client client = item.Value;
-                if (client.socket != null)
-                {
-                    SendData.instance.SendMessage(client.clientId, (int)messageType.S2CMove, allCharLocation);
-                }
-            }
+
+            GameProcess.instance.Broadcast((int)messageType.S2CMove, allCharLocation);
+            //foreach (var item in Server.instance.clientPools)
+            //{
+            //    Client client = item.Value;
+            //    if (client.socket != null)
+            //    {
+            //        SendData.instance.SendMessage(client.clientId, (int)messageType.S2CMove, allCharLocation);
+            //    }
+            //}
         }
     }
 }

@@ -67,34 +67,39 @@ namespace GameServer
                 client.clientId = clientGuid;
                 clientGuid++;
                 client.socket = userSocket;
-                clientPools.Add(client.clientId, client);
+                lock (clientPools)
+                {
+                    clientPools.Add(client.clientId, client);
+                }
 
                 ConsoleLog.instance.Info(string.Format("客户端连接 clientId: {0}", client.clientId));
 
+                //开启消息接收
                 ReceiveData.instance.BeginReceive(client);
 
-                EventManager.instance.AddEvent(()=> {
-                    CharacterManager.instance.CreateCharacter(client.clientId);
-                });
+                //连接之后任务
+                GameProcess.instance.AfterConnect(client.clientId);
 
-                EventManager.instance.AddEvent(() => {
-                    int charId;
-                    clientId2CharId.TryGetValue(client.clientId, out charId);
-                    GameProcess.instance.SendCharId(client.clientId, charId);
-                });
-
-                EventManager.instance.AddEvent(() => {
-                    int charId;
-                    clientId2CharId.TryGetValue(client.clientId, out charId);
-                    GameProcess.instance.JoinNewPlayer(charId);
-                });
-
+                //接着监听
                 socket.BeginAccept(AsyncAccept, null);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        //服务器初始化
+        public void Init()
+        {
+            GameMapManager.instance.CreateMap(10, 10);
+        }
+
+        public int GetCharId(int clientId)
+        {
+            int charId;
+            clientId2CharId.TryGetValue(clientId, out charId);
+            return charId;
         }
     }
 }

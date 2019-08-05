@@ -8,6 +8,7 @@ namespace GameServer
     {
         public static readonly MapController instance = new MapController();
 
+        //地图自增Id
         public static int Guid = 0;
 
         //创建地图
@@ -15,8 +16,10 @@ namespace GameServer
         {
             GameMap gameMap = new GameMap();
             gameMap.mapId = Guid;
-            gameMap.gameMap = new int[width, height];
+            gameMap.width = width;
+            gameMap.height = height;
             Guid++;
+            gameMap.gameMap = new int[width, height];
             return gameMap;
         }
 

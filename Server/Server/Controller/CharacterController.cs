@@ -22,13 +22,41 @@ namespace GameServer
         }
 
         //初始化角色
-        public void Init(Character character, float locationX, float locationZ)
+        public void Init(Character character, int typeId)
         {
             character.x = 0;
             character.z = 0;
-            character.locationX = locationX;
-            character.locationZ = locationZ;
-            ConsoleLog.instance.Info(string.Format("初始化新角色,角色位置: {0} {1}", locationX, locationZ));
+            character.locationX = 0;
+            character.locationZ = 0;
+            character.HP = 100;
+            character.speed = 1;
+            ConsoleLog.instance.Info(string.Format("初始化新角色"));
+        }
+
+        //角色受到伤害
+        public void Damage(Character character, int damage)
+        {
+            character.HP -= damage;
+
+            //角色死亡
+            if (character.HP <= 0)
+            {
+                S2CDie s2CDie = new S2CDie();
+                s2CDie.charId = character.charId;
+                GameProcess.instance.SendCharDie(s2CDie);
+            }
+
+            S2CHPChange s2CHPChange = new S2CHPChange();
+            s2CHPChange.charId = character.charId;
+            s2CHPChange.nowHP = character.HP;
+            GameProcess.instance.SendHPChange(s2CHPChange);
+        }
+
+        //设置角色位置
+        public void SetLocation(Character character, float x, float z)
+        {
+            character.locationX = x;
+            character.locationZ = z;
         }
     }
 }

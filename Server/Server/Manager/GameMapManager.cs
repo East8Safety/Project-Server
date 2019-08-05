@@ -10,6 +10,7 @@ namespace GameServer
 
         public Dictionary<int, GameMap> mapDic = new Dictionary<int, GameMap>();
 
+        //创建地图
         public void CreateMap(int width, int height)
         {
             GameMap gameMap = MapController.instance.Create(width, height);
@@ -18,6 +19,14 @@ namespace GameServer
             mapDic.TryAdd(gameMap.mapId, gameMap);
 
             ConsoleLog.instance.Info(string.Format("创建地图,地图Id: {0}", gameMap.mapId));
+        }
+
+        //获取GameMap
+        public GameMap GetGameMap(int mapId)
+        {
+            GameMap gameMap;
+            mapDic.TryGetValue(mapId, out gameMap);
+            return gameMap;
         }
     }
 }

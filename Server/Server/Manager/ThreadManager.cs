@@ -19,9 +19,9 @@ namespace GameServer
         {
             ListeningThreadStart();
             ServerSendThreadStart();
+            ServerReceiveThread();
             EventManagerThreadStart();
             ServerUpdateThreadStart();
-            ServerReceiveThread();
         }
 
         //开启监听线程

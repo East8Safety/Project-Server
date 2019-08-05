@@ -13,15 +13,12 @@ namespace GameServer
         public byte[] buffer;
         //每次接受和发送数据的大小
         public const int size = 1024;
-        //收取缓存
-        public List<byte> receiveCache;
         //clientId
         public int clientId = 0;
 
         public Client()
         {
             buffer = new byte[size];
-            receiveCache = new List<byte>();
         }
     }
 }

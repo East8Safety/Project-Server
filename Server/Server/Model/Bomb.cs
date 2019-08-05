@@ -9,5 +9,8 @@ namespace GameServer
         public int weaponId { get; set; }
         public int x { get; set; }
         public int z { get; set; }
+        public int damageX { get; set; }
+        public int damageZ { get; set; }
+        public int damage { get; set; }
     }
 }

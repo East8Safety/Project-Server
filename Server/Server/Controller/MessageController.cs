@@ -8,25 +8,53 @@ namespace GameServer
     {
         public static readonly MessageController instance = new MessageController();
 
+        private int a = 0;
+
+        //消息分发
         public void ReceiveMsgControl(Message msg)
         {
             switch (msg.messageType)
             {
                 case (int)messageType.C2SMove:
-                    C2SMoveModel move = SerializeFunc.instance.DeSerialize<C2SMoveModel>(msg.msg);
+                    C2SMove c2SMove = SerializeFunc.instance.DeSerialize<C2SMove>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        int charId;
-                        Server.instance.clientId2CharId.TryGetValue(msg.clientId, out charId);
-                        GameProcess.instance.ClientMove(charId, move);
+                        int charId = Server.instance.GetCharId(msg.clientId);
+                        GameProcess.instance.ClientMove(charId, c2SMove);
                     });
                     break;
-
                 case (int)messageType.C2SAttack:
-                    C2SAttackModel data = SerializeFunc.instance.DeSerialize<C2SAttackModel>(msg.msg);
+                    C2SAttack c2SAttack = SerializeFunc.instance.DeSerialize<C2SAttack>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        GameProcess.instance.ClientAttack(data);
+                        GameProcess.instance.ClientAttack(c2SAttack);
+                    });
+                    break;
+                case (int)messageType.C2SChooseChar:
+                    C2SChooseChar c2SChooseChar = SerializeFunc.instance.DeSerialize<C2SChooseChar>(msg.msg);
+                    EventManager.instance.AddEvent(() =>
+                    {
+                        CharacterManager.instance.CreateCharacter(msg.clientId, c2SChooseChar.charType);
+                        int charId = Server.instance.GetCharId(msg.clientId);
+                        GameProcess.instance.SendCharId(msg.clientId, charId);
+                        if (CharacterManager.instance.charDic.Keys.Count >= 4)
+                        {
+                            GameProcess.instance.SendAllCharId();
+                        }
+                    });
+                    break;
+                case (int)messageType.C2SChooseLocation:
+                    C2SChooseLocation c2SChooseLocation = SerializeFunc.instance.DeSerialize<C2SChooseLocation>(msg.msg);
+                    EventManager.instance.AddEvent(() =>
+                    {
+                        Character character = CharacterManager.instance.GetCharacter(Server.instance.GetCharId(msg.clientId));
+                        CharacterController.instance.SetLocation(character, c2SChooseLocation.x, c2SChooseLocation.z);
+                        a++;
+                        if (a >= 4)
+                        {
+                            GameProcess.instance.SendAllLocation();
+                            ServerUpdate.isSendLocation = true;
+                        }
                     });
                     break;
 
