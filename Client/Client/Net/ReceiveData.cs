@@ -48,18 +48,14 @@ namespace GameClient
             }
         }
 
-        //开始取出缓存数据
-        public void ClientReceiveStart()
-        {
-            while (true)
-            {
-                ReceiveMessage();
-            }
-        }
-
         //取出数据还原包
         public void ReceiveMessage()
         {
+            if (Client.instance.receiveCache.Count <= 0)
+            {
+                return;
+            }
+
             Message msg;
             lock (Client.instance.receiveCache)
             {
@@ -72,6 +68,14 @@ namespace GameClient
             }
 
             MessageController.instance.ReceiveMsgControl(msg);
+        }
+
+        public void Start()
+        {
+            while (true)
+            {
+                ReceiveMessage();
+            }
         }
     }
 }

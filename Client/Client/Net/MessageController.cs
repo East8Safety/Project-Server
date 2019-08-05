@@ -20,8 +20,8 @@ namespace GameClient
                     foreach (var item in allCharLocation.allCharLocation)
                     {
                         var location = item.Value;
-                        //Console.WriteLine(string.Format("Char:{0} location: {1} {2} {3}:{4}", item.Key, location.locationX, location.locationZ,
-                        //    DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
+                        Console.WriteLine(string.Format("Char:{0} location: {1} {2} {3}:{4}", item.Key, location.locationX, location.locationZ,
+                            DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
                     }
                     break;
                 case (int)messageType.S2CSendCharId:

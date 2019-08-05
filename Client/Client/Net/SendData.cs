@@ -24,10 +24,6 @@ namespace GameClient
         public void Send()
         {
             Message msg;
-            if(Client.instance.messageWaited.Count == 0)
-            {
-                return;
-            }
             lock (Client.instance.messageWaited)
             {
                 msg = Client.instance.messageWaited.Dequeue();
@@ -47,6 +43,19 @@ namespace GameClient
                     len = data.Length - i * Client.size;
                 }
                 Client.instance.socket.Send(data, i * Client.size, len, SocketFlags.None);
+            }
+        }
+
+        //放入发送队列
+        public void SendMessage<T>(int clientId, int messageType, T model)
+        {
+            Message msg = new Message();
+            msg.clientId = clientId;
+            msg.messageType = messageType;
+            msg.msg = SerializeFunc.instance.Serialize(model);
+            lock (Client.instance.messageWaited)
+            {
+                Client.instance.messageWaited.Enqueue(msg);
             }
         }
     }

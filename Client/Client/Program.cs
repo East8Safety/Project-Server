@@ -13,66 +13,66 @@ namespace GameClient
 
         static void Main(string[] args)
         {
-            Client.instance.Connect();
+            Client.instance.Connect("127.0.0.1", 35353);
             Client.instance.ThreadSendStart();
             Client.instance.ThreadReceiveStart();
 
-            while (true)
-            {
-                if(canSend == true && isAttack == false)
-                {
-                    C2SAttack data = new C2SAttack();
-                    Message msg = new Message();
+            //while (true)
+            //{
+            //    if(canSend == true && isAttack == false)
+            //    {
+            //        C2SAttack data = new C2SAttack();
+            //        Message msg = new Message();
 
-                    data.weaponId = 101;
-                    data.locationX = 4;
-                    data.locationZ = 5;
+            //        data.weaponId = 101;
+            //        data.locationX = 4;
+            //        data.locationZ = 5;
 
-                    msg.clientId = Client.instance.clientId;
-                    msg.messageType = (int)messageType.C2SAttack;
-                    msg.msg = SerializeFunc.instance.Serialize(data);
+            //        msg.clientId = Client.instance.clientId;
+            //        msg.messageType = (int)messageType.C2SAttack;
+            //        msg.msg = SerializeFunc.instance.Serialize(data);
 
-                    lock (Client.instance.messageWaited)
-                    {
-                        Client.instance.messageWaited.Enqueue(msg);
-                    }
+            //        lock (Client.instance.messageWaited)
+            //        {
+            //            Client.instance.messageWaited.Enqueue(msg);
+            //        }
 
-                    C2SChooseChar c2SChooseChar = new C2SChooseChar();
-                    Message msg2 = new Message();
+            //        C2SChooseChar c2SChooseChar = new C2SChooseChar();
+            //        Message msg2 = new Message();
 
-                    c2SChooseChar.charType = 1;
+            //        c2SChooseChar.charType = 1;
 
-                    msg2.clientId = Client.instance.clientId;
-                    msg2.messageType = (int)messageType.C2SChooseChar;
-                    msg2.msg = SerializeFunc.instance.Serialize(c2SChooseChar);
+            //        msg2.clientId = Client.instance.clientId;
+            //        msg2.messageType = (int)messageType.C2SChooseChar;
+            //        msg2.msg = SerializeFunc.instance.Serialize(c2SChooseChar);
 
-                    lock (Client.instance.messageWaited)
-                    {
-                        Client.instance.messageWaited.Enqueue(msg2);
-                    }
+            //        lock (Client.instance.messageWaited)
+            //        {
+            //            Client.instance.messageWaited.Enqueue(msg2);
+            //        }
 
-                    isAttack = true;
-                }
+            //        isAttack = true;
+            //    }
 
-                if (canSend == true)
-                {
-                    C2SMove move = new C2SMove();
-                    Message msg = new Message();
+            //    if (canSend == true)
+            //    {
+            //        C2SMove move = new C2SMove();
+            //        Message msg = new Message();
 
-                    move.x = 1; move.z = 1;
+            //        move.x = 1; move.z = 1;
 
-                    msg.clientId = Client.instance.clientId;
-                    msg.messageType = (int)messageType.C2SMove;
-                    msg.msg = SerializeFunc.instance.Serialize(move);
+            //        msg.clientId = Client.instance.clientId;
+            //        msg.messageType = (int)messageType.C2SMove;
+            //        msg.msg = SerializeFunc.instance.Serialize(move);
 
-                    lock (Client.instance.messageWaited)
-                    {
-                        Client.instance.messageWaited.Enqueue(msg);
-                    }
-                }
-                
-                Thread.Sleep(10);
-            }
+            //        lock (Client.instance.messageWaited)
+            //        {
+            //            Client.instance.messageWaited.Enqueue(msg);
+            //        }
+            //    }
+
+            //    Thread.Sleep(10);
+            //}
         }
     }
 }

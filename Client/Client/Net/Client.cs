@@ -26,9 +26,10 @@ namespace GameClient
         //等待发送的消息
         public Queue<Message> messageWaited;
 
-        //线程
-        public Thread clientReceiveThread;
+        //发送线程
         public Thread clientSendThread;
+        //接收线程
+        public Thread serverReceiveThread;
 
         public Client()
         {
@@ -38,11 +39,11 @@ namespace GameClient
         }
 
         //连接
-        public void Connect()
+        public void Connect(string ip, int port)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 35353);
-            socket.Connect(ip);
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+            socket.Connect(endPoint);
             if (socket.Connected)
             {
                 this.socket = socket;
@@ -67,16 +68,6 @@ namespace GameClient
             }
         }
 
-        //开启处理接收的消息线程
-        public void ThreadReceiveStart()
-        {
-            clientReceiveThread = new Thread(() =>
-            {
-                ReceiveData.instance.ClientReceiveStart();
-            });
-            clientReceiveThread.Start();
-        }
-
         //开启发送线程
         public void ThreadSendStart()
         {
@@ -85,6 +76,17 @@ namespace GameClient
                 SendData.instance.ClientSendStart();
             });
             clientSendThread.Start();
+        }
+
+        //开启接收线程
+        public void ThreadReceiveStart()
+        {
+            serverReceiveThread = new Thread(() =>
+            {
+                ReceiveData.instance.Start();
+            });
+            serverReceiveThread.Name = "serverReceiveThread";
+            serverReceiveThread.Start();
         }
     }
 }
