@@ -71,30 +71,7 @@ namespace GameClient
                 return;
             }
 
-            switch (msg.messageType)
-            {
-                case (int)messageType.S2CMove:
-                    S2CMoveModel allCharLocation = SerializeFunc.instance.DeSerialize<S2CMoveModel>(msg.msg);
-                    foreach (var item in allCharLocation.allCharLocation)
-                    {
-                        var location = item.Value;
-                        //Console.WriteLine(string.Format("Char:{0} location: {1} {2} {3}:{4}", item.Key, location.locationX, location.locationZ,
-                        //    DateTime.Now.ToString(), DateTime.Now.Millisecond.ToString()));
-                    }
-                    break;
-                case (int)messageType.S2CSendCharId:
-                    S2CSendCharIdModel data = SerializeFunc.instance.DeSerialize<S2CSendCharIdModel>(msg.msg);
-                    Client.instance.clientId = data.clientId;
-                    Program.canSend = true;
-                    Console.WriteLine(string.Format("This client's charId: {0}", data.charId));
-                    break;
-                case (int)messageType.S2CJoinNewPlayer:
-                    S2CJoinNewPlayerModel newCharId = SerializeFunc.instance.DeSerialize<S2CJoinNewPlayerModel>(msg.msg);
-                    Console.WriteLine(string.Format("New Char: {0}", newCharId.charId));
-                    break;
-                default:
-                    break;
-            }
+            MessageController.instance.ReceiveMsgControl(msg);
         }
     }
 }
