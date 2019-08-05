@@ -8,8 +8,6 @@ namespace GameServer
     {
         public static readonly MessageController instance = new MessageController();
 
-        private int a = 0;
-
         //消息分发
         public void ReceiveMsgControl(Message msg)
         {
@@ -37,7 +35,7 @@ namespace GameServer
                         CharacterManager.instance.CreateCharacter(msg.clientId, c2SChooseChar.charType);
                         int charId = Server.instance.GetCharId(msg.clientId);
                         GameProcess.instance.SendCharId(msg.clientId, charId);
-                        if (CharacterManager.instance.charDic.Keys.Count >= 4)
+                        if (CharacterManager.instance.charDic.Keys.Count >= ReadJson.instance.charCountToStart)
                         {
                             GameProcess.instance.SendAllCharId();
                         }
@@ -49,8 +47,8 @@ namespace GameServer
                     {
                         Character character = CharacterManager.instance.GetCharacter(Server.instance.GetCharId(msg.clientId));
                         CharacterController.instance.SetLocation(character, c2SChooseLocation.x, c2SChooseLocation.z);
-                        a++;
-                        if (a >= 4)
+                        CharacterManager.instance.chooseLocationCount++;
+                        if (CharacterManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
                         {
                             GameProcess.instance.SendAllLocation();
                             ServerUpdate.isSendLocation = true;

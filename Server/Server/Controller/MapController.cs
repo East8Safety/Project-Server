@@ -30,8 +30,33 @@ namespace GameServer
             {
                 for (int j = 0; j < height; j++)
                 {
-                    gameMap.gameMap[i, j] = ReadJson.instance.map[i,j];
+                    gameMap.gameMap[i, j] = ReadJson.instance.map[i, j];
                 }
+            }
+        }
+
+        //地形收到伤害
+        public void Damage(GameMap gameMap,int x, int z, int damage)
+        {
+            if(gameMap.gameMap[x, z] - damage <= 0)
+            {
+                gameMap.gameMap[x, z] = 0;
+                S2CCellChange s2CCellChange = new S2CCellChange();
+                s2CCellChange.mapId = gameMap.mapId;
+                s2CCellChange.x = x;
+                s2CCellChange.z = z;
+                s2CCellChange.nowHp = gameMap.gameMap[x, z];
+                GameProcess.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
+            }
+            else
+            {
+                gameMap.gameMap[x, z] -= damage;
+                S2CCellChange s2CCellChange = new S2CCellChange();
+                s2CCellChange.mapId = gameMap.mapId;
+                s2CCellChange.x = x;
+                s2CCellChange.z = z;
+                s2CCellChange.nowHp = gameMap.gameMap[x, z];
+                GameProcess.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
             }
         }
     }

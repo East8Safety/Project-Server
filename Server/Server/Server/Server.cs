@@ -51,7 +51,7 @@ namespace GameServer
 
             while (true)
             {
-                Thread.Sleep(10);
+                Thread.Sleep(2);
             }
         }
 

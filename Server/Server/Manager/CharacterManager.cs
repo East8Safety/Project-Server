@@ -9,6 +9,7 @@ namespace GameServer
         public static readonly CharacterManager instance = new CharacterManager();
 
         public Dictionary<int, Character> charDic = new Dictionary<int, Character>();
+        public int chooseLocationCount = 0;
 
         //创建角色
         public void CreateCharacter(int clientId, int charType)

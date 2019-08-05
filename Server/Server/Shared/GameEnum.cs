@@ -14,6 +14,7 @@ namespace GameServer
         S2CRefreshItemNum =         1006,
         S2CHPChange =               1007,           //血量变化
         S2CDie =                    1008,           //角色死亡
+        S2CCellChange =             1009,           //地形变化
 
         S2CJoinNewPlayer =          1101,           //新玩家charId
         S2CSendCharId =             1102,           //发送客户端自己的charId

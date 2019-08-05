@@ -12,6 +12,7 @@ namespace GameServer
         public static readonly ReadJson instance = new ReadJson();
 
         public int[,] map = new int[10, 10];
+        public int charCountToStart = 4;
 
         public void ReadConfig()
         {

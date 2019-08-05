@@ -60,13 +60,13 @@ namespace GameServer
         public void ClientAttack(C2SAttack data)
         {
             var weaponId = data.weaponId;
-            var x = data.locationX;
-            var z = data.locationZ;
+            var x = CDT2Cell.instance.CDT2X(data.locationX);
+            var z = CDT2Cell.instance.CDT2Z(data.locationZ);
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-            gameMap.gameMap[(int)x, (int)z] = weaponId;
+            gameMap.gameMap[x, z] = weaponId;
 
             Bomb bomb = new Bomb();
-            bomb.weaponId = weaponId; bomb.x = (int)x;bomb.z = (int)z;
+            bomb.weaponId = weaponId; bomb.x = x;bomb.z = z;
 
             ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},炸弹位置: {1} {2}", weaponId, x, z));
 
@@ -74,8 +74,8 @@ namespace GameServer
 
             S2CAttack s2CAttack = new S2CAttack();
             s2CAttack.weaponId = weaponId;
-            s2CAttack.locationX = x;
-            s2CAttack.locationZ = z;
+            s2CAttack.x = x;
+            s2CAttack.z = z;
             SendAttack(s2CAttack);
         }
 

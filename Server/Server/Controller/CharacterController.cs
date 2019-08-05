@@ -44,6 +44,7 @@ namespace GameServer
                 S2CDie s2CDie = new S2CDie();
                 s2CDie.charId = character.charId;
                 GameProcess.instance.SendCharDie(s2CDie);
+                return;
             }
 
             S2CHPChange s2CHPChange = new S2CHPChange();

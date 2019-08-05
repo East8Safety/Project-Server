@@ -29,14 +29,6 @@ namespace GameServer
         public Dictionary<int, Location> allCharLocation { get; set; }
     }
 
-    //S2CJoinNewPlayer用 新玩家charId
-    [ProtoContract]
-    public class S2CJoinNewPlayer
-    {
-        [ProtoMember(1)]
-        public int charId { get; set; }
-    }
-
     //S2CSendCharId用 分配给客户端的charId
     [ProtoContract]
     public class S2CSendCharId
@@ -88,9 +80,22 @@ namespace GameServer
         [ProtoMember(1)]
         public int weaponId { get; set; }
         [ProtoMember(2)]
-        public float locationX { get; set; }
+        public int x { get; set; }
         [ProtoMember(3)]
-        public float locationZ { get; set; }
+        public int z { get; set; }
+    }
+
+    [ProtoContract]
+    public class S2CCellChange
+    {
+        [ProtoMember(1)]
+        public int mapId { get; set; }
+        [ProtoMember(2)]
+        public int x { get; set; }
+        [ProtoMember(3)]
+        public int z { get; set; }
+        [ProtoMember(4)]
+        public int nowHp { get; set; }
     }
 
     #endregion
