@@ -49,7 +49,7 @@ namespace GameServer
                 return;
             }
 
-            GameProcess.instance.Broadcast((int)messageType.S2CMove, allCharLocation);
+            SendData.instance.Broadcast((int)messageType.S2CMove, allCharLocation);
             //foreach (var item in Server.instance.clientPools)
             //{
             //    Client client = item.Value;

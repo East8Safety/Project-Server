@@ -10,7 +10,7 @@ namespace GameServer
     {
         public static readonly GameProcess instance = new GameProcess();
 
-        Timer myTimer;
+        //Timer myTimer;
 
         //客户端连接之后执行任务
         public void AfterConnect(int clientId)
@@ -70,7 +70,7 @@ namespace GameServer
 
             ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},炸弹位置: {1} {2}", weaponId, x, z));
 
-            myTimer = new Timer(new TimerCallback(BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
+            Timer myTimer = new Timer(new TimerCallback(BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
 
             S2CAttack s2CAttack = new S2CAttack();
             s2CAttack.weaponId = weaponId;
@@ -106,7 +106,7 @@ namespace GameServer
                 s2CAllCharId.charId2CharType.TryAdd(charId, character.typeId);
             }
 
-            Broadcast((int)messageType.S2CAllCharId, s2CAllCharId);
+            SendData.instance.Broadcast((int)messageType.S2CAllCharId, s2CAllCharId);
             //foreach (var item in Server.instance.clientPools)
             //{
             //    var clientId = item.Key;
@@ -130,7 +130,7 @@ namespace GameServer
                 s2CAllLocation.allLocation.TryAdd(charId, location);
             }
 
-            Broadcast((int)messageType.S2CAllLocation, s2CAllLocation);
+            SendData.instance.Broadcast((int)messageType.S2CAllLocation, s2CAllLocation);
             //foreach (var item in Server.instance.clientPools)
             //{
             //    var clientId = item.Key;
@@ -141,7 +141,7 @@ namespace GameServer
         //发送攻击消息
         public void SendAttack(S2CAttack s2CAttack)
         {
-            Broadcast((int)messageType.S2CAttack, s2CAttack);
+            SendData.instance.Broadcast((int)messageType.S2CAttack, s2CAttack);
             //foreach (var item in Server.instance.clientPools)
             //{
             //    var clientId = item.Key;
@@ -152,7 +152,7 @@ namespace GameServer
         //发送血量变化
         public void SendHPChange(S2CHPChange s2CHPChange)
         {
-            Broadcast((int)messageType.S2CHPChange, s2CHPChange);
+            SendData.instance.Broadcast((int)messageType.S2CHPChange, s2CHPChange);
             //foreach (var item in Server.instance.clientPools)
             //{
             //    var clientId = item.Key;
@@ -163,7 +163,7 @@ namespace GameServer
         //发送角色死亡
         public void SendCharDie(S2CDie s2CDie)
         {
-            Broadcast((int)messageType.S2CDie, s2CDie);
+            SendData.instance.Broadcast((int)messageType.S2CDie, s2CDie);
             //foreach (var item in Server.instance.clientPools)
             //{
             //    var clientId = item.Key;
@@ -171,14 +171,33 @@ namespace GameServer
             //}
         }
 
-        //广播消息
-        public void Broadcast<T>(int messageType, T model)
+        //游戏开始
+        public void GameStart()
         {
-            foreach (var item in Server.instance.clientPools)
+            Timer timer = new Timer(new TimerCallback(GameStartTrigger), null, ReadJson.instance.gameStartDelay * 1000, Timeout.Infinite);
+        }
+
+        public void GameStartTrigger(object state)
+        {
+            EventManager.instance.AddEvent(()=>
             {
-                var clientId = item.Key;
-                SendData.instance.SendMessage(clientId, messageType, model);
-            }
+                S2CGameStart s2CGameStart = new S2CGameStart();
+                s2CGameStart.placeholder = 0;
+                SendData.instance.Broadcast((int)messageType.S2CGameStart, s2CGameStart);
+                ServerUpdate.isSendLocation = true;
+            });
+        }
+
+        //发送格子血量变化
+        public void SendCellChange(int mapId, int x, int z, int nowHp)
+        {
+            S2CCellChange s2CCellChange = new S2CCellChange();
+            s2CCellChange.mapId = 0;
+            s2CCellChange.x = x;
+            s2CCellChange.z = z;
+            s2CCellChange.nowHp = nowHp;
+
+            SendData.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
         }
     }
 }

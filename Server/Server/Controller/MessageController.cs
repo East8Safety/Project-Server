@@ -51,7 +51,7 @@ namespace GameServer
                         if (CharacterManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
                         {
                             GameProcess.instance.SendAllLocation();
-                            ServerUpdate.isSendLocation = true;
+                            GameProcess.instance.GameStart();
                         }
                     });
                     break;

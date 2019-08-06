@@ -36,27 +36,17 @@ namespace GameServer
         }
 
         //地形收到伤害
-        public void Damage(GameMap gameMap,int x, int z, int damage)
+        public void Damage(GameMap gameMap, int x, int z, int damage)
         {
             if(gameMap.gameMap[x, z] - damage <= 0)
             {
                 gameMap.gameMap[x, z] = 0;
-                S2CCellChange s2CCellChange = new S2CCellChange();
-                s2CCellChange.mapId = gameMap.mapId;
-                s2CCellChange.x = x;
-                s2CCellChange.z = z;
-                s2CCellChange.nowHp = gameMap.gameMap[x, z];
-                GameProcess.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
+                GameProcess.instance.SendCellChange(gameMap.mapId, x, z, gameMap.gameMap[x, z]);
             }
             else
             {
                 gameMap.gameMap[x, z] -= damage;
-                S2CCellChange s2CCellChange = new S2CCellChange();
-                s2CCellChange.mapId = gameMap.mapId;
-                s2CCellChange.x = x;
-                s2CCellChange.z = z;
-                s2CCellChange.nowHp = gameMap.gameMap[x, z];
-                GameProcess.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
+                GameProcess.instance.SendCellChange(gameMap.mapId, x, z, gameMap.gameMap[x, z]);
             }
         }
     }

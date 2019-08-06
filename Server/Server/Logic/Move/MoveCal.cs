@@ -13,7 +13,11 @@ namespace GameServer
         {
             GameMap gameMap;
             GameMapManager.instance.mapDic.TryGetValue(0, out gameMap);
-            if (gameMap.gameMap[x,z] == 0 || gameMap.gameMap[x, z] >= 1001 || gameMap.gameMap[x, z] <=2000)
+            if (gameMap.gameMap[x,z] == 0)
+            {
+                return true;
+            }
+            if (gameMap.gameMap[x, z] >= 1001 && gameMap.gameMap[x, z] <= 2000)
             {
                 return true;
             }

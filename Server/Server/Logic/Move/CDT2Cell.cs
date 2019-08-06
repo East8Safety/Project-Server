@@ -11,16 +11,34 @@ namespace GameServer
         //横坐标转换为格子
         public int CDT2X(float x)
         {
-            float a = 2;
-            int boxX = (int)(x / 2) + 1;
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            int boxX = (int)(x / ReadJson.instance.cellSize);
+            if (boxX < 0)
+            {
+                return boxX = 0;
+            }
+            else if (boxX > gameMap.width)
+            {
+                return boxX = gameMap.width;
+            }
+
             return boxX;
         }
 
         //纵坐标转换为格子
         public int CDT2Z(float z)
         {
-            float a = 2;
-            int boxZ = (int)(z / 2) + 1;
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            int boxZ = (int)(z / ReadJson.instance.cellSize);
+            if (boxZ < 0)
+            {
+                return boxZ = 0;
+            }
+            else if (boxZ > gameMap.height)
+            {
+                return boxZ = gameMap.height;
+            }
+
             return boxZ;
         }
     }

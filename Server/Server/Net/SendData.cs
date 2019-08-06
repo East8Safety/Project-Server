@@ -74,5 +74,15 @@ namespace GameServer
                 Server.instance.messageWaited.Enqueue(msg);
             }
         }
+
+        //广播消息
+        public void Broadcast<T>(int messageType, T model)
+        {
+            foreach (var item in Server.instance.clientPools)
+            {
+                var clientId = item.Key;
+                SendMessage(clientId, messageType, model);
+            }
+        }
     }
 }

@@ -98,6 +98,13 @@ namespace GameServer
         public int nowHp { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CGameStart
+    {
+        [ProtoMember(1)]
+        public int placeholder { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage

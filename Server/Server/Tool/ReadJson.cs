@@ -13,6 +13,8 @@ namespace GameServer
 
         public int[,] map = new int[10, 10];
         public int charCountToStart = 4;
+        public int gameStartDelay = 3;
+        public float cellSize = 2;
 
         public void ReadConfig()
         {
