@@ -17,6 +17,25 @@ namespace GameClient
             Client.instance.ThreadSendStart();
             Client.instance.ThreadReceiveStart();
 
+            //if (canSend == true && isAttack == false)
+            {
+                C2SAttack data = new C2SAttack();
+                Message msg = new Message();
+
+                data.weaponId = 101;
+                data.locationX = 4;
+                data.locationZ = 5;
+
+                msg.clientId = Client.instance.clientId;
+                msg.messageType = (int)messageType.C2SAttack;
+                msg.msg = SerializeFunc.instance.Serialize(data);
+
+                lock (Client.instance.messageWaited)
+                {
+                    Client.instance.messageWaited.Enqueue(msg);
+                }
+            }
+
             //while (true)
             //{
             //    if(canSend == true && isAttack == false)
