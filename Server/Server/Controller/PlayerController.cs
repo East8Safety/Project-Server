@@ -42,6 +42,12 @@ namespace GameServer
                 S2CDie s2CDie = new S2CDie();
                 s2CDie.playerId = player.playerId;
                 GameProcess.instance.SendCharDie(s2CDie);
+                PlayerManager.instance.DeletePlayer(player.playerId);
+                int winnerId = PlayerManager.instance.GetWinner();
+                if (winnerId != 0)
+                {
+                    GameProcess.instance.SendWinner(winnerId);
+                }
                 return;
             }
 

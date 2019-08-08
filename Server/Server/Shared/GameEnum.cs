@@ -21,6 +21,7 @@ namespace GameServer
         S2CAllCharId =              1104,           //发送所有charId
         S2CAllLocation =            1105,           //发送所有char位置
         S2CGameStart =              1106,           //游戏开始
+        S2CSendWinner =             1107,           //发送获胜者
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,

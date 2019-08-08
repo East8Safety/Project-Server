@@ -204,5 +204,14 @@ namespace GameServer
 
             SendData.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
         }
+
+        //发送获胜者
+        public void SendWinner(int playerId)
+        {
+            S2CSendWinner s2CSendWinner = new S2CSendWinner();
+            s2CSendWinner.playerId = playerId;
+
+            SendData.instance.Broadcast((int)messageType.S2CSendWinner, s2CSendWinner);
+        }
     }
 }

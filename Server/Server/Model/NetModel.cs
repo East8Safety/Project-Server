@@ -109,6 +109,13 @@ namespace GameServer
         public int placeholder { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CSendWinner
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage
