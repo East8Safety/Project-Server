@@ -16,8 +16,7 @@ namespace GameServer
         S2CDie =                    1008,           //角色死亡
         S2CCellChange =             1009,           //地形变化
 
-        S2CJoinNewPlayer =          1101,           //新玩家charId
-        S2CSendCharId =             1102,           //发送客户端自己的charId
+        S2CSendCharId =             1102,           //发送charId
         S2CSendClientId =           1103,           //发送客户端Id
         S2CAllCharId =              1104,           //发送所有charId
         S2CAllLocation =            1105,           //发送所有char位置

@@ -26,14 +26,14 @@ namespace GameServer
         //用户
         public Dictionary<int, Client> clientPools;
         //clientId与charId绑定
-        public Dictionary<int, int> clientId2CharId;
+        public Dictionary<int, int> clientId2PlayerId;
 
         private Server()
         {
             messageWaited = new Queue<Message>();
             receiveCache = new List<byte>();
             clientPools = new Dictionary<int, Client>(maxClient);
-            clientId2CharId = new Dictionary<int, int>();
+            clientId2PlayerId = new Dictionary<int, int>();
             
             //初始化socket
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -95,11 +95,11 @@ namespace GameServer
             GameMapManager.instance.CreateMap(10, 10);
         }
 
-        public int GetCharId(int clientId)
+        public int GetPlayerId(int clientId)
         {
-            int charId;
-            clientId2CharId.TryGetValue(clientId, out charId);
-            return charId;
+            int playerId;
+            clientId2PlayerId.TryGetValue(clientId, out playerId);
+            return playerId;
         }
     }
 }

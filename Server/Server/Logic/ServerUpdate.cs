@@ -30,19 +30,19 @@ namespace GameServer
         public void UpdateMove()
         {
             allCharLocation.allCharLocation.Clear();
-            if (CharacterManager.instance.charDic.Count == 0)
+            if (PlayerManager.instance.playerDic.Count == 0)
             {
                 return;
             }
-            foreach (var item in CharacterManager.instance.charDic)
+            foreach (var item in PlayerManager.instance.playerDic)
             {
                 Location location = new Location();
-                var character = item.Value;
-                location.x = character.x;
-                location.z = character.z;
-                location.locationX = character.locationX;
-                location.locationZ = character.locationZ;
-                allCharLocation.allCharLocation.TryAdd(character.charId, location);
+                var player = item.Value;
+                location.x = player.x;
+                location.z = player.z;
+                location.locationX = player.locationX;
+                location.locationZ = player.locationZ;
+                allCharLocation.allCharLocation.TryAdd(player.playerId, location);
             }
             if (Server.instance.clientPools.Count == 0)
             {

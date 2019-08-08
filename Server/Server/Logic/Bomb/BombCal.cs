@@ -21,7 +21,7 @@ namespace GameServer
                 if(gameMap.gameMap[i,bomb.z] >= 1001 && gameMap.gameMap[i, bomb.z] <= 2000)
                 {
                     int charId = gameMap.gameMap[i, bomb.z];
-                    CharacterController.instance.Damage(CharacterManager.instance.GetCharacter(charId), bomb.damage);
+                    PlayerController.instance.Damage(PlayerManager.instance.GetPlayer(charId), bomb.damage);
                 }
                 else if (gameMap.gameMap[i, bomb.z] >= 1 && gameMap.gameMap[i, bomb.z] <= 1000)
                 {
@@ -38,7 +38,7 @@ namespace GameServer
                 if (gameMap.gameMap[bomb.x, i] >= 1001 && gameMap.gameMap[bomb.x, i] <= 2000)
                 {
                     int charId = gameMap.gameMap[bomb.x, i];
-                    CharacterController.instance.Damage(CharacterManager.instance.GetCharacter(charId), bomb.damage);
+                    PlayerController.instance.Damage(PlayerManager.instance.GetPlayer(charId), bomb.damage);
                 }
                 else if (gameMap.gameMap[bomb.x, i] >= 1 && gameMap.gameMap[bomb.x, i] <= 1000)
                 {

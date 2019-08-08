@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GameServer
 {
-    public class Character
+    public class Player
     {
-        public int typeId { get; set; }
         public int charId { get; set; }
+        public int playerId { get; set; }
         public int clientId { get; set; }
         public float x { get; set; }
         public float z { get; set; }

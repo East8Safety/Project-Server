@@ -17,6 +17,7 @@ namespace GameServer
         {
             EventManager.instance.AddEvent(() =>
             {
+                PlayerManager.instance.CreatePlayer(clientId);
                 SendClientId(clientId);
             });
         }
@@ -24,35 +25,39 @@ namespace GameServer
         //发送服务器分配的clientId
         public void SendClientId(int clientId)
         {
-            S2CSendClientId data = new S2CSendClientId();
-            data.clientId = clientId;
-            SendData.instance.SendMessage(clientId, (int)messageType.S2CSendClientId, data);
+            int playerId = Server.instance.GetPlayerId(clientId);
+            S2CSendClientId s2CSendClientId = new S2CSendClientId();
+            s2CSendClientId.clientId = clientId;
+            s2CSendClientId.playerId = playerId;
+            SendData.instance.SendMessage(clientId, (int)messageType.S2CSendClientId, s2CSendClientId);
         }
 
         //发送服务器分配的charId
         public void SendCharId(int clientId, int charId)
         {
-            S2CSendCharId mCharId = new S2CSendCharId();
-            mCharId.charId = charId;
-            SendData.instance.SendMessage(clientId, (int)messageType.S2CSendCharId, mCharId);
+            int playerId = Server.instance.GetPlayerId(clientId);
+            S2CSendCharId s2CSendCharId = new S2CSendCharId();
+            s2CSendCharId.playerId = playerId;
+            s2CSendCharId.charId = charId;
+            SendData.instance.SendMessage(clientId, (int)messageType.S2CSendCharId, s2CSendCharId);
         }
 
         //客户端移动
-        public void ClientMove(int charId, C2SMove model)
+        public void ClientMove(int playerId, C2SMove model)
         {
-            Character character = CharacterManager.instance.GetCharacter(charId);
-            if (character == null)
+            Player player = PlayerManager.instance.GetPlayer(playerId);
+            if (player == null)
             {
                 return;
             }
-            character.x = model.x;
-            character.z = model.z;
-            int cellX = CDT2Cell.instance.CDT2X(character.locationX + model.x);
-            int cellZ = CDT2Cell.instance.CDT2Z(character.locationZ + model.z);
+            player.x = model.x;
+            player.z = model.z;
+            int cellX = CDT2Cell.instance.CDT2X(player.locationX + model.x);
+            int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(cellX, cellZ))
             {
-                character.locationX += model.x;
-                character.locationZ += model.z;
+                player.locationX += model.x;
+                player.locationZ += model.z;
             }
         }
 
@@ -97,13 +102,13 @@ namespace GameServer
         //发送所有charId
         public void SendAllCharId()
         {
-            S2CAllCharId s2CAllCharId = new S2CAllCharId { charId2CharType = new Dictionary<int, int>() };
+            S2CAllCharId s2CAllCharId = new S2CAllCharId { playerId2CharId = new Dictionary<int, int>() };
 
-            foreach (var item in CharacterManager.instance.charDic)
+            foreach (var item in PlayerManager.instance.playerDic)
             {
-                var charId = item.Key;
-                var character = item.Value;
-                s2CAllCharId.charId2CharType.TryAdd(charId, character.typeId);
+                var playerId = item.Key;
+                var player = item.Value;
+                s2CAllCharId.playerId2CharId.TryAdd(playerId, player.charId);
             }
 
             SendData.instance.Broadcast((int)messageType.S2CAllCharId, s2CAllCharId);
@@ -120,14 +125,14 @@ namespace GameServer
             S2CAllLocation s2CAllLocation = new S2CAllLocation { allLocation = new Dictionary<int, Location>() };
 
             s2CAllLocation.allLocation.Clear(); 
-            foreach (var item in CharacterManager.instance.charDic)
+            foreach (var item in PlayerManager.instance.playerDic)
             {
                 Location location = new Location();
-                var charId = item.Key;
-                var character = item.Value;
-                location.locationX = character.locationX;
-                location.locationZ = character.locationZ;
-                s2CAllLocation.allLocation.TryAdd(charId, location);
+                var playerId = item.Key;
+                var player = item.Value;
+                location.locationX = player.locationX;
+                location.locationZ = player.locationZ;
+                s2CAllLocation.allLocation.TryAdd(playerId, location);
             }
 
             SendData.instance.Broadcast((int)messageType.S2CAllLocation, s2CAllLocation);

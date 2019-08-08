@@ -34,6 +34,8 @@ namespace GameServer
     public class S2CSendCharId
     {
         [ProtoMember(1)]
+        public int playerId { get; set; }
+        [ProtoMember(2)]
         public int charId { get; set; }
     }
 
@@ -42,13 +44,15 @@ namespace GameServer
     {
         [ProtoMember(1)]
         public int clientId { get; set; }
+        [ProtoMember(2)]
+        public int playerId { get; set; }
     }
 
     [ProtoContract]
     public class S2CHPChange
     {
         [ProtoMember(1)]
-        public int charId { get; set; }
+        public int playerId { get; set; }
         [ProtoMember(2)]
         public int nowHP { get; set; }
     }
@@ -57,14 +61,14 @@ namespace GameServer
     public class S2CDie
     {
         [ProtoMember(1)]
-        public int charId { get; set; }
+        public int playerId { get; set; }
     }
 
     [ProtoContract]
     public class S2CAllCharId
     {
         [ProtoMember(1)]
-        public Dictionary<int, int> charId2CharType { get; set; }
+        public Dictionary<int, int> playerId2CharId { get; set; }
     }
 
     [ProtoContract]
@@ -135,7 +139,7 @@ namespace GameServer
     public class C2SChooseChar
     {
         [ProtoMember(1)]
-        public int charType { get; set; }
+        public int charId { get; set; }
     }
 
     [ProtoContract]

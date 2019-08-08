@@ -17,8 +17,8 @@ namespace GameServer
                     C2SMove c2SMove = SerializeFunc.instance.DeSerialize<C2SMove>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        int charId = Server.instance.GetCharId(msg.clientId);
-                        GameProcess.instance.ClientMove(charId, c2SMove);
+                        int playerId = Server.instance.GetPlayerId(msg.clientId);
+                        GameProcess.instance.ClientMove(playerId, c2SMove);
                     });
                     break;
                 case (int)messageType.C2SAttack:
@@ -32,10 +32,11 @@ namespace GameServer
                     C2SChooseChar c2SChooseChar = SerializeFunc.instance.DeSerialize<C2SChooseChar>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        CharacterManager.instance.CreateCharacter(msg.clientId, c2SChooseChar.charType);
-                        int charId = Server.instance.GetCharId(msg.clientId);
-                        GameProcess.instance.SendCharId(msg.clientId, charId);
-                        if (CharacterManager.instance.charDic.Keys.Count >= ReadJson.instance.charCountToStart)
+                        int playerId = Server.instance.GetPlayerId(msg.clientId);
+                        var player = PlayerManager.instance.GetPlayer(playerId);
+                        PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
+                        GameProcess.instance.SendCharId(msg.clientId, c2SChooseChar.charId);
+                        if (PlayerManager.instance.playerDic.Keys.Count >= ReadJson.instance.charCountToStart)
                         {
                             GameProcess.instance.SendAllCharId();
                         }
@@ -45,10 +46,10 @@ namespace GameServer
                     C2SChooseLocation c2SChooseLocation = SerializeFunc.instance.DeSerialize<C2SChooseLocation>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        Character character = CharacterManager.instance.GetCharacter(Server.instance.GetCharId(msg.clientId));
-                        CharacterController.instance.SetLocation(character, c2SChooseLocation.x, c2SChooseLocation.z);
-                        CharacterManager.instance.chooseLocationCount++;
-                        if (CharacterManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
+                        Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(msg.clientId));
+                        PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
+                        PlayerManager.instance.chooseLocationCount++;
+                        if (PlayerManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
                         {
                             GameProcess.instance.SendAllLocation();
                             GameProcess.instance.GameStart();
