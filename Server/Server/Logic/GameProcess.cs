@@ -10,8 +10,6 @@ namespace GameServer
     {
         public static readonly GameProcess instance = new GameProcess();
 
-        //Timer myTimer;
-
         //客户端连接之后执行任务
         public void AfterConnect(int clientId)
         {
@@ -70,33 +68,17 @@ namespace GameServer
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             gameMap.gameMap[x, z] = weaponId;
 
-            Bomb bomb = new Bomb();
-            bomb.weaponId = weaponId; bomb.x = x;bomb.z = z;
+            Bomb bomb = BombController.instance.Create(weaponId, x, z);
 
             ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},炸弹位置: {1} {2}", weaponId, x, z));
 
-            Timer myTimer = new Timer(new TimerCallback(BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
+            Timer myTimer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
 
             S2CAttack s2CAttack = new S2CAttack();
             s2CAttack.weaponId = weaponId;
             s2CAttack.x = x;
             s2CAttack.z = z;
             SendAttack(s2CAttack);
-        }
-
-        //炸弹触发
-        public void BombTrigger(object state)
-        {
-            EventManager.instance.AddEvent(()=>
-            {
-                Bomb bomb = (Bomb)state;
-                GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-                gameMap.gameMap[bomb.x, bomb.z] = 0;
-
-                BombCal.instance.BombRange(bomb);
-
-                ConsoleLog.instance.Info(string.Format("炸弹爆炸,武器Id: {0},炸弹位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
-            });
         }
 
         //发送所有charId

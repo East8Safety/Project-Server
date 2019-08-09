@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace GameServer
 {
-    class ServerUpdate
+    public class ServerUpdate
     {
         public static readonly ServerUpdate instance = new ServerUpdate();
 
