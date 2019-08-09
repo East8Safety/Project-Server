@@ -68,11 +68,11 @@ namespace GameServer
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             gameMap.gameMap[x, z] = weaponId;
 
-            Bomb bomb = BombController.instance.Create(weaponId, x, z);
+            Bomb bomb = BombManager.instance.CreateBomb(weaponId, x, z);
 
             ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},炸弹位置: {1} {2}", weaponId, x, z));
 
-            Timer myTimer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
+            bomb.timer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
 
             S2CAttack s2CAttack = new S2CAttack();
             s2CAttack.weaponId = weaponId;
