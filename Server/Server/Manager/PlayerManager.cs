@@ -32,7 +32,8 @@ namespace GameServer
         //减少玩家
         public void DeletePlayer(int playerId)
         {
-            for (int i = 0; i < playerPool.Count; i++)
+            int playerCount = playerPool.Count;
+            for (int i = 0; i < playerCount; i++)
             {
                 var mPlayerId = playerPool.Pop();
                 if (mPlayerId == playerId)
