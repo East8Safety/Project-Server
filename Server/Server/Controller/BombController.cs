@@ -30,13 +30,9 @@ namespace GameServer
             EventManager.instance.AddEvent(() =>
             {
                 Bomb bomb = (Bomb)state;
-                GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-                gameMap.gameMap[bomb.x, bomb.z] = 0;
 
                 BombRange(bomb);
-                BombController.instance.PlayerDamage(BombController.instance.playerId2Damage);
-
-                ConsoleLog.instance.Info(string.Format("炸弹爆炸,武器Id: {0},炸弹位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
+                PlayerDamage(playerId2Damage);
             });
         }
 
@@ -44,8 +40,11 @@ namespace GameServer
         public void BombRange(Bomb bomb)
         {
             bomb.timer.Change(Timeout.Infinite, Timeout.Infinite);
-
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            gameMap.gameMap[bomb.x, bomb.z] = 0;
+            GameProcess.instance.SendMapChange(bomb.x, bomb.z, 0);
+            ConsoleLog.instance.Info(string.Format("泡泡爆炸,武器Id: {0},泡泡位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
+
             for (int i = bomb.x - bomb.damageX; i < bomb.x + 1 + bomb.damageX; i++)
             {
                 if (i < 0 || i >= gameMap.width)

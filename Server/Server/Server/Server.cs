@@ -45,7 +45,7 @@ namespace GameServer
         {
             //监听
             socket.Listen(maxClient);
-            ConsoleLog.instance.Info(string.Format("服务器启动"));
+            ConsoleLog.instance.Info(string.Format("服务器开启监听"));
 
             socket.BeginAccept(AsyncAccept, null);
 
@@ -92,7 +92,10 @@ namespace GameServer
         //服务器初始化
         public void Init()
         {
+            //初始化地图
             GameMapManager.instance.CreateMap(10, 10);
+
+            ConsoleLog.instance.Info("初始化完毕");
         }
 
         public int GetPlayerId(int clientId)

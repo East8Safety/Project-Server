@@ -32,14 +32,7 @@ namespace GameServer
                     C2SChooseChar c2SChooseChar = SerializeFunc.instance.DeSerialize<C2SChooseChar>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        int playerId = Server.instance.GetPlayerId(msg.clientId);
-                        var player = PlayerManager.instance.GetPlayer(playerId);
-                        PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
-                        GameProcess.instance.SendCharId(msg.clientId, c2SChooseChar.charId);
-                        if (PlayerManager.instance.playerDic.Keys.Count >= ReadJson.instance.charCountToStart)
-                        {
-                            GameProcess.instance.SendAllCharId();
-                        }
+                        GameProcess.instance.ChooseChar(msg.clientId, c2SChooseChar);
                     });
                     break;
                 case (int)messageType.C2SChooseLocation:
@@ -48,6 +41,9 @@ namespace GameServer
                     {
                         Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(msg.clientId));
                         PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
+                        GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+                        MapController.instance.SetMapValue(gameMap, c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
+                        GameProcess.instance.SendMapChange(c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
                         PlayerManager.instance.chooseLocationCount++;
                         if (PlayerManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
                         {

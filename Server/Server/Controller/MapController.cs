@@ -76,12 +76,20 @@ namespace GameServer
                 }
                 
                 GameProcess.instance.SendCellChange(gameMap.mapId, x, z, gameMap.gameMap[x, z]);
+                ConsoleLog.instance.Info(string.Format("地形破坏 位置:{0},{1}", x, z));
             }
             else
             {
                 gameMap.gameMap[x, z] -= damage;
                 GameProcess.instance.SendCellChange(gameMap.mapId, x, z, gameMap.gameMap[x, z]);
+                ConsoleLog.instance.Info(string.Format("地形收到伤害 位置:{0},{1} 伤害量{2}", x, z, damage));
             }
+        }
+
+        //地图值变化
+        public void SetMapValue(GameMap gameMap, int x, int z, int value)
+        {
+            gameMap.gameMap[x, z] = value;
         }
     }
 }

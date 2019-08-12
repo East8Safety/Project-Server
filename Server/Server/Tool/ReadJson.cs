@@ -16,11 +16,15 @@ namespace GameServer
         public int gameStartDelay = 3;
         public float cellSize = 2;
 
+        //读取配置文件
         public void ReadConfig()
         {
             ReadMap();
+
+            ConsoleLog.instance.Info("配置读取完毕");
         }
 
+        //读取地图配置
         public void ReadMap()
         {
             string jsonfile = "../../../Config/map.json";

@@ -19,6 +19,16 @@ namespace GameServer
         public float locationZ { get; set; }
     }
 
+    //初始位置坐标
+    [ProtoContract]
+    public class InitLocation
+    {
+        [ProtoMember(1)]
+        public int x { get; set; }
+        [ProtoMember(2)]
+        public int z { get; set; }
+    }
+
     #region S2CMessage
 
     //S2CMove用 所有人位置信息
@@ -75,7 +85,7 @@ namespace GameServer
     public class S2CAllLocation
     {
         [ProtoMember(1)]
-        public Dictionary<int, Location> allLocation { get; set; }
+        public Dictionary<int, InitLocation> allLocation { get; set; }
     }
 
     [ProtoContract]
@@ -99,7 +109,7 @@ namespace GameServer
         [ProtoMember(3)]
         public int z { get; set; }
         [ProtoMember(4)]
-        public int nowHp { get; set; }
+        public int value { get; set; }
     }
 
     [ProtoContract]
@@ -153,9 +163,9 @@ namespace GameServer
     public class C2SChooseLocation
     {
         [ProtoMember(1)]
-        public float x { get; set; }
+        public int x { get; set; }
         [ProtoMember(2)]
-        public float z { get; set; }
+        public int z { get; set; }
     }
 
     #endregion

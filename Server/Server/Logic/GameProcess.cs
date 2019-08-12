@@ -15,7 +15,9 @@ namespace GameServer
         {
             EventManager.instance.AddEvent(() =>
             {
+                //创建晚间
                 PlayerManager.instance.CreatePlayer(clientId);
+                //发送clientId和playerId
                 SendClientId(clientId);
             });
         }
@@ -50,12 +52,20 @@ namespace GameServer
             }
             player.x = model.x;
             player.z = model.z;
+            int cellXBefore = CDT2Cell.instance.CDT2X(player.locationX);
+            int cellZBefore = CDT2Cell.instance.CDT2Z(player.locationZ);
             int cellX = CDT2Cell.instance.CDT2X(player.locationX + model.x);
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(cellX, cellZ))
             {
+                if (cellXBefore != cellX || cellZBefore != cellZ)
+                {
+                    SendMapChange(cellXBefore, cellZBefore, 0);
+                }
+
                 player.locationX += model.x;
                 player.locationZ += model.z;
+                SendMapChange(cellX, cellZ, player.playerId);
             }
         }
 
@@ -68,9 +78,11 @@ namespace GameServer
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             gameMap.gameMap[x, z] = weaponId;
 
+            SendMapChange(x, z, weaponId);
+
             Bomb bomb = BombManager.instance.CreateBomb(weaponId, x, z);
 
-            ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},炸弹位置: {1} {2}", weaponId, x, z));
+            ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},泡泡位置: {1} {2}", weaponId, x, z));
 
             bomb.timer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
 
@@ -79,6 +91,19 @@ namespace GameServer
             s2CAttack.x = x;
             s2CAttack.z = z;
             SendAttack(s2CAttack);
+        }
+
+        //客户端选人
+        public void ChooseChar(int clientId, C2SChooseChar c2SChooseChar)
+        {
+            int playerId = Server.instance.GetPlayerId(clientId);
+            var player = PlayerManager.instance.GetPlayer(playerId);
+            PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
+            SendCharId(clientId, c2SChooseChar.charId);
+            if (PlayerManager.instance.playerDic.Keys.Count >= ReadJson.instance.charCountToStart)
+            {
+                SendAllCharId();
+            }
         }
 
         //发送所有charId
@@ -104,17 +129,17 @@ namespace GameServer
         //发送所有位置信息
         public void SendAllLocation()
         {
-            S2CAllLocation s2CAllLocation = new S2CAllLocation { allLocation = new Dictionary<int, Location>() };
+            S2CAllLocation s2CAllLocation = new S2CAllLocation { allLocation = new Dictionary<int, InitLocation>() };
 
             s2CAllLocation.allLocation.Clear(); 
             foreach (var item in PlayerManager.instance.playerDic)
             {
-                Location location = new Location();
+                InitLocation initLocation = new InitLocation();
                 var playerId = item.Key;
                 var player = item.Value;
-                location.locationX = player.locationX;
-                location.locationZ = player.locationZ;
-                s2CAllLocation.allLocation.TryAdd(playerId, location);
+                initLocation.x = (int)player.locationX;
+                initLocation.z = (int)player.locationZ;
+                s2CAllLocation.allLocation.TryAdd(playerId, initLocation);
             }
 
             SendData.instance.Broadcast((int)messageType.S2CAllLocation, s2CAllLocation);
@@ -182,7 +207,7 @@ namespace GameServer
             s2CCellChange.mapId = 0;
             s2CCellChange.x = x;
             s2CCellChange.z = z;
-            s2CCellChange.nowHp = nowHp;
+            s2CCellChange.value = nowHp;
 
             SendData.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
         }
@@ -194,6 +219,18 @@ namespace GameServer
             s2CSendWinner.playerId = playerId;
 
             SendData.instance.Broadcast((int)messageType.S2CSendWinner, s2CSendWinner);
+        }
+
+        //发送地图变更
+        public void SendMapChange(int x, int z, int value)
+        {
+            S2CCellChange s2CCellChange = new S2CCellChange();
+            s2CCellChange.mapId = 0;
+            s2CCellChange.x = x;
+            s2CCellChange.z = z;
+            s2CCellChange.value = value;
+
+            SendData.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
         }
     }
 }

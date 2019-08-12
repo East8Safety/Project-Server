@@ -20,6 +20,8 @@ namespace GameServer
             player.clientId = clientId;
             Server.instance.clientId2PlayerId.TryAdd(player.clientId, player.playerId);
             AddPlayer(player);
+
+            ConsoleLog.instance.Info(string.Format("创建玩家 playerId:{0}", player.playerId));
         }
 
         //增加玩家
