@@ -24,7 +24,7 @@ namespace GameServer
         S2CSendWinner =             1107,           //发送获胜者
 
         C2SMove =                   2001,           //客户端发送移动
-        C2SAttack =                 2002,
+        C2SAttack =                 2002,           //客户端攻击
         C2SUseItem =                2003,
         C2SChooseChar =             2004,           //客户端选择角色
         C2SChooseLocation =         2005,           //客户端选位置

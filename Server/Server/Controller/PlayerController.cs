@@ -14,7 +14,7 @@ namespace GameServer
         //创建玩家
         public Player Create()
         {
-            Player player = new Player();
+            Player player = new Player { itemId2Count = new Dictionary<int, int>() };
             playerGuid++;
             player.playerId = playerGuid;
             return player;
