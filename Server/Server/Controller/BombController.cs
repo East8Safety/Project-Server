@@ -75,7 +75,7 @@ namespace GameServer
                 {
                     MapController.instance.Damage(gameMap, i, bomb.z, bomb.damage);
                 }
-                else if (gameMap.gameMap[i, bomb.z] >= 3001 && gameMap.gameMap[i, bomb.z] <= 4000)
+                else if (gameMap.gameMap[i, bomb.z] >= 10001)
                 {
                     var bombId = gameMap.gameMap[i, bomb.z];
                     Bomb newBomb = BombManager.instance.GetBomb(bombId);
@@ -110,7 +110,7 @@ namespace GameServer
                 {
                     MapController.instance.Damage(gameMap, bomb.x, i, bomb.damage);
                 }
-                else if (gameMap.gameMap[bomb.x, i] >= 3001 && gameMap.gameMap[bomb.x, i] <= 4000)
+                else if (gameMap.gameMap[bomb.x, i] >= 10001)
                 {
                     var bombId = gameMap.gameMap[bomb.x, i];
                     Bomb newBomb = BombManager.instance.GetBomb(bombId);
