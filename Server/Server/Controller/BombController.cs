@@ -44,6 +44,7 @@ namespace GameServer
         {
             bomb.timer.Change(Timeout.Infinite, Timeout.Infinite);
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            MapController.instance.SetMapValue(gameMap, bomb.x, bomb.z, 0);
             gameMap.gameMap[bomb.x, bomb.z] = 0;
             GameProcess.instance.SendMapChange(bomb.x, bomb.z, 0);
             ConsoleLog.instance.Info(string.Format("泡泡爆炸,武器Id: {0},泡泡位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));

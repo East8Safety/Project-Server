@@ -45,6 +45,8 @@ namespace GameServer
                 GameProcess.instance.SendCharDie(s2CDie);
                 var cellX = CDT2Cell.instance.CDT2X(player.locationX);
                 var cellZ = CDT2Cell.instance.CDT2Z(player.locationZ);
+                GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+                MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
                 GameProcess.instance.SendMapChange(cellX, cellZ, 0);
                 PlayerManager.instance.DeletePlayer(player.playerId);
                 ConsoleLog.instance.Info(string.Format("玩家死亡 playerId:{0}", player.playerId));

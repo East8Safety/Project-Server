@@ -17,7 +17,7 @@ namespace GameServer
             {
                 return true;
             }
-            if (gameMap.gameMap[x, z] >= 1001 && gameMap.gameMap[x, z] <= 2000)
+            if (gameMap.gameMap[x, z] >= 1001 && gameMap.gameMap[x, z] <= 3000)
             {
                 return true;
             }

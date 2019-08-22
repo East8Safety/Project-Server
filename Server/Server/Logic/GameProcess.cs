@@ -15,7 +15,7 @@ namespace GameServer
         {
             EventManager.instance.AddEvent(() =>
             {
-                //创建晚间
+                //创建玩家
                 PlayerManager.instance.CreatePlayer(clientId);
                 //发送clientId和playerId
                 SendClientId(clientId);
@@ -45,6 +45,8 @@ namespace GameServer
         //客户端移动
         public void ClientMove(int playerId, C2SMove model)
         {
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+
             Player player = PlayerManager.instance.GetPlayer(playerId);
             if (player == null)
             {
@@ -60,11 +62,27 @@ namespace GameServer
             {
                 if (cellXBefore != cellX || cellZBefore != cellZ)
                 {
-                    SendMapChange(cellXBefore, cellZBefore, 0);
+                    if (gameMap.gameMap[cellXBefore, cellZBefore] >= 3001 && gameMap.gameMap[cellXBefore, cellZBefore] <= 4000)
+                    {
+                    }
+                    else if (gameMap.gameMap[cellXBefore, cellZBefore] >= 1001 && gameMap.gameMap[cellXBefore, cellZBefore] <= 2000)
+                    {
+                    }
+                    else
+                    {
+                        MapController.instance.SetMapValue(gameMap, cellXBefore, cellZBefore, 0);
+                        SendMapChange(cellXBefore, cellZBefore, 0);
+                    }
+                }
+
+                if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)
+                {
+                    ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
                 }
 
                 player.locationX += model.x;
                 player.locationZ += model.z;
+                MapController.instance.SetMapValue(gameMap, cellX, cellZ, player.playerId);
                 SendMapChange(cellX, cellZ, player.playerId);
             }
         }
@@ -76,7 +94,7 @@ namespace GameServer
             var x = CDT2Cell.instance.CDT2X(data.locationX);
             var z = CDT2Cell.instance.CDT2Z(data.locationZ);
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-            gameMap.gameMap[x, z] = weaponId;
+            MapController.instance.SetMapValue(gameMap, x, z, weaponId);
 
             SendMapChange(x, z, weaponId);
 
@@ -103,6 +121,22 @@ namespace GameServer
             if (PlayerManager.instance.playerDic.Keys.Count >= ReadJson.instance.charCountToStart)
             {
                 SendAllCharId();
+            }
+        }
+
+        //客户端位置
+        public void ChooseLocation(int clientId, C2SChooseLocation c2SChooseLocation)
+        {
+            Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
+            PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            MapController.instance.SetMapValue(gameMap, c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
+            GameProcess.instance.SendMapChange(c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
+            PlayerManager.instance.chooseLocationCount++;
+            if (PlayerManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
+            {
+                GameProcess.instance.SendAllLocation();
+                GameProcess.instance.GameStart();
             }
         }
 

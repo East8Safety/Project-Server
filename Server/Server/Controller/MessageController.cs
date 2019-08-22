@@ -39,17 +39,7 @@ namespace GameServer
                     C2SChooseLocation c2SChooseLocation = SerializeFunc.instance.DeSerialize<C2SChooseLocation>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(msg.clientId));
-                        PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
-                        GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-                        MapController.instance.SetMapValue(gameMap, c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
-                        GameProcess.instance.SendMapChange(c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
-                        PlayerManager.instance.chooseLocationCount++;
-                        if (PlayerManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
-                        {
-                            GameProcess.instance.SendAllLocation();
-                            GameProcess.instance.GameStart();
-                        }
+                        GameProcess.instance.ChooseLocation(msg.clientId, c2SChooseLocation);
                     });
                     break;
 
