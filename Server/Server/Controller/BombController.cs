@@ -10,7 +10,7 @@ namespace GameServer
         public static readonly BombController instance = new BombController();
 
         public Dictionary<int, int> playerId2Damage = new Dictionary<int, int>();
-        private int bombGuid = 0;
+        private int bombGuid = 3001;
 
         public Bomb Create(int weaponId, int x, int z)
         {
@@ -54,28 +54,24 @@ namespace GameServer
                 {
                     continue;
                 }
-
-                if (gameMap.gameMap[i, bomb.z] >= 1001 && gameMap.gameMap[i, bomb.z] <= 2000)
+                foreach (var item in PlayerManager.instance.playerDic)
                 {
-                    foreach (var item in PlayerManager.instance.playerDic)
-                    {
-                        var playerId = item.Key;
-                        var player = item.Value;
+                    var playerId = item.Key;
+                    var player = item.Value;
 
-                        if (player.x == i && player.z == bomb.z)
+                    if (player.x == i && player.z == bomb.z)
+                    {
+                        if (playerId2Damage.ContainsKey(playerId))
                         {
-                            if (playerId2Damage.ContainsKey(playerId))
-                            {
-                                playerId2Damage[playerId] += bomb.damage;
-                            }
-                            else
-                            {
-                                playerId2Damage[playerId] = bomb.damage;
-                            }
+                            playerId2Damage[playerId] += bomb.damage;
+                        }
+                        else
+                        {
+                            playerId2Damage[playerId] = bomb.damage;
                         }
                     }
                 }
-                else if (gameMap.gameMap[i, bomb.z] >= 1 && gameMap.gameMap[i, bomb.z] <= 1000)
+                if (gameMap.gameMap[i, bomb.z] >= 1 && gameMap.gameMap[i, bomb.z] <= 1000)
                 {
                     MapController.instance.Damage(gameMap, i, bomb.z, bomb.damage);
                 }
@@ -93,27 +89,24 @@ namespace GameServer
                 {
                     continue;
                 }
-                if (gameMap.gameMap[bomb.x, i] >= 1001 && gameMap.gameMap[bomb.x, i] <= 2000)
+                foreach (var item in PlayerManager.instance.playerDic)
                 {
-                    foreach (var item in PlayerManager.instance.playerDic)
-                    {
-                        var playerId = item.Key;
-                        var player = item.Value;
+                    var playerId = item.Key;
+                    var player = item.Value;
 
-                        if (player.x == bomb.x && player.z == i)
+                    if (player.x == bomb.x && player.z == i)
+                    {
+                        if (playerId2Damage.ContainsKey(playerId))
                         {
-                            if (playerId2Damage.ContainsKey(playerId))
-                            {
-                                playerId2Damage[playerId] += bomb.damage;
-                            }
-                            else
-                            {
-                                playerId2Damage[playerId] = bomb.damage;
-                            }
+                            playerId2Damage[playerId] += bomb.damage;
+                        }
+                        else
+                        {
+                            playerId2Damage[playerId] = bomb.damage;
                         }
                     }
                 }
-                else if (gameMap.gameMap[bomb.x, i] >= 1 && gameMap.gameMap[bomb.x, i] <= 1000)
+                if (gameMap.gameMap[bomb.x, i] >= 1 && gameMap.gameMap[bomb.x, i] <= 1000)
                 {
                     MapController.instance.Damage(gameMap, bomb.x, i, bomb.damage);
                 }

@@ -52,8 +52,6 @@ namespace GameServer
             {
                 return;
             }
-            int cellXBefore = CDT2Cell.instance.CDT2X(player.locationX);
-            int cellZBefore = CDT2Cell.instance.CDT2Z(player.locationZ);
             int cellX = CDT2Cell.instance.CDT2X(player.locationX + model.x);
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(cellX, cellZ))
@@ -76,12 +74,13 @@ namespace GameServer
             var weaponId = data.weaponId;
             var x = CDT2Cell.instance.CDT2X(data.locationX);
             var z = CDT2Cell.instance.CDT2Z(data.locationZ);
-            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-            MapController.instance.SetMapValue(gameMap, x, z, weaponId);
-
-            SendMapChange(x, z, weaponId);
 
             Bomb bomb = BombManager.instance.CreateBomb(weaponId, x, z);
+
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            MapController.instance.SetMapValue(gameMap, x, z, bomb.id);
+
+            SendMapChange(x, z, bomb.id);
 
             ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},泡泡位置: {1} {2}", weaponId, x, z));
 

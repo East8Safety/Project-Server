@@ -43,7 +43,7 @@ namespace GameServer
             {
                 for (int j = 0; j < height; j++)
                 {
-                    gameMap.gameMap[i, j] = ReadJson.instance.map[i, j];
+                    gameMap.gameMap[i, j] = 0;
                 }
             }
         }
@@ -55,7 +55,7 @@ namespace GameServer
             {
                 for (int j = 0; j < height; j++)
                 {
-                    itemMap.itemMap[i, j] = ReadJson.instance.map[i, j];
+                    itemMap.itemMap[i, j] = 0;
                 }
             }
         }

@@ -110,7 +110,7 @@ namespace GameServer
         public void Init()
         {
             //初始化地图
-            GameMapManager.instance.CreateMap(10, 10);
+            GameMapManager.instance.CreateMap(100, 100);
 
             ConsoleLog.instance.Info("初始化完毕");
         }
