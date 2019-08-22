@@ -9,8 +9,8 @@ namespace GameServer
         public int charId { get; set; }
         public int playerId { get; set; }
         public int clientId { get; set; }
-        public float x { get; set; }
-        public float z { get; set; }
+        public int x { get; set; }
+        public int z { get; set; }
         public float locationX { get; set; }
         public float locationZ { get; set; }
 

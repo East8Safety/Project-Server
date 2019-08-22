@@ -45,7 +45,6 @@ namespace GameServer
             bomb.timer.Change(Timeout.Infinite, Timeout.Infinite);
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             MapController.instance.SetMapValue(gameMap, bomb.x, bomb.z, 0);
-            gameMap.gameMap[bomb.x, bomb.z] = 0;
             GameProcess.instance.SendMapChange(bomb.x, bomb.z, 0);
             ConsoleLog.instance.Info(string.Format("泡泡爆炸,武器Id: {0},泡泡位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
 
@@ -55,17 +54,25 @@ namespace GameServer
                 {
                     continue;
                 }
+
                 if (gameMap.gameMap[i, bomb.z] >= 1001 && gameMap.gameMap[i, bomb.z] <= 2000)
                 {
-                    int playerId = gameMap.gameMap[i, bomb.z];
+                    foreach (var item in PlayerManager.instance.playerDic)
+                    {
+                        var playerId = item.Key;
+                        var player = item.Value;
 
-                    if (playerId2Damage.ContainsKey(playerId))
-                    {
-                        playerId2Damage[playerId] += bomb.damage;
-                    }
-                    else
-                    {
-                        playerId2Damage[playerId] = bomb.damage;
+                        if (player.x == i && player.z == bomb.z)
+                        {
+                            if (playerId2Damage.ContainsKey(playerId))
+                            {
+                                playerId2Damage[playerId] += bomb.damage;
+                            }
+                            else
+                            {
+                                playerId2Damage[playerId] = bomb.damage;
+                            }
+                        }
                     }
                 }
                 else if (gameMap.gameMap[i, bomb.z] >= 1 && gameMap.gameMap[i, bomb.z] <= 1000)
@@ -88,15 +95,22 @@ namespace GameServer
                 }
                 if (gameMap.gameMap[bomb.x, i] >= 1001 && gameMap.gameMap[bomb.x, i] <= 2000)
                 {
-                    int playerId = gameMap.gameMap[bomb.x, i];
+                    foreach (var item in PlayerManager.instance.playerDic)
+                    {
+                        var playerId = item.Key;
+                        var player = item.Value;
 
-                    if (playerId2Damage.ContainsKey(playerId))
-                    {
-                        playerId2Damage[playerId] += bomb.damage;
-                    }
-                    else
-                    {
-                        playerId2Damage[playerId] = bomb.damage;
+                        if (player.x == bomb.x && player.z == i)
+                        {
+                            if (playerId2Damage.ContainsKey(playerId))
+                            {
+                                playerId2Damage[playerId] += bomb.damage;
+                            }
+                            else
+                            {
+                                playerId2Damage[playerId] = bomb.damage;
+                            }
+                        }
                     }
                 }
                 else if (gameMap.gameMap[bomb.x, i] >= 1 && gameMap.gameMap[bomb.x, i] <= 1000)

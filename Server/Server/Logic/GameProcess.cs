@@ -52,29 +52,12 @@ namespace GameServer
             {
                 return;
             }
-            player.x = model.x;
-            player.z = model.z;
             int cellXBefore = CDT2Cell.instance.CDT2X(player.locationX);
             int cellZBefore = CDT2Cell.instance.CDT2Z(player.locationZ);
             int cellX = CDT2Cell.instance.CDT2X(player.locationX + model.x);
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(cellX, cellZ))
             {
-                if (cellXBefore != cellX || cellZBefore != cellZ)
-                {
-                    if (gameMap.gameMap[cellXBefore, cellZBefore] >= 3001 && gameMap.gameMap[cellXBefore, cellZBefore] <= 4000)
-                    {
-                    }
-                    else if (gameMap.gameMap[cellXBefore, cellZBefore] >= 1001 && gameMap.gameMap[cellXBefore, cellZBefore] <= 2000)
-                    {
-                    }
-                    else
-                    {
-                        MapController.instance.SetMapValue(gameMap, cellXBefore, cellZBefore, 0);
-                        SendMapChange(cellXBefore, cellZBefore, 0);
-                    }
-                }
-
                 if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)
                 {
                     ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
@@ -82,8 +65,8 @@ namespace GameServer
 
                 player.locationX += model.x;
                 player.locationZ += model.z;
-                MapController.instance.SetMapValue(gameMap, cellX, cellZ, player.playerId);
-                SendMapChange(cellX, cellZ, player.playerId);
+                player.x = cellX;
+                player.z = cellZ;
             }
         }
 
@@ -129,14 +112,11 @@ namespace GameServer
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
             PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
-            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-            MapController.instance.SetMapValue(gameMap, c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
-            GameProcess.instance.SendMapChange(c2SChooseLocation.x, c2SChooseLocation.z, player.playerId);
             PlayerManager.instance.chooseLocationCount++;
             if (PlayerManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
             {
-                GameProcess.instance.SendAllLocation();
-                GameProcess.instance.GameStart();
+                SendAllLocation();
+                GameStart();
             }
         }
 
