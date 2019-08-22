@@ -14,12 +14,13 @@ namespace GameServer
         public int[,] map = new int[10, 10];
         public int charCountToStart = 4;
         public int gameStartDelay = 3;
-        public float cellSize = 2;
+        public float cellSize = 10;
 
         //读取配置文件
         public void ReadConfig()
         {
             ReadMap();
+            ReadOther();
 
             ConsoleLog.instance.Info("配置读取完毕");
         }
@@ -39,6 +40,11 @@ namespace GameServer
                     map[i,j] = int.Parse(array2[j].ToString());
                 }
             }
+        }
+
+        public void ReadOther()
+        {
+            Table.ItemId2Damage.TryAdd(2001, 30);
         }
     }
 }

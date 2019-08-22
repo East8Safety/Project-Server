@@ -17,6 +17,7 @@ namespace GameServer
             Player player = new Player { itemId2Count = new Dictionary<int, int>() };
             playerGuid++;
             player.playerId = playerGuid;
+            player.HP = 100;
             return player;
         }
 

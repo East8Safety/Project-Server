@@ -19,6 +19,9 @@ namespace GameServer
             bomb.weaponId = weaponId;
             bomb.x = x;
             bomb.z = z;
+            bomb.damageX = 3;
+            bomb.damageZ = 3;
+            bomb.damage = 30;
             bombGuid++;
 
             return bomb;
