@@ -126,6 +126,17 @@ namespace GameServer
         public int playerId { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CGetItem
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+        [ProtoMember(2)]
+        public int itemId { get; set; }
+        [ProtoMember(3)]
+        public int count { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage

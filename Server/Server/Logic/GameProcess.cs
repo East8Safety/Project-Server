@@ -59,6 +59,7 @@ namespace GameServer
                 if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)
                 {
                     ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
+                    SendGetItem(playerId, gameMap.gameMap[cellX, cellZ], 1);
                 }
 
                 player.locationX += model.x;
@@ -244,6 +245,17 @@ namespace GameServer
             s2CCellChange.value = value;
 
             SendData.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
+        }
+
+        //发送获得物品
+        public void SendGetItem(int playerId, int itemId, int count)
+        {
+            S2CGetItem s2CGetItem = new S2CGetItem();
+            s2CGetItem.playerId = playerId;
+            s2CGetItem.itemId = itemId;
+            s2CGetItem.count = count;
+
+            SendData.instance.Broadcast((int)messageType.S2CGetItem, s2CGetItem);
         }
     }
 }
