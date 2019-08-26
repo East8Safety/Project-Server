@@ -137,6 +137,30 @@ namespace GameServer
         public int count { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CDeleteItem
+    {
+        [ProtoMember(1)]
+        public int x { get; set; }
+        [ProtoMember(2)]
+        public int z { get; set; }
+        [ProtoMember(3)]
+        public int playerId { get; set; }
+        [ProtoMember(4)]
+        public int itemId { get; set; }
+        [ProtoMember(5)]
+        public int count { get; set; }
+    }
+
+    [ProtoContract]
+    public class S2CUseItem
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+        [ProtoMember(2)]
+        public int itemId { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage
@@ -177,6 +201,22 @@ namespace GameServer
         public int x { get; set; }
         [ProtoMember(2)]
         public int z { get; set; }
+    }
+
+    [ProtoContract]
+    public class C2SDeleteItem
+    {
+        [ProtoMember(1)]
+        public int itemId { get; set; }
+        [ProtoMember(2)]
+        public int count { get; set; }
+    }
+
+    [ProtoContract]
+    public class C2SUseItem
+    {
+        [ProtoMember(1)]
+        public int itemId { get; set; }
     }
 
     #endregion

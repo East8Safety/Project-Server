@@ -59,6 +59,8 @@ namespace GameServer
                 if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)
                 {
                     ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
+                    MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
+                    SendMapChange(cellX, cellZ, 0);
                     SendGetItem(playerId, gameMap.gameMap[cellX, cellZ], 1);
                 }
 
@@ -256,6 +258,46 @@ namespace GameServer
             s2CGetItem.count = count;
 
             SendData.instance.Broadcast((int)messageType.S2CGetItem, s2CGetItem);
+        }
+
+        //客户端丢弃物品
+        public void DeleteItem(int clientId, C2SDeleteItem c2SDeleteItem)
+        {
+            Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
+            if(ItemController.instance.IsHaveItem(player, c2SDeleteItem.itemId))
+            {
+                GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+                var ret = MapController.instance.GetEmptyCell(player, gameMap, c2SDeleteItem.itemId);
+                SendMapChange(ret[0], ret[1], c2SDeleteItem.itemId);
+                ItemController.instance.ChangeItemCount(player, c2SDeleteItem.itemId, -1);
+                SendDeleteItem(ret[0], ret[1], player.playerId, c2SDeleteItem.itemId, 1);
+            }
+        }
+
+        public void SendDeleteItem(int x, int z, int playerId, int itemId, int count)
+        {
+            S2CDeleteItem s2CDeleteItem = new S2CDeleteItem();
+            s2CDeleteItem.x = x;
+            s2CDeleteItem.z = z;
+            s2CDeleteItem.playerId = playerId;
+            s2CDeleteItem.itemId = itemId;
+            s2CDeleteItem.count = count;
+            SendData.instance.Broadcast((int)messageType.S2CDeleteItem, s2CDeleteItem);
+        }
+
+        public void UseItem(int clientId, C2SUseItem c2SUseItem)
+        {
+            Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
+            ItemController.instance.UseItem(player, c2SUseItem.itemId);
+            SendUseItem(player.playerId, c2SUseItem.itemId);
+        }
+
+        public void SendUseItem(int playerId, int itemId)
+        {
+            S2CUseItem s2CUseItem = new S2CUseItem();
+            s2CUseItem.playerId = playerId;
+            s2CUseItem.itemId = itemId;
+            SendData.instance.Broadcast((int)messageType.S2CUseItem, s2CUseItem);
         }
     }
 }

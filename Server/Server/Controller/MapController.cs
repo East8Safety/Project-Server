@@ -91,5 +91,76 @@ namespace GameServer
         {
             gameMap.gameMap[x, z] = value;
         }
+
+        public int[] GetEmptyCell(Player player, GameMap gameMap, int itemId)
+        {
+            int[] ret = new int[2];
+            int x = player.x;
+            int z = player.z;
+
+            int turns = 1;
+            while (true)
+            {
+                x += 1;
+                z += 1;
+                for (int a = 0; a < turns * 2; a++)
+                {
+                    x += -1;
+                    if (x < 0 || x > gameMap.width || z < 0 || z > gameMap.height)
+                    {
+                        continue;
+                    }
+                    if (gameMap.gameMap[x,z] == 0)
+                    {
+                        gameMap.gameMap[x, z] = itemId;
+                        ret[0] = x; ret[1] = z;
+                        return ret;
+                    }
+                }
+                for (int b = 0; b < turns * 2; b++)
+                {
+                    z += -1;
+                    if (x < 0 || x > gameMap.width || z < 0 || z > gameMap.height)
+                    {
+                        continue;
+                    }
+                    if (gameMap.gameMap[x, z] == 0)
+                    {
+                        gameMap.gameMap[x, z] = itemId;
+                        ret[0] = x; ret[1] = z;
+                        return ret;
+                    }
+                }
+                for (int c = 0; c < turns * 2; c++)
+                {
+                    x += 1;
+                    if (x < 0 || x > gameMap.width || z < 0 || z > gameMap.height)
+                    {
+                        continue;
+                    }
+                    if (gameMap.gameMap[x, z] == 0)
+                    {
+                        gameMap.gameMap[x, z] = itemId;
+                        ret[0] = x; ret[1] = z;
+                        return ret;
+                    }
+                }
+                for (int d = 0; d < turns * 2; d++)
+                {
+                    z += 1;
+                    if (x < 0 || x > gameMap.width || z < 0 || z > gameMap.height)
+                    {
+                        continue;
+                    }
+                    if (gameMap.gameMap[x, z] == 0)
+                    {
+                        gameMap.gameMap[x, z] = itemId;
+                        ret[0] = x; ret[1] = z;
+                        return ret;
+                    }
+                }
+                turns++;
+            }
+        }
     }
 }

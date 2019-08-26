@@ -35,6 +35,18 @@ namespace GameServer
             }
         }
 
+        public bool IsHaveItem(Player player, int itemId)
+        {
+            if (player.itemId2Count.ContainsKey(itemId))
+            {
+                return true;
+            }
+            return false;
+        }
 
+        public void UseItem(Player player, int itemId)
+        {
+            ChangeItemCount(player, itemId, -1);
+        }
     }
 }

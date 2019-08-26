@@ -42,6 +42,20 @@ namespace GameServer
                         GameProcess.instance.ChooseLocation(msg.clientId, c2SChooseLocation);
                     });
                     break;
+                case (int)messageType.C2SDeleteItem:
+                    C2SDeleteItem c2SDeleteItem = SerializeFunc.instance.DeSerialize<C2SDeleteItem>(msg.msg);
+                    EventManager.instance.AddEvent(() =>
+                    {
+                        GameProcess.instance.DeleteItem(msg.clientId, c2SDeleteItem);
+                    });
+                    break;
+                case (int)messageType.C2SUseItem:
+                    C2SUseItem c2SUseItem = SerializeFunc.instance.DeSerialize<C2SUseItem>(msg.msg);
+                    EventManager.instance.AddEvent(() =>
+                    {
+                        GameProcess.instance.UseItem(msg.clientId, c2SUseItem);
+                    });
+                    break;
 
                 default:
                     return;

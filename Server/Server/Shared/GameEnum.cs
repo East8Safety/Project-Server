@@ -8,9 +8,9 @@ namespace GameServer
     {
         S2CMove =                   1001,           //服务器发送移动
         S2CAttack =                 1002,           //服务器发送攻击
-        S2CUseProp =                1003,
+        S2CUseItem =                1003,           //服务器使用道具
         S2CGetItem =                1004,           //获得物品
-        S2CDelItem =                1005,
+        S2CDeleteItem =             1005,           //服务器丢弃道具
         S2CRefreshItemNum =         1006,
         S2CHPChange =               1007,           //血量变化
         S2CDie =                    1008,           //角色死亡
@@ -25,8 +25,9 @@ namespace GameServer
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,           //客户端攻击
-        C2SUseItem =                2003,
+        C2SUseItem =                2003,           //客户端使用道具
         C2SChooseChar =             2004,           //客户端选择角色
         C2SChooseLocation =         2005,           //客户端选位置
+        C2SDeleteItem =             2006,           //客户端丢弃物品
     }
 }
