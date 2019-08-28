@@ -29,7 +29,7 @@ namespace GameServer
             S2CSendClientId s2CSendClientId = new S2CSendClientId();
             s2CSendClientId.clientId = clientId;
             s2CSendClientId.playerId = playerId;
-            SendData.instance.SendMessage(clientId, (int)messageType.S2CSendClientId, s2CSendClientId);
+            SendData.instance.Broadcast((int)messageType.S2CSendClientId, s2CSendClientId);
         }
 
         //发送服务器分配的charId
