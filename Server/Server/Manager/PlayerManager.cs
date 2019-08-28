@@ -10,6 +10,7 @@ namespace GameServer
 
         public Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
         public Stack<int> playerPool = new Stack<int>();
+        public int chooseCharCount = 0;
         public int chooseLocationCount = 0;
 
         //创建玩家

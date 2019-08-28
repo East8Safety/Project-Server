@@ -103,7 +103,8 @@ namespace GameServer
             var player = PlayerManager.instance.GetPlayer(playerId);
             PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
             SendCharId(clientId, c2SChooseChar.charId);
-            if (PlayerManager.instance.playerDic.Keys.Count >= ReadJson.instance.charCountToStart)
+            PlayerManager.instance.chooseCharCount++;
+            if (PlayerManager.instance.chooseCharCount >= ReadJson.instance.charCountToStart)
             {
                 SendAllCharId();
             }
