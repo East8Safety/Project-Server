@@ -23,26 +23,33 @@ namespace GameClient
 
         public void Send()
         {
-            Message msg;
-            lock (Client.instance.messageWaited)
+            try
             {
-                msg = Client.instance.messageWaited.Dequeue();
-                if (msg == null)
+                Message msg;
+                lock (Client.instance.messageWaited)
                 {
-                    return;
+                    msg = Client.instance.messageWaited.Dequeue();
+                    if (msg == null)
+                    {
+                        return;
+                    }
+                }
+
+                byte[] data = NetCode.Instance.Encode(msg.clientId, msg.messageType, msg.msg);
+                int count = data.Length / Client.size;
+                int len = Client.size;
+                for (int i = 0; i < count + 1; i++)
+                {
+                    if (i == count)
+                    {
+                        len = data.Length - i * Client.size;
+                    }
+                    Client.instance.socket.Send(data, i * Client.size, len, SocketFlags.None);
                 }
             }
-
-            byte[] data = NetCode.Instance.Encode(msg.clientId, msg.messageType, msg.msg);
-            int count = data.Length / Client.size;
-            int len = Client.size;
-            for (int i = 0; i < count + 1; i++)
+            catch (Exception)
             {
-                if (i == count)
-                {
-                    len = data.Length - i * Client.size;
-                }
-                Client.instance.socket.Send(data, i * Client.size, len, SocketFlags.None);
+
             }
         }
 

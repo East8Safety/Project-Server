@@ -14,6 +14,8 @@ namespace GameClient
         static void Main(string[] args)
         {
             Client.instance.Connect("127.0.0.1", 35353);
+            Console.ReadKey();
+            /*
             Client.instance.ThreadSendStart();
             Client.instance.ThreadReceiveStart();
 
@@ -91,7 +93,7 @@ namespace GameClient
             //    }
 
             //    Thread.Sleep(10);
-            //}
+            //}*/
         }
     }
 }
