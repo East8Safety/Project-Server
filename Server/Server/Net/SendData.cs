@@ -58,7 +58,15 @@ namespace GameServer
                 {
                     len = data.Length - i * Client.size;
                 }
-                client.socket.Send(data, i * Client.size, len, SocketFlags.None);
+                try
+                {
+                    client.socket.Send(data, i * Client.size, len, SocketFlags.None);
+                }
+                catch (Exception e)
+                {
+                    ConsoleLog.instance.Info(string.Format("客户端掉线: clientId {0}", client.clientId));
+                }
+                
             }
         }
 

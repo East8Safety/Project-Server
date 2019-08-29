@@ -51,24 +51,7 @@ namespace GameServer
 
             while (true)
             {
-                lock (clientPools)
-                {
-                    var keys = new List<int>(clientPools.Keys);
-                    foreach (var key in keys)
-                    {
-                        var client = clientPools[key];
-                        if (!client.socket.Connected)
-                        {
-                            int playerId = clientId2PlayerId[client.clientId];
-                            PlayerManager.instance.playerDic.Remove(playerId);
-                            clientId2PlayerId.Remove(client.clientId);
 
-                            client.socket.Close();
-                            client = null;
-                            clientPools.Remove(key);
-                        }
-                    }
-                }
             }
         }
 

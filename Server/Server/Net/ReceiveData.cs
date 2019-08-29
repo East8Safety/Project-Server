@@ -27,9 +27,9 @@ namespace GameServer
         //接收完回调
         public void EndReceive(IAsyncResult result)
         {
+            Client client = result.AsyncState as Client;
             try
             {
-                Client client = result.AsyncState as Client;
                 //获取消息的长度
                 int len = client.socket.EndReceive(result);
                 if (len > 0)
@@ -44,12 +44,29 @@ namespace GameServer
                     
                     BeginReceive(client);
                 }
-
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                ConsoleLog.instance.Info(string.Format("客户端掉线: clientId {0}", client.clientId));
+                DeleteClient(client);
             }
+        }
+
+        public void DeleteClient(Client client)
+        {
+            lock (PlayerManager.instance)
+            {
+                int playerId = Server.instance.clientId2PlayerId[client.clientId];
+                PlayerManager.instance.playerDic.Remove(playerId);
+                PlayerManager.instance.DeletePlayer(playerId);
+            }
+            lock (Server.instance)
+            {
+                Server.instance.clientId2PlayerId.Remove(client.clientId);
+                Server.instance.clientPools.Remove(client.clientId);
+            }
+            client.socket.Close();
+            client = null;
         }
 
         //读取接收的消息
