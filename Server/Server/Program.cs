@@ -6,7 +6,7 @@ namespace GameServer
     {
         static void Main(string[] args)
         {
-            ReadJson.instance.ReadConfig();
+            ReadConfig.instance.Read();
             Server.instance.Init();
             ThreadManager.instance.AllThreadStart();
         }

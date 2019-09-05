@@ -104,7 +104,7 @@ namespace GameServer
             PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
             SendCharId(clientId, c2SChooseChar.charId);
             PlayerManager.instance.chooseCharCount++;
-            if (PlayerManager.instance.chooseCharCount >= ReadJson.instance.charCountToStart)
+            if (PlayerManager.instance.chooseCharCount >= ReadConfig.instance.charCountToStart)
             {
                 SendAllCharId();
             }
@@ -116,7 +116,7 @@ namespace GameServer
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
             PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
             PlayerManager.instance.chooseLocationCount++;
-            if (PlayerManager.instance.chooseLocationCount >= ReadJson.instance.charCountToStart)
+            if (PlayerManager.instance.chooseLocationCount >= ReadConfig.instance.charCountToStart)
             {
                 SendAllLocation();
                 GameStart();
@@ -203,7 +203,7 @@ namespace GameServer
         //游戏开始
         public void GameStart()
         {
-            Timer timer = new Timer(new TimerCallback(GameStartTrigger), null, ReadJson.instance.gameStartDelay * 1000, Timeout.Infinite);
+            Timer timer = new Timer(new TimerCallback(GameStartTrigger), null, ReadConfig.instance.gameStartDelay * 1000, Timeout.Infinite);
         }
 
         public void GameStartTrigger(object state)
