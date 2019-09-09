@@ -201,7 +201,8 @@ namespace GameServer
         //游戏开始
         public void GameStart()
         {
-            Timer timer = new Timer(new TimerCallback(GameStartTrigger), null, ReadConfig.instance.gameStartDelay * 1000, Timeout.Infinite);
+            //Timer timer = new Timer(new TimerCallback(GameStartTrigger), null, ReadConfig.instance.gameStartDelay * 1000, Timeout.Infinite);
+            GameStartTrigger(null);
         }
 
         public void GameStartTrigger(object state)

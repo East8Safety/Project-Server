@@ -44,7 +44,7 @@ namespace GameServer
             groundMap.width = width;
             groundMap.height = height;
             groundMapGuid++;
-            groundMap.itemMap = new int[width, height];
+            groundMap.groundMap = new int[width, height];
             return groundMap;
         }
 

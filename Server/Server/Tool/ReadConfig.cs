@@ -13,7 +13,7 @@ namespace GameServer
         public static readonly ReadConfig instance = new ReadConfig();
 
         public int[,] map = new int[10, 10];
-        public int charCountToStart = 4;
+        public int charCountToStart = 1;
         public int gameStartDelay = 3;
         public float cellSize = 10;
 
