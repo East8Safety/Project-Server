@@ -161,6 +161,13 @@ namespace GameServer
         public int itemId { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CPlayerCount
+    {
+        [ProtoMember(1)]
+        public int playerCount { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage

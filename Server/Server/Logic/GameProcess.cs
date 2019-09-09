@@ -19,6 +19,7 @@ namespace GameServer
                 PlayerManager.instance.CreatePlayer(clientId);
                 //发送clientId和playerId
                 SendClientId(clientId);
+                SendPlayerCount(PlayerManager.instance.playerDic.Count);
             });
         }
 
@@ -296,6 +297,14 @@ namespace GameServer
             s2CUseItem.playerId = playerId;
             s2CUseItem.itemId = itemId;
             SendData.instance.Broadcast((int)messageType.S2CUseItem, s2CUseItem);
+        }
+
+        //发送服务器人数
+        public void SendPlayerCount(int playerCount)
+        {
+            S2CPlayerCount s2CPlayerCount = new S2CPlayerCount();
+            s2CPlayerCount.playerCount = playerCount;
+            SendData.instance.Broadcast((int)messageType.S2CPlayerCount, s2CPlayerCount);
         }
     }
 }
