@@ -11,4 +11,12 @@ namespace GameServer
         public int height { get; set; }
         public int[,] itemMap { get; set; }
     }
+
+    public class GroundMap
+    {
+        public int mapId { get; set; }
+        public int width { get; set; }
+        public int height { get; set; }
+        public int[,] groundMap { get; set; }
+    }
 }

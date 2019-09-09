@@ -73,6 +73,7 @@ namespace GameServer
                 }
                 if (gameMap.gameMap[i, bomb.z] >= 1 && gameMap.gameMap[i, bomb.z] <= 1000)
                 {
+                    GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
                     MapController.instance.Damage(gameMap, i, bomb.z, bomb.damage);
                 }
                 else if (gameMap.gameMap[i, bomb.z] >= 10001)

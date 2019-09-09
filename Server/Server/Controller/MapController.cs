@@ -11,6 +11,7 @@ namespace GameServer
         //地图自增Id
         public static int Guid = 0;
         public static int itemMapGuid = 0;
+        public static int groundMapGuid = 0;
 
         //创建地图
         public GameMap Create(int width, int height)
@@ -34,6 +35,17 @@ namespace GameServer
             itemMapGuid++;
             itemMap.itemMap = new int[width, height];
             return itemMap;
+        }
+
+        public GroundMap CreateGroundMap(int width, int height)
+        {
+            GroundMap groundMap = new GroundMap();
+            groundMap.mapId = itemMapGuid;
+            groundMap.width = width;
+            groundMap.height = height;
+            groundMapGuid++;
+            groundMap.itemMap = new int[width, height];
+            return groundMap;
         }
 
         //初始化地图
@@ -60,12 +72,24 @@ namespace GameServer
             }
         }
 
-        //地形收到伤害
-        public void Damage(GameMap gameMap, int x, int z, int damage)
+        public void InitGroundMap(GroundMap groundMap, int width, int height)
         {
-            if(gameMap.gameMap[x, z] - damage <= 0)
+            for (int i = 0; i < width; i++)
             {
-                var itemMap = GameMapManager.instance.GetItemMap(gameMap.mapId);
+                for (int j = 0; j < height; j++)
+                {
+                    groundMap.groundMap[i, j] = 100;
+                }
+            }
+        }
+
+        //地形收到伤害
+        public void Damage(GroundMap groundMap, int x, int z, int damage)
+        {
+            var gameMap = GameMapManager.instance.GetGameMap(0);
+            if (groundMap.groundMap[x, z] - damage <= 0)
+            {
+                var itemMap = GameMapManager.instance.GetItemMap(0);
                 if (itemMap.itemMap[x, z] >= 2001 && itemMap.itemMap[x, z] <= 3000)
                 {
                     gameMap.gameMap[x, z] = itemMap.itemMap[x, z];
@@ -80,7 +104,7 @@ namespace GameServer
             }
             else
             {
-                gameMap.gameMap[x, z] -= damage;
+                groundMap.groundMap[x, z] -= damage;
                 GameProcess.instance.SendCellChange(gameMap.mapId, x, z, gameMap.gameMap[x, z]);
                 ConsoleLog.instance.Info(string.Format("地形收到伤害 位置:{0},{1} 伤害量{2}", x, z, damage));
             }
