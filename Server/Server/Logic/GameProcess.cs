@@ -60,7 +60,6 @@ namespace GameServer
                 {
                     ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
                     MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
-                    SendMapChange(cellX, cellZ, 0);
                     SendGetItem(playerId, gameMap.gameMap[cellX, cellZ], 1);
                 }
 
@@ -82,8 +81,6 @@ namespace GameServer
 
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             MapController.instance.SetMapValue(gameMap, x, z, bomb.id);
-
-            SendMapChange(x, z, bomb.id);
 
             ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},泡泡位置: {1} {2}", weaponId, x, z));
 

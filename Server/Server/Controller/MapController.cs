@@ -90,6 +90,7 @@ namespace GameServer
         public void SetMapValue(GameMap gameMap, int x, int z, int value)
         {
             gameMap.gameMap[x, z] = value;
+            GameProcess.instance.SendMapChange(x, z, value);
         }
 
         public int[] GetEmptyCell(Player player, GameMap gameMap, int itemId)
