@@ -10,7 +10,7 @@ namespace GameServer
         public static readonly BombController instance = new BombController();
 
         public Dictionary<int, int> playerId2Damage = new Dictionary<int, int>();
-        private int bombGuid = 3001;
+        private int bombGuid = 100001;
 
         public Bomb Create(int weaponId, int x, int z)
         {
@@ -45,7 +45,6 @@ namespace GameServer
             bomb.timer.Change(Timeout.Infinite, Timeout.Infinite);
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             MapController.instance.SetMapValue(gameMap, bomb.x, bomb.z, 0);
-            GameProcess.instance.SendMapChange(bomb.x, bomb.z, 0);
             ConsoleLog.instance.Info(string.Format("泡泡爆炸,武器Id: {0},泡泡位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
 
             for (int i = bomb.x - bomb.damageX; i < bomb.x + 1 + bomb.damageX; i++)
