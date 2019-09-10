@@ -12,7 +12,9 @@ namespace GameServer
     {
         public static readonly ReadConfig instance = new ReadConfig();
 
-        public int[,] map = new int[10, 10];
+        public static int mapWidth = 48;
+        public static int mapHight = 48;
+        public int[,] map;
         public int charCountToStart = 1;
         public int gameStartDelay = 3;
         public float cellSize = 10;
@@ -28,6 +30,8 @@ namespace GameServer
 
         public void ReadMap()
         {
+            map = new int[mapWidth, mapHight];
+
             string path = "../../../Config/map.txt";
             StreamReader reader = new StreamReader(path);
             string line = "";
@@ -39,9 +43,9 @@ namespace GameServer
 
             var mapArray = mapStr.Split('|');
             int x = 0;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < mapWidth; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < mapHight; j++)
                 {
                     map[i, j] = int.Parse(mapArray[x]);
                     x++;

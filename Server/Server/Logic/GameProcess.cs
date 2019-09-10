@@ -62,6 +62,8 @@ namespace GameServer
                     ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
                     MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
                     SendGetItem(playerId, gameMap.gameMap[cellX, cellZ], 1);
+
+                    ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, gameMap.gameMap[cellX, cellZ]));
                 }
 
                 player.locationX += model.x;
@@ -101,10 +103,12 @@ namespace GameServer
             var player = PlayerManager.instance.GetPlayer(playerId);
             PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
             SendCharId(clientId, c2SChooseChar.charId);
+            ConsoleLog.instance.Info(string.Format("Player {0} 选择角色 {1}", player.playerId, c2SChooseChar.charId));
             PlayerManager.instance.chooseCharCount++;
             if (PlayerManager.instance.chooseCharCount >= ReadConfig.instance.charCountToStart)
             {
                 SendAllCharId();
+                ConsoleLog.instance.Info(string.Format("所有人选人完毕"));
             }
         }
 
@@ -113,10 +117,12 @@ namespace GameServer
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
             PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
+            ConsoleLog.instance.Info(string.Format("Player {0} 选位置 {1},{2}", player.playerId, c2SChooseLocation.x, c2SChooseLocation.z));
             PlayerManager.instance.chooseLocationCount++;
             if (PlayerManager.instance.chooseLocationCount >= ReadConfig.instance.charCountToStart)
             {
                 SendAllLocation();
+                ConsoleLog.instance.Info("所有人选位置完毕");
                 GameStart();
             }
         }
@@ -213,6 +219,7 @@ namespace GameServer
                 s2CGameStart.placeholder = 0;
                 SendData.instance.Broadcast((int)messageType.S2CGameStart, s2CGameStart);
                 ServerUpdate.isSendLocation = true;
+                ConsoleLog.instance.Info("游戏开始");
             });
         }
 
@@ -271,6 +278,11 @@ namespace GameServer
                 SendMapChange(ret[0], ret[1], c2SDeleteItem.itemId);
                 ItemController.instance.ChangeItemCount(player, c2SDeleteItem.itemId, -1);
                 SendDeleteItem(ret[0], ret[1], player.playerId, c2SDeleteItem.itemId, 1);
+                ConsoleLog.instance.Info(string.Format("Player {0} 丢弃道具 {1}, 位置 {2},{3}", player.playerId, c2SDeleteItem.itemId, ret[0], ret[1]));
+            }
+            else
+            {
+                ConsoleLog.instance.Info(string.Format("Player {0} 没有道具 {1}", player.playerId, c2SDeleteItem.itemId));
             }
         }
 
@@ -289,6 +301,7 @@ namespace GameServer
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
             ItemController.instance.UseItem(player, c2SUseItem.itemId);
+            ConsoleLog.instance.Info(string.Format("Player {0} 使用道具 {1}", player.playerId, c2SUseItem.itemId));
             SendUseItem(player.playerId, c2SUseItem.itemId);
         }
 
@@ -306,6 +319,8 @@ namespace GameServer
             S2CPlayerCount s2CPlayerCount = new S2CPlayerCount();
             s2CPlayerCount.playerCount = playerCount;
             SendData.instance.Broadcast((int)messageType.S2CPlayerCount, s2CPlayerCount);
+
+            ConsoleLog.instance.Info(string.Format("服务器人数:{0}", playerCount));
         }
     }
 }
