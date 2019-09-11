@@ -74,8 +74,18 @@ namespace GameServer
         }
 
         //客户端攻击
-        public void ClientAttack(C2SAttack data)
+        public void ClientAttack(int clientId, C2SAttack data)
         {
+            int playerId = Server.instance.GetPlayerId(clientId);
+            var player = PlayerManager.instance.GetPlayer(playerId);
+            if (player.bombCount <= 0)
+            {
+                SendBombNone(playerId);
+                return;
+            }
+
+            player.bombCount--;
+
             var weaponId = data.weaponId;
             var x = CDT2Cell.instance.CDT2X(data.locationX);
             var z = CDT2Cell.instance.CDT2Z(data.locationZ);
@@ -94,6 +104,13 @@ namespace GameServer
             s2CAttack.x = x;
             s2CAttack.z = z;
             SendAttack(s2CAttack);
+        }
+
+        public void SendBombNone(int playerId)
+        {
+            S2CBombNone s2CBombNone = new S2CBombNone();
+            s2CBombNone.playerId = playerId;
+            SendData.instance.Broadcast((int)messageType.S2CBombNone, s2CBombNone);
         }
 
         //客户端选人
@@ -123,6 +140,9 @@ namespace GameServer
             {
                 SendAllLocation();
                 ConsoleLog.instance.Info("所有人选位置完毕");
+
+                ReadConfig.instance.SetPlayerLocation(PlayerManager.instance.playerDic);
+                Server.instance.CreateMap();
                 GameStart();
             }
         }

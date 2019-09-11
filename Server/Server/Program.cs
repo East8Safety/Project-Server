@@ -7,7 +7,6 @@ namespace GameServer
         static void Main(string[] args)
         {
             ReadConfig.instance.Read();
-            Server.instance.Init();
             ThreadManager.instance.AllThreadStart();
         }
     }

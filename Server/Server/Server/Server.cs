@@ -90,11 +90,11 @@ namespace GameServer
         }
 
         //服务器初始化
-        public void Init()
+        public void CreateMap()
         {
             //初始化地图
-            GameMapManager.instance.CreateMap(ReadConfig.mapWidth, ReadConfig.mapHight);
-
+            GenerateItem.Generate(ReadConfig.instance.map1, ReadConfig.instance.itemCount, ReadConfig.map1Width, ReadConfig.map1Hight, 1);
+            GameMapManager.instance.CreateMap(ReadConfig.map1Width, ReadConfig.map1Hight, ReadConfig.instance.map1, ReadConfig.instance.itemMap1, ReadConfig.instance.groundMap1);
             ConsoleLog.instance.Info("初始化完毕");
         }
 

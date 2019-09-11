@@ -13,21 +13,24 @@ namespace GameServer
         public Dictionary<int, GroundMap> groundMapDic = new Dictionary<int, GroundMap>();
 
         //创建地图
-        public void CreateMap(int width, int height)
+        public void CreateMap(int width, int height, int[,] configMap, int[,] configItemMap, int[,] configGroundMap)
         {
-            GameMap gameMap = MapController.instance.Create(width, height);
-            ItemMap itemMap = MapController.instance.CreateItemMap(width, height);
-            GroundMap groundMap = MapController.instance.CreateGroundMap(width, height);
+            if (mapDic.Count > 0)
+            {
+                GameMap gameMap = MapController.instance.Create(width, height);
+                ItemMap itemMap = MapController.instance.CreateItemMap(width, height);
+                GroundMap groundMap = MapController.instance.CreateGroundMap(width, height);
 
-            MapController.instance.Init(gameMap, width, height);
-            MapController.instance.InitItemMap(itemMap, width, height);
-            MapController.instance.InitGroundMap(groundMap, width, height);
+                mapDic.TryAdd(gameMap.mapId, gameMap);
+                itemMapDic.TryAdd(itemMap.mapId, itemMap);
+                groundMapDic.TryAdd(groundMap.mapId, groundMap);
+            }
 
-            mapDic.TryAdd(gameMap.mapId, gameMap);
-            itemMapDic.TryAdd(itemMap.mapId, itemMap);
-            groundMapDic.TryAdd(groundMap.mapId, groundMap);
+            MapController.instance.Init(mapDic[0], width, height, configMap);
+            MapController.instance.InitItemMap(itemMapDic[0], width, height, configItemMap);
+            MapController.instance.InitGroundMap(groundMapDic[0], width, height, configGroundMap);
 
-            ConsoleLog.instance.Info(string.Format("创建地图,地图Id: {0}", gameMap.mapId));
+            ConsoleLog.instance.Info(string.Format("创建地图,地图Id: {0}", 0));
         }
 
         //获取GameMap

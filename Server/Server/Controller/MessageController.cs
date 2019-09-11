@@ -25,7 +25,7 @@ namespace GameServer
                     C2SAttack c2SAttack = SerializeFunc.instance.DeSerialize<C2SAttack>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
-                        GameProcess.instance.ClientAttack(c2SAttack);
+                        GameProcess.instance.ClientAttack(msg.clientId, c2SAttack);
                     });
                     break;
                 case (int)messageType.C2SChooseChar:

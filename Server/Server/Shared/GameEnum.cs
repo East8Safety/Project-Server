@@ -23,6 +23,7 @@ namespace GameServer
         S2CGameStart =              1106,           //游戏开始
         S2CSendWinner =             1107,           //发送获胜者
         S2CPlayerCount =            1108,           //发送服务器人数
+        S2CBombNone =               1109,           //泡泡没了
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,           //客户端攻击

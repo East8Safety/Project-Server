@@ -49,36 +49,36 @@ namespace GameServer
         }
 
         //初始化地图
-        public void Init(GameMap gameMap, int width, int height)
+        public void Init(GameMap gameMap, int width, int height, int[,] map)
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    gameMap.gameMap[i, j] = 0;
+                    gameMap.gameMap[i, j] = map[i, j];
                 }
             }
         }
 
         //初始化道具地图
-        public void InitItemMap(ItemMap itemMap, int width, int height)
+        public void InitItemMap(ItemMap itemMap, int width, int height, int[,] map)
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    itemMap.itemMap[i, j] = 0;
+                    itemMap.itemMap[i, j] = map[i, j];
                 }
             }
         }
 
-        public void InitGroundMap(GroundMap groundMap, int width, int height)
+        public void InitGroundMap(GroundMap groundMap, int width, int height, int[,] map)
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    groundMap.groundMap[i, j] = 100;
+                    groundMap.groundMap[i, j] = map[i, j];
                 }
             }
         }

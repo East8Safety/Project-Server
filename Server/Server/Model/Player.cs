@@ -17,6 +17,7 @@ namespace GameServer
         public int HP { get; set; }
         public float speed { get; set; }
         public int weaponInHand { get; set; }
+        public int bombCount { get; set; }
 
         public Dictionary<int, int> itemId2Count { get; set; }
     }
