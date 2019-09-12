@@ -6,7 +6,7 @@ namespace GameServer
 {
     public class GenerateItem
     {
-        static Random random = new Random();
+        public static Random random = new Random();
 
         public static void Generate(int[,] map, Dictionary<int, int> itemCount, int width, int hight, int mapId)
         {

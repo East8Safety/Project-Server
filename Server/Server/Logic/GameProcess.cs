@@ -10,6 +10,8 @@ namespace GameServer
     {
         public static readonly GameProcess instance = new GameProcess();
 
+        private Timer chooseLocationTimer;
+
         //客户端连接之后执行任务
         public void AfterConnect(int clientId)
         {
@@ -57,7 +59,7 @@ namespace GameServer
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(cellX, cellZ))
             {
-                if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)
+                if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)  // get item
                 {
                     ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
                     MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
@@ -90,7 +92,7 @@ namespace GameServer
             var x = CDT2Cell.instance.CDT2X(data.locationX);
             var z = CDT2Cell.instance.CDT2Z(data.locationZ);
 
-            Bomb bomb = BombManager.instance.CreateBomb(weaponId, x, z);
+            Bomb bomb = BombManager.instance.CreateBomb(player, x, z);
 
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             MapController.instance.SetMapValue(gameMap, x, z, bomb.id);
@@ -125,6 +127,7 @@ namespace GameServer
             if (PlayerManager.instance.chooseCharCount >= ReadConfig.instance.charCountToStart)
             {
                 SendAllCharId();
+                chooseLocationTimer = new Timer(new TimerCallback(GameStartTrigger), null, ReadConfig.instance.timeToChooseLocation * 1000, Timeout.Infinite);
                 ConsoleLog.instance.Info(string.Format("所有人选人完毕"));
             }
         }
@@ -134,17 +137,10 @@ namespace GameServer
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
             PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
+            SendAllLocation();
             ConsoleLog.instance.Info(string.Format("Player {0} 选位置 {1},{2}", player.playerId, c2SChooseLocation.x, c2SChooseLocation.z));
-            PlayerManager.instance.chooseLocationCount++;
-            if (PlayerManager.instance.chooseLocationCount >= ReadConfig.instance.charCountToStart)
-            {
-                SendAllLocation();
-                ConsoleLog.instance.Info("所有人选位置完毕");
 
-                ReadConfig.instance.SetPlayerLocation(PlayerManager.instance.playerDic);
-                Server.instance.CreateMap();
-                GameStart();
-            }
+            ReadConfig.instance.SetPlayerLocation(player);
         }
 
         //发送所有charId
@@ -178,8 +174,14 @@ namespace GameServer
                 InitLocation initLocation = new InitLocation();
                 var playerId = item.Key;
                 var player = item.Value;
-                initLocation.x = (int)player.locationX;
-                initLocation.z = (int)player.locationZ;
+                if (player.x == -1)
+                {
+                    continue;
+                }
+                initLocation.locatinX = player.locationX;
+                initLocation.locatinZ = player.locationZ;
+                initLocation.x = player.x;
+                initLocation.z = player.z;
                 s2CAllLocation.allLocation.TryAdd(playerId, initLocation);
             }
 
@@ -203,8 +205,11 @@ namespace GameServer
         }
 
         //发送血量变化
-        public void SendHPChange(S2CHPChange s2CHPChange)
+        public void SendHPChange(Player player)
         {
+            S2CHPChange s2CHPChange = new S2CHPChange();
+            s2CHPChange.playerId = player.playerId;
+            s2CHPChange.nowHP = player.HP;
             SendData.instance.Broadcast((int)messageType.S2CHPChange, s2CHPChange);
             //foreach (var item in Server.instance.clientPools)
             //{
@@ -224,23 +229,43 @@ namespace GameServer
             //}
         }
 
-        //游戏开始
-        public void GameStart()
-        {
-            //Timer timer = new Timer(new TimerCallback(GameStartTrigger), null, ReadConfig.instance.gameStartDelay * 1000, Timeout.Infinite);
-            GameStartTrigger(null);
-        }
-
         public void GameStartTrigger(object state)
         {
             EventManager.instance.AddEvent(()=>
             {
+                SetNoLocationPlayers();
+                Server.instance.CreateMap();
+
                 S2CGameStart s2CGameStart = new S2CGameStart();
                 s2CGameStart.placeholder = 0;
                 SendData.instance.Broadcast((int)messageType.S2CGameStart, s2CGameStart);
                 ServerUpdate.isSendLocation = true;
                 ConsoleLog.instance.Info("游戏开始");
             });
+        }
+
+        public void SetNoLocationPlayers()
+        {
+            foreach (var item in PlayerManager.instance.playerDic)
+            {
+                var player = item.Value;
+                if (player.x == -1)
+                {
+                    while (true)
+                    {
+                        var x = GenerateItem.random.Next(0, 48);
+                        var z = GenerateItem.random.Next(0, 48);
+                        if (ReadConfig.instance.map1[x, z] > 0 && ReadConfig.instance.map1[x, z] <= 1000)
+                        {
+                            PlayerController.instance.SetLocation(player, x, z);
+                            ReadConfig.instance.SetPlayerLocation(player);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            SendAllLocation();
         }
 
         //发送格子血量变化

@@ -12,16 +12,15 @@ namespace GameServer
         public Dictionary<int, int> playerId2Damage = new Dictionary<int, int>();
         private int bombGuid = 100001;
 
-        public Bomb Create(int weaponId, int x, int z)
+        public Bomb Create(Player player, int x, int z)
         {
             Bomb bomb = new Bomb();
             bomb.id = bombGuid;
-            bomb.weaponId = weaponId;
             bomb.x = x;
             bomb.z = z;
             bomb.damageX = 3;
             bomb.damageZ = 3;
-            bomb.damage = 30;
+            bomb.damage = player.damage + 30;
             bombGuid++;
 
             return bomb;

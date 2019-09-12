@@ -6,7 +6,6 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using GameServer.Model;
 
 namespace GameServer
 {
@@ -36,13 +35,14 @@ namespace GameServer
         public List<int[]> mapRandom = new List<int[]>();
         public Dictionary<int, int> itemCount = new Dictionary<int, int>();
         public Dictionary<int, ConfigPlayer> configPlayers = new Dictionary<int, ConfigPlayer>();
+        public int timeToChooseLocation = 0;
+        public Dictionary<int, int> ItemId2Value = new Dictionary<int, int>();
 
         //读取配置文件
         public void Read()
         {
             Init();
             ReadMap();
-            ReadOther();
             ReadXML();
 
             ConsoleLog.instance.Info("配置读取完毕");
@@ -122,20 +122,30 @@ namespace GameServer
             }
         }
 
-        public void ReadOther()
+        public void SetPlayerLocation(Player player)
         {
-            Table.ItemId2Damage.TryAdd(2001, 30);
-        }
+            var x = player.x;
+            var z = player.z;
 
-        public void SetPlayerLocation(Dictionary<int, Player> playerDic)
-        {
-            foreach (var item in playerDic)
+            if (player.xBefore == x && player.zBefore == z)
             {
-                var player = item.Value;
-                var x = player.x;
-                var z = player.z;
-                map1[x, z] = 0;
+                return;
             }
+
+            if (player.mapValueBefore == -1)
+            {
+                player.xBefore = x;
+                player.zBefore = z;
+                player.mapValueBefore = map1[x, z];
+                map1[x, z] = 0;
+                return;
+            }
+            
+            map1[player.xBefore, player.zBefore] = player.mapValueBefore;
+            player.xBefore = x;
+            player.zBefore = z;
+            player.mapValueBefore = map1[x, z];
+            map1[x, z] = 0;
         }
 
         public static void ReadXML()
@@ -146,6 +156,7 @@ namespace GameServer
             XmlElement rootElem = doc.DocumentElement;
             XmlNodeList ItemMapNodes = rootElem.GetElementsByTagName("ItemMap");
             XmlNodeList CharNodes = rootElem.GetElementsByTagName("Char");
+            XmlNodeList ItemNodes = rootElem.GetElementsByTagName("Item");
 
             foreach (var item in ItemMapNodes)
             {
@@ -173,6 +184,13 @@ namespace GameServer
                 configPlayer.damage = damage;
                 configPlayer.damageMax = damageMax;
                 ReadConfig.instance.configPlayers.Add(charid, configPlayer);
+            }
+
+            foreach (var item in ItemNodes)
+            {
+                int id = int.Parse(((XmlElement)item).GetAttribute("id"));
+                int value = int.Parse(((XmlElement)item).GetAttribute("value"));
+                ReadConfig.instance.ItemId2Value.Add(id, value);
             }
         }
     }

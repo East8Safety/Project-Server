@@ -24,8 +24,12 @@ namespace GameServer
     public class InitLocation
     {
         [ProtoMember(1)]
-        public int x { get; set; }
+        public float locatinX { get; set; }
         [ProtoMember(2)]
+        public float locatinZ { get; set; }
+        [ProtoMember(3)]
+        public int x { get; set; }
+        [ProtoMember(4)]
         public int z { get; set; }
     }
 

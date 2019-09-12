@@ -17,19 +17,19 @@ namespace GameServer
             Player player = new Player { itemId2Count = new Dictionary<int, int>() };
             playerGuid++;
             player.playerId = playerGuid;
-            player.HP = 100;
             return player;
         }
 
         //初始化玩家
         public void Init(Player player)
         {
-            player.x = 0;
-            player.z = 0;
+            player.x = -1;
+            player.z = -1;
             player.locationX = 0;
             player.locationZ = 0;
-            player.HP = 100;
-            player.speed = 1;
+            player.mapValueBefore = -1;
+            player.xBefore = -1;
+            player.zBefore = -1;
         }
 
         //玩家受到伤害
@@ -53,26 +53,31 @@ namespace GameServer
                 return;
             }
 
-            S2CHPChange s2CHPChange = new S2CHPChange();
-            s2CHPChange.playerId = player.playerId;
-            s2CHPChange.nowHP = player.HP;
-            GameProcess.instance.SendHPChange(s2CHPChange);
+            GameProcess.instance.SendHPChange(player);
             ConsoleLog.instance.Info(string.Format("玩家收到伤害 playerId:{0} 伤害值:{1}", player.playerId, damage));
         }
 
         //设置玩家位置
-        public void SetLocation(Player player, float x, float z)
+        public void SetLocation(Player player, int x, int z)
         {
-            player.locationX = x;
-            player.locationZ = z;
-            player.x = CDT2Cell.instance.CDT2X(x);
-            player.z = CDT2Cell.instance.CDT2Z(z);
+            player.x = x;
+            player.z = z;
+            player.locationX = CDT2Cell.instance.CDX2T(x);
+            player.locationZ = CDT2Cell.instance.CDZ2T(z);
         }
 
         //设置玩家
         public void SetCharId(Player player, int charId)
         {
             player.charId = charId;
+
+            ConfigPlayer configPlayer = ReadConfig.instance.configPlayers[charId];
+            player.HP = configPlayer.hp;
+            player.HPMax = configPlayer.hpMax;
+            player.speed = configPlayer.speed;
+            player.speedMax = configPlayer.speedMax;
+            player.damage = configPlayer.damage;
+            player.damageMax = configPlayer.damageMax;
         }
     }
 }

@@ -15,9 +15,16 @@ namespace GameServer
         public float locationZ { get; set; }
 
         public int HP { get; set; }
+        public int HPMax { get; set; }
         public float speed { get; set; }
+        public float speedMax { get; set; }
+        public int damage { get; set; }
+        public int damageMax { get; set; }
         public int weaponInHand { get; set; }
         public int bombCount { get; set; }
+        public int xBefore { get; set; }
+        public int zBefore { get; set; }
+        public int mapValueBefore { get; set; }
 
         public Dictionary<int, int> itemId2Count { get; set; }
     }

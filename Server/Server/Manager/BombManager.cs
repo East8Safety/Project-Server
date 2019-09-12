@@ -10,9 +10,9 @@ namespace GameServer
 
         private Dictionary<int, Bomb> bombDic = new Dictionary<int, Bomb>();
 
-        public Bomb CreateBomb(int weaponId, int x, int z)
+        public Bomb CreateBomb(Player player, int x, int z)
         {
-            Bomb bomb = BombController.instance.Create(weaponId, x, z);
+            Bomb bomb = BombController.instance.Create(player, x, z);
             AddBomb(bomb.id, bomb);
             return bomb;
         }

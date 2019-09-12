@@ -19,7 +19,7 @@ namespace GameServer
         {
             if (!player.itemId2Count.ContainsKey(itemId))
             {
-                player.itemId2Count[itemId] = count;
+                player.itemId2Count[itemId] = count; 
                 if (player.itemId2Count[itemId] <= 0)
                 {
                     player.itemId2Count.Remove(itemId);
@@ -47,6 +47,27 @@ namespace GameServer
         public void UseItem(Player player, int itemId)
         {
             ChangeItemCount(player, itemId, -1);
+
+            switch (itemId)
+            {
+                case 2001:
+                    var hp = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.HP + hp) > player.HPMax)
+                    {
+                        player.HP = player.HPMax;
+                    }
+                    else
+                    {
+                        player.HP += hp;
+                    }
+                    GameProcess.instance.SendHPChange(player);
+                    break;
+                case 2002:
+
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

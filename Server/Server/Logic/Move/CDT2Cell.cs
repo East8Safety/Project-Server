@@ -41,5 +41,15 @@ namespace GameServer
 
             return boxZ;
         }
+
+        public float CDX2T(int x)
+        {
+            return x * ReadConfig.instance.cellSize + (int)ReadConfig.instance.cellSize / 2;
+        }
+
+        public float CDZ2T(int z)
+        {
+            return z * ReadConfig.instance.cellSize + (int)ReadConfig.instance.cellSize / 2;
+        }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServer.Model
+namespace GameServer
 {
     public class ConfigPlayer
     {
@@ -11,7 +11,7 @@ namespace GameServer.Model
         public int hpMax { get; set; }
         public int speed { get; set; }
         public int speedMax { get; set; }
-        public float damage { get; set; }
-        public float damageMax { get; set; }
+        public int damage { get; set; }
+        public int damageMax { get; set; }
     }
 }

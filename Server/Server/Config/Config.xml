@@ -3,6 +3,9 @@
 	<ItemMap id="2001" count="10"/>
 	<ItemMap id="2002" count="20"/>
 
+	<Item id="2001" value="20"/>
+	<Item id="2002" value="10"/>
+
 	<Char charid="1" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>
 	<Char charid="2" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>
 	<Char charid="3" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>
