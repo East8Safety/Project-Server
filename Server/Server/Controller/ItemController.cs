@@ -15,38 +15,45 @@ namespace GameServer
             return item;
         }
 
-        public void ChangeItemCount(Player player, int itemId, int count)
+        public void AddItem(Player player, int itemId, int count)
         {
-            if (!player.itemId2Count.ContainsKey(itemId))
+            if (player.index2ItemId.Count >= 6)
             {
-                player.itemId2Count[itemId] = count; 
-                if (player.itemId2Count[itemId] <= 0)
-                {
-                    player.itemId2Count.Remove(itemId);
-                }
                 return;
             }
 
-            player.itemId2Count[itemId] += count;
-
-            if(player.itemId2Count[itemId] <= 0)
+            for (int i = 0; i < 6; i++)
             {
-                player.itemId2Count.Remove(itemId);
+                if (!player.index2ItemId.ContainsKey(i))
+                {
+                    player.index2ItemId[i] = itemId;
+                    return;
+                }
             }
         }
 
-        public bool IsHaveItem(Player player, int itemId)
+        public void DeleteItem(Player player, int index)
         {
-            if (player.itemId2Count.ContainsKey(itemId))
+            if (!player.index2ItemId.ContainsKey(index))
+            {
+                return;
+            }
+
+            player.index2ItemId.Remove(index);
+        }
+
+        public bool IsHaveItem(Player player, int index)
+        {
+            if (player.index2ItemId.ContainsKey(index))
             {
                 return true;
             }
             return false;
         }
 
-        public void UseItem(Player player, int itemId)
+        public void UseItem(Player player, int index, int itemId)
         {
-            ChangeItemCount(player, itemId, -1);
+            DeleteItem(player, index);
 
             switch (itemId)
             {
@@ -62,8 +69,9 @@ namespace GameServer
                     }
                     GameProcess.instance.SendHPChange(player);
                     break;
-                case 2002:
-
+                case 2004:
+                    var shieldValue = ReadConfig.instance.ItemId2Value[itemId];
+                    player.shield = shieldValue;
                     break;
                 default:
                     break;

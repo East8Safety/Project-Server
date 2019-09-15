@@ -15,6 +15,8 @@ namespace GameServer
         S2CHPChange =               1007,           //血量变化
         S2CDie =                    1008,           //角色死亡
         S2CCellChange =             1009,           //地形变化
+        S2CSyncItem =               1010,           //同步物品
+        S2CSyncState =              1011,           //同步状态
 
         S2CSendCharId =             1102,           //发送charId
         S2CSendClientId =           1103,           //发送客户端Id

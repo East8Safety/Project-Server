@@ -11,6 +11,7 @@ namespace GameServer
         public Dictionary<int, GameMap> mapDic = new Dictionary<int, GameMap>();
         public Dictionary<int, ItemMap> itemMapDic = new Dictionary<int, ItemMap>();
         public Dictionary<int, GroundMap> groundMapDic = new Dictionary<int, GroundMap>();
+        public Dictionary<int, Box> boxDic = new Dictionary<int, Box>();
 
         //创建地图
         public void CreateMap(int width, int height, int[,] configMap, int[,] configItemMap, int[,] configGroundMap)

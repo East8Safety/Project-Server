@@ -179,6 +179,22 @@ namespace GameServer
         public int playerId { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CSyncItem
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+        [ProtoMember(2)]
+        public Dictionary<int, int> index2ItemId { get; set; }
+    }
+
+    [ProtoContract]
+    public class S2CSyncState
+    {
+        [ProtoMember(1)]
+        public int a { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage
@@ -225,8 +241,10 @@ namespace GameServer
     public class C2SDeleteItem
     {
         [ProtoMember(1)]
-        public int itemId { get; set; }
+        public int index { get; set; }
         [ProtoMember(2)]
+        public int itemId { get; set; }
+        [ProtoMember(3)]
         public int count { get; set; }
     }
 
@@ -235,6 +253,8 @@ namespace GameServer
     {
         [ProtoMember(1)]
         public int itemId { get; set; }
+        [ProtoMember(2)]
+        public int index { get; set; }
     }
 
     #endregion

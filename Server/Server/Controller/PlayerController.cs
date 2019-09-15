@@ -14,7 +14,7 @@ namespace GameServer
         //创建玩家
         public Player Create()
         {
-            Player player = new Player { itemId2Count = new Dictionary<int, int>() };
+            Player player = new Player { index2ItemId = new Dictionary<int, int>() };
             playerGuid++;
             player.playerId = playerGuid;
             return player;
@@ -35,6 +35,17 @@ namespace GameServer
         //玩家受到伤害
         public void Damage(Player player, int damage)
         {
+            if ((player.shield - damage) > 0)
+            {
+                player.shield -= damage;
+                return;
+            }
+            else if ((player.shield - damage) <= 0)
+            {
+                player.shield = 0;
+                damage -= player.shield;
+            }
+
             player.HP -= damage;
 
             //角色死亡
@@ -45,6 +56,16 @@ namespace GameServer
                 GameProcess.instance.SendCharDie(s2CDie);
                 PlayerManager.instance.DeletePlayer(player.playerId);
                 ConsoleLog.instance.Info(string.Format("玩家死亡 playerId:{0}", player.playerId));
+
+                Box box = new Box() { index2ItemId = new Dictionary<int, int>() };
+                box.boxId = player.playerId;
+                box.x = player.x;
+                box.z = player.z;
+                box.index2ItemId = player.index2ItemId;
+                GameMapManager.instance.boxDic.Add(box.boxId, box);
+                GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+                MapController.instance.SetMapValue(gameMap, player.x, player.z, box.boxId);
+
                 int winnerId = PlayerManager.instance.GetWinner();
                 if (winnerId != 0)
                 {

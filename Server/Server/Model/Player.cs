@@ -20,12 +20,13 @@ namespace GameServer
         public float speedMax { get; set; }
         public int damage { get; set; }
         public int damageMax { get; set; }
-        public int weaponInHand { get; set; }
         public int bombCount { get; set; }
         public int xBefore { get; set; }
         public int zBefore { get; set; }
         public int mapValueBefore { get; set; }
 
-        public Dictionary<int, int> itemId2Count { get; set; }
+        public int shield { get; set; }
+
+        public Dictionary<int, int> index2ItemId { get; set; }
     }
 }

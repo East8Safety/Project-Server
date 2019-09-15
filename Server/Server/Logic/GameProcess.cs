@@ -57,13 +57,13 @@ namespace GameServer
             }
             int cellX = CDT2Cell.instance.CDT2X(player.locationX + model.x);
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
-            if (MoveCal.instance.IsCanMove(cellX, cellZ))
+            if (MoveCal.instance.IsCanMove(player, cellX, cellZ))
             {
                 if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)  // get item
                 {
-                    ItemController.instance.ChangeItemCount(player, gameMap.gameMap[cellX, cellZ], 1);
+                    ItemController.instance.AddItem(player, gameMap.gameMap[cellX, cellZ], 1);
                     MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
-                    SendGetItem(playerId, gameMap.gameMap[cellX, cellZ], 1);
+                    SyncItem(player);
 
                     ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, gameMap.gameMap[cellX, cellZ]));
                 }
@@ -301,6 +301,14 @@ namespace GameServer
             SendData.instance.Broadcast((int)messageType.S2CCellChange, s2CCellChange);
         }
 
+        public void SyncItem(Player player)
+        {
+            S2CSyncItem s2CSyncItem = new S2CSyncItem() { index2ItemId = new Dictionary<int, int>()};
+            s2CSyncItem.playerId = player.playerId;
+            s2CSyncItem.index2ItemId = player.index2ItemId;
+            SendData.instance.Broadcast((int)messageType.S2CSyncItem, s2CSyncItem);
+        }
+
         //发送获得物品
         public void SendGetItem(int playerId, int itemId, int count)
         {
@@ -316,18 +324,19 @@ namespace GameServer
         public void DeleteItem(int clientId, C2SDeleteItem c2SDeleteItem)
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
-            if(ItemController.instance.IsHaveItem(player, c2SDeleteItem.itemId))
+            if(ItemController.instance.IsHaveItem(player, c2SDeleteItem.index))
             {
                 GameMap gameMap = GameMapManager.instance.GetGameMap(0);
                 var ret = MapController.instance.GetEmptyCell(player, gameMap, c2SDeleteItem.itemId);
-                SendMapChange(ret[0], ret[1], c2SDeleteItem.itemId);
-                ItemController.instance.ChangeItemCount(player, c2SDeleteItem.itemId, -1);
-                SendDeleteItem(ret[0], ret[1], player.playerId, c2SDeleteItem.itemId, 1);
-                ConsoleLog.instance.Info(string.Format("Player {0} 丢弃道具 {1}, 位置 {2},{3}", player.playerId, c2SDeleteItem.itemId, ret[0], ret[1]));
+                SendMapChange(ret[0], ret[1], c2SDeleteItem.index);
+                ItemController.instance.DeleteItem(player, c2SDeleteItem.index);
+                SyncItem(player);
+                //SendDeleteItem(ret[0], ret[1], player.playerId, c2SDeleteItem.index, 1);
+                ConsoleLog.instance.Info(string.Format("Player {0} 丢弃道具 {1}, 位置 {2},{3}", player.playerId, c2SDeleteItem.index, ret[0], ret[1]));
             }
             else
             {
-                ConsoleLog.instance.Info(string.Format("Player {0} 没有道具 {1}", player.playerId, c2SDeleteItem.itemId));
+                ConsoleLog.instance.Info(string.Format("Player {0} 没有道具 {1}", player.playerId, c2SDeleteItem.index));
             }
         }
 
@@ -345,7 +354,8 @@ namespace GameServer
         public void UseItem(int clientId, C2SUseItem c2SUseItem)
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
-            ItemController.instance.UseItem(player, c2SUseItem.itemId);
+            ItemController.instance.UseItem(player, c2SUseItem.index, c2SUseItem.itemId);
+            SyncItem(player);
             ConsoleLog.instance.Info(string.Format("Player {0} 使用道具 {1}", player.playerId, c2SUseItem.itemId));
             SendUseItem(player.playerId, c2SUseItem.itemId);
         }
