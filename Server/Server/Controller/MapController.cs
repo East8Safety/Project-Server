@@ -40,7 +40,7 @@ namespace GameServer
         public GroundMap CreateGroundMap(int width, int height)
         {
             GroundMap groundMap = new GroundMap();
-            groundMap.mapId = itemMapGuid;
+            groundMap.mapId = groundMapGuid;
             groundMap.width = width;
             groundMap.height = height;
             groundMapGuid++;
