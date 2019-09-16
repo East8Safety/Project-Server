@@ -30,6 +30,7 @@ namespace GameServer
             player.mapValueBefore = -1;
             player.xBefore = -1;
             player.zBefore = -1;
+            player.toward = 1;
         }
 
         //玩家受到伤害

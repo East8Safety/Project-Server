@@ -192,7 +192,15 @@ namespace GameServer
     public class S2CSyncState
     {
         [ProtoMember(1)]
-        public int a { get; set; }
+        public int playerId { get; set; }
+        [ProtoMember(2)]
+        public int hp { get; set; }
+        [ProtoMember(3)]
+        public int speed { get; set; }
+        [ProtoMember(4)]
+        public int shield { get; set; }
+        [ProtoMember(5)]
+        public int bombCount { get; set; }
     }
 
     #endregion

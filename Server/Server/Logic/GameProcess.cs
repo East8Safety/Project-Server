@@ -80,32 +80,52 @@ namespace GameServer
         {
             int playerId = Server.instance.GetPlayerId(clientId);
             var player = PlayerManager.instance.GetPlayer(playerId);
-            if (player.bombCount <= 0)
-            {
-                SendBombNone(playerId);
-                return;
-            }
-
-            player.bombCount--;
-
             var weaponId = data.weaponId;
-            var x = CDT2Cell.instance.CDT2X(data.locationX);
-            var z = CDT2Cell.instance.CDT2Z(data.locationZ);
-
-            Bomb bomb = BombManager.instance.CreateBomb(player, x, z);
-
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-            MapController.instance.SetMapValue(gameMap, x, z, bomb.id);
 
-            ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},泡泡位置: {1} {2}", weaponId, x, z));
+            if (weaponId == 0)
+            {
+                switch (player.toward)
+                {
+                    case 1:
 
-            bomb.timer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+            else if (weaponId == 1)
+            {
+                if (player.bombCount <= 0)
+                {
+                    SendBombNone(playerId);
+                    return;
+                }
 
-            S2CAttack s2CAttack = new S2CAttack();
-            s2CAttack.weaponId = weaponId;
-            s2CAttack.x = x;
-            s2CAttack.z = z;
-            SendAttack(s2CAttack);
+                player.bombCount--;
+
+
+                var x = CDT2Cell.instance.CDT2X(data.locationX);
+                var z = CDT2Cell.instance.CDT2Z(data.locationZ);
+
+                Bomb bomb = BombManager.instance.CreateBomb(player, x, z);
+
+                MapController.instance.SetMapValue(gameMap, x, z, bomb.id);
+
+                ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},泡泡位置: {1} {2}", weaponId, x, z));
+
+                bomb.timer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
+
+                S2CAttack s2CAttack = new S2CAttack();
+                s2CAttack.weaponId = weaponId;
+                s2CAttack.x = x;
+                s2CAttack.z = z;
+                SendAttack(s2CAttack);
+            }
         }
 
         public void SendBombNone(int playerId)
@@ -355,7 +375,6 @@ namespace GameServer
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
             ItemController.instance.UseItem(player, c2SUseItem.index, c2SUseItem.itemId);
-            SyncItem(player);
             ConsoleLog.instance.Info(string.Format("Player {0} 使用道具 {1}", player.playerId, c2SUseItem.itemId));
             SendUseItem(player.playerId, c2SUseItem.itemId);
         }
@@ -376,6 +395,18 @@ namespace GameServer
             SendData.instance.Broadcast((int)messageType.S2CPlayerCount, s2CPlayerCount);
 
             ConsoleLog.instance.Info(string.Format("服务器人数:{0}", playerCount));
+        }
+
+        //同步状态
+        public void SyncState(Player player)
+        {
+            S2CSyncState s2CSyncState = new S2CSyncState();
+            s2CSyncState.playerId = player.playerId;
+            s2CSyncState.hp = player.HP;
+            s2CSyncState.speed = player.speed;
+            s2CSyncState.shield = player.shield;
+            s2CSyncState.bombCount = player.bombCount;
+            SendData.instance.Broadcast((int)messageType.S2CSyncState, s2CSyncState);
         }
     }
 }

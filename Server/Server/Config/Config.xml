@@ -2,9 +2,29 @@
 <root>
 	<ItemMap id="2001" count="10"/>
 	<ItemMap id="2002" count="20"/>
+	<ItemMap id="2003" count="20"/>
+	<ItemMap id="2004" count="20"/>
+	<ItemMap id="2005" count="20"/>
+	<ItemMap id="2006" count="20"/>
+	<ItemMap id="2007" count="20"/>
+	<ItemMap id="2008" count="20"/>
+	<ItemMap id="2009" count="20"/>
+	<ItemMap id="2010" count="20"/>
+	<ItemMap id="2011" count="20"/>
+	<ItemMap id="2012" count="20"/>
 
-	<Item id="2001" value="20"/>
-	<Item id="2002" value="10"/>
+	<Item id="2001" value="10"/>
+	<Item id="2002" value="20"/>
+	<Item id="2003" value="30"/>
+	<Item id="2004" value="10"/>
+	<Item id="2005" value="20"/>
+	<Item id="2006" value="30"/>
+	<Item id="2007" value="10"/>
+	<Item id="2008" value="20"/>
+	<Item id="2009" value="30"/>
+	<Item id="2010" value="10"/>
+	<Item id="2011" value="20"/>
+	<Item id="2012" value="30"/>
 
 	<Char charid="1" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>
 	<Char charid="2" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>

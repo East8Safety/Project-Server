@@ -54,24 +54,111 @@ namespace GameServer
         public void UseItem(Player player, int index, int itemId)
         {
             DeleteItem(player, index);
+            GameProcess.instance.SyncItem(player);
 
             switch (itemId)
             {
                 case 2001:
-                    var hp = ReadConfig.instance.ItemId2Value[itemId];
-                    if ((player.HP + hp) > player.HPMax)
+                    var hp1 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.HP + hp1) > player.HPMax)
                     {
                         player.HP = player.HPMax;
                     }
                     else
                     {
-                        player.HP += hp;
+                        player.HP += hp1;
+                    }
+                    GameProcess.instance.SendHPChange(player);
+                    break;
+                case 2002:
+                    var hp2 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.HP + hp2) > player.HPMax)
+                    {
+                        player.HP = player.HPMax;
+                    }
+                    else
+                    {
+                        player.HP += hp2;
+                    }
+                    GameProcess.instance.SendHPChange(player);
+                    break;
+                case 2003:
+                    var hp3 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.HP + hp3) > player.HPMax)
+                    {
+                        player.HP = player.HPMax;
+                    }
+                    else
+                    {
+                        player.HP += hp3;
                     }
                     GameProcess.instance.SendHPChange(player);
                     break;
                 case 2004:
-                    var shieldValue = ReadConfig.instance.ItemId2Value[itemId];
-                    player.shield = shieldValue;
+                    var shieldValue1 = ReadConfig.instance.ItemId2Value[itemId];
+                    player.shield = shieldValue1;
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2005:
+                    var shieldValue2 = ReadConfig.instance.ItemId2Value[itemId];
+                    player.shield = shieldValue2;
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2006:
+                    var shieldValue3 = ReadConfig.instance.ItemId2Value[itemId];
+                    player.shield = shieldValue3;
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2007:
+                    var bombCount1 = ReadConfig.instance.ItemId2Value[itemId];
+                    player.bombCount += bombCount1;
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2008:
+                    var bombCount2 = ReadConfig.instance.ItemId2Value[itemId];
+                    player.bombCount += bombCount2;
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2009:
+                    var bombCount3 = ReadConfig.instance.ItemId2Value[itemId];
+                    player.bombCount += bombCount3;
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2010:
+                    var speedValue1 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.speed + speedValue1) > player.speedMax)
+                    {
+                        player.speed = player.speedMax;
+                    }
+                    else
+                    {
+                        player.speed += speedValue1;
+                    }
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2011:
+                    var speedValue2 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.speed + speedValue2) > player.speedMax)
+                    {
+                        player.speed = player.speedMax;
+                    }
+                    else
+                    {
+                        player.speed += speedValue2;
+                    }
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2012:
+                    var speedValue3 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.speed + speedValue3) > player.speedMax)
+                    {
+                        player.speed = player.speedMax;
+                    }
+                    else
+                    {
+                        player.speed += speedValue3;
+                    }
+                    GameProcess.instance.SyncState(player);
                     break;
                 default:
                     break;

@@ -16,8 +16,8 @@ namespace GameServer
 
         public int HP { get; set; }
         public int HPMax { get; set; }
-        public float speed { get; set; }
-        public float speedMax { get; set; }
+        public int speed { get; set; }
+        public int speedMax { get; set; }
         public int damage { get; set; }
         public int damageMax { get; set; }
         public int bombCount { get; set; }
@@ -26,6 +26,8 @@ namespace GameServer
         public int mapValueBefore { get; set; }
 
         public int shield { get; set; }
+        public int toward { get; set; }
+        public int damageCommon { get; set; }
 
         public Dictionary<int, int> index2ItemId { get; set; }
     }

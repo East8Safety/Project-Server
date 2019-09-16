@@ -76,7 +76,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map1Hight; j++)
                 {
-                    map1[i, j] = int.Parse(mapArray1[x1]);
+                    map1[i, j] = 0;//int.Parse(mapArray1[x1]);
                     x1++;
                 }
             }
@@ -96,7 +96,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map2Hight; j++)
                 {
-                    map2[i, j] = int.Parse(mapArray2[x2]);
+                    map2[i, j] = 0;//int.Parse(mapArray2[x2]);
                     x2++;
                 }
             }
@@ -116,7 +116,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map3Hight; j++)
                 {
-                    map3[i, j] = int.Parse(mapArray3[x3]);
+                    map3[i, j] = 0;//int.Parse(mapArray3[x3]);
                     x3++;
                 }
             }
