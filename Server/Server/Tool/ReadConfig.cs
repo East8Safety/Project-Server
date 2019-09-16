@@ -79,14 +79,22 @@ namespace GameServer
             }
             var mapArray1 = mapStr1.Split('|');
             int x1 = 0;
-            for (int i = map1Width - 1; i >= 0; i--)
+            for (int i = 0; i < map1Width; i++)
             {
                 for (int j = 0; j < map1Hight; j++)
                 {
-                    map1[j, i] = int.Parse(mapArray1[x1]);
+                    map1[i, j] = int.Parse(mapArray1[x1]);
                     x1++;
                 }
             }
+            //for (int i = map1Width - 1; i >= 0; i--)
+            //{
+            //    for (int j = 0; j < map1Hight; j++)
+            //    {
+            //        map1[j, i] = int.Parse(mapArray1[x1]);
+            //        x1++;
+            //    }
+            //}
 
             map2 = new int[map2Width, map2Hight];
             string path2 = "../../../Config/map2.txt";
@@ -99,14 +107,22 @@ namespace GameServer
             }
             var mapArray2 = mapStr2.Split('|');
             int x2 = 0;
-            for (int i = map2Width - 1; i >= 0; i--)
+            for (int i = 0; i < map2Width; i++)
             {
                 for (int j = 0; j < map2Hight; j++)
                 {
-                    map2[j, i] = int.Parse(mapArray2[x2]);
+                    map2[i, j] = int.Parse(mapArray2[x2]);
                     x2++;
                 }
             }
+            //for (int i = map2Width - 1; i >= 0; i--)
+            //{
+            //    for (int j = 0; j < map2Hight; j++)
+            //    {
+            //        map2[j, i] = int.Parse(mapArray2[x2]);
+            //        x2++;
+            //    }
+            //}
 
             map3 = new int[map3Width, map3Hight];
             string path3 = "../../../Config/map3.txt";
@@ -119,14 +135,22 @@ namespace GameServer
             }
             var mapArray3 = mapStr3.Split('|');
             int x3 = 0;
-            for (int i = map3Width - 1; i >= 0; i--)
+            for (int i = 0; i < map3Width; i++)
             {
                 for (int j = 0; j < map3Hight; j++)
                 {
-                    map3[j, i] = int.Parse(mapArray3[x3]);
+                    map1[i, j] = int.Parse(mapArray3[x3]);
                     x3++;
                 }
             }
+            //for (int i = map3Width - 1; i >= 0; i--)
+            //{
+            //    for (int j = 0; j < map3Hight; j++)
+            //    {
+            //        map3[j, i] = int.Parse(mapArray3[x3]);
+            //        x3++;
+            //    }
+            //}
         }
 
         public void SetPlayerLocation(Player player)
