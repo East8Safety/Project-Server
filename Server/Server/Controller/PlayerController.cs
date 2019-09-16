@@ -31,6 +31,8 @@ namespace GameServer
             player.xBefore = -1;
             player.zBefore = -1;
             player.toward = 1;
+            player.damageCommon1 = 99;
+            player.damageCommon2 = 98;
         }
 
         //玩家受到伤害

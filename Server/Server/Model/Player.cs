@@ -27,7 +27,8 @@ namespace GameServer
 
         public int shield { get; set; }
         public int toward { get; set; }
-        public int damageCommon { get; set; }
+        public int damageCommon1 { get; set; }
+        public int damageCommon2 { get; set; }
 
         public Dictionary<int, int> index2ItemId { get; set; }
     }

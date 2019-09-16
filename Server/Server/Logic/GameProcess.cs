@@ -82,23 +82,117 @@ namespace GameServer
             var player = PlayerManager.instance.GetPlayer(playerId);
             var weaponId = data.weaponId;
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
 
-            if (weaponId == 0)
+            if (weaponId == -1)
             {
                 switch (player.toward)
                 {
                     case 1:
-
+                        var x1 = player.x;
+                        var z1 = player.z + 1;
+                        if (z1 < 0 || z1 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x1,z1] > 0 && gameMap.gameMap[x1, z1] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x1, z1, player.damageCommon1);
+                        }
                         break;
                     case 2:
+                        var x2 = player.x + 1;
+                        var z2 = player.z;
+                        if (x2 < 0 || x2 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x2, z2] > 0 && gameMap.gameMap[x2, z2] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x2, z2, player.damageCommon1);
+                        }
                         break;
                     case 3:
+                        var x3 = player.x;
+                        var z3 = player.z - 1;
+                        if (z3 < 0 || z3 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x3, z3] > 0 && gameMap.gameMap[x3, z3] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x3, z3, player.damageCommon1);
+                        }
                         break;
                     case 4:
+                        var x4 = player.x - 1;
+                        var z4 = player.z;
+                        if (x4 < 0 || x4 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x4, z4] > 0 && gameMap.gameMap[x4, z4] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x4, z4, player.damageCommon1);
+                        }
                         break;
                 }
             }
-            else if (weaponId == 1)
+            else if (weaponId == -2)
+            {
+                switch (player.toward)
+                {
+                    case 1:
+                        var x1 = player.x;
+                        var z1 = player.z + 1;
+                        if (z1 < 0 || z1 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x1, z1] > 0 && gameMap.gameMap[x1, z1] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x1, z1, player.damageCommon2);
+                        }
+                        break;
+                    case 2:
+                        var x2 = player.x + 1;
+                        var z2 = player.z;
+                        if (x2 < 0 || x2 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x2, z2] > 0 && gameMap.gameMap[x2, z2] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x2, z2, player.damageCommon2);
+                        }
+                        break;
+                    case 3:
+                        var x3 = player.x;
+                        var z3 = player.z - 1;
+                        if (z3 < 0 || z3 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x3, z3] > 0 && gameMap.gameMap[x3, z3] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x3, z3, player.damageCommon2);
+                        }
+                        break;
+                    case 4:
+                        var x4 = player.x - 1;
+                        var z4 = player.z;
+                        if (x4 < 0 || x4 > 47)
+                        {
+                            return;
+                        }
+                        if (gameMap.gameMap[x4, z4] > 0 && gameMap.gameMap[x4, z4] <= 1000)
+                        {
+                            MapController.instance.Damage(groundMap, x4, z4, player.damageCommon2);
+                        }
+                        break;
+                }
+            }
+            else if (weaponId == -3)
             {
                 if (player.bombCount <= 0)
                 {

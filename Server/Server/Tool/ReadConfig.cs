@@ -55,6 +55,13 @@ namespace GameServer
             itemMap3 = new int[map3Width, map3Hight];
 
             groundMap1 = new int[map1Width, map1Hight];
+            for (int i = 0; i < map1Width; i++)
+            {
+                for (int j = 0; j < map1Hight; j++)
+                {
+                    groundMap1[i, j] = 100;
+                }
+            }
             groundMap2 = new int[map2Width, map2Hight];
             groundMap3 = new int[map3Width, map3Hight];
         }
@@ -157,6 +164,7 @@ namespace GameServer
             XmlNodeList ItemMapNodes = rootElem.GetElementsByTagName("ItemMap");
             XmlNodeList CharNodes = rootElem.GetElementsByTagName("Char");
             XmlNodeList ItemNodes = rootElem.GetElementsByTagName("Item");
+            XmlNodeList damageCommonNodes = rootElem.GetElementsByTagName("damageCommon");
 
             foreach (var item in ItemMapNodes)
             {
