@@ -55,6 +55,58 @@ namespace GameServer
             {
                 return;
             }
+
+            if (model.x >= 0)
+            {
+                if (model.z >= 0)
+                {
+                    if (model.x >= model.z)
+                    {
+                        player.toward = 2;
+                    }
+                    else
+                    {
+                        player.toward = 1;
+                    }
+                }
+                else if (model.z < 0)
+                {
+                    if (model.x >= -model.z)
+                    {
+                        player.toward = 2;
+                    }
+                    else
+                    {
+                        player.toward = 3;
+                    }
+                }
+            }
+            else if (model.x < 0)
+            {
+                if (model.z >= 0)
+                {
+                    if (-model.x >= model.z)
+                    {
+                        player.toward = 4;
+                    }
+                    else
+                    {
+                        player.toward = 1;
+                    }
+                }
+                else if (model.z < 0)
+                {
+                    if (-model.x >= -model.z)
+                    {
+                        player.toward = 4;
+                    }
+                    else
+                    {
+                        player.toward = 3;
+                    }
+                }
+            }
+
             int cellX = CDT2Cell.instance.CDT2X(player.locationX + model.x);
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(player, cellX, cellZ))
