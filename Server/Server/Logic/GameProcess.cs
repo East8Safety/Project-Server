@@ -113,11 +113,15 @@ namespace GameServer
             {
                 if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)  // get item
                 {
-                    ItemController.instance.AddItem(player, gameMap.gameMap[cellX, cellZ], 1);
-                    MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
-                    SyncItem(player);
+                    if (player.index2ItemId.Count < 6)
+                    {
+                        var itemId = gameMap.gameMap[cellX, cellZ];
+                        ItemController.instance.AddItem(player, itemId, 1);
+                        MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
+                        SyncItem(player);
 
-                    ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, gameMap.gameMap[cellX, cellZ]));
+                        ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, itemId));
+                    }
                 }
 
                 player.locationX += model.x;
