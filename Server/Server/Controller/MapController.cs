@@ -105,7 +105,7 @@ namespace GameServer
             else
             {
                 groundMap.groundMap[x, z] -= damage;
-                GameProcess.instance.SendCellChange(gameMap.mapId, x, z, gameMap.gameMap[x, z]);
+                //GameProcess.instance.SendCellChange(gameMap.mapId, x, z, gameMap.gameMap[x, z]);
                 ConsoleLog.instance.Info(string.Format("地形收到伤害 位置:{0},{1} 伤害量{2}", x, z, damage));
             }
         }
