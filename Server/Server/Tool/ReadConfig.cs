@@ -35,7 +35,7 @@ namespace GameServer
         public List<int[]> mapRandom = new List<int[]>();
         public Dictionary<int, int> itemCount = new Dictionary<int, int>();
         public Dictionary<int, ConfigPlayer> configPlayers = new Dictionary<int, ConfigPlayer>();
-        public int timeToChooseLocation = 0;
+        public int timeToChooseLocation = 5;
         public Dictionary<int, int> ItemId2Value = new Dictionary<int, int>();
 
         //读取配置文件
@@ -74,7 +74,7 @@ namespace GameServer
             int x1 = 0;
             for (int i = map1Width - 1; i >= 0; i--)
             {
-                for (int j = 0; j >= map1Hight; j++)
+                for (int j = 0; j < map1Hight; j++)
                 {
                     map1[j, i] = int.Parse(mapArray1[x1]);
                     x1++;
@@ -94,7 +94,7 @@ namespace GameServer
             int x2 = 0;
             for (int i = map2Width - 1; i >= 0; i--)
             {
-                for (int j = 0; j >= map2Hight; j++)
+                for (int j = 0; j < map2Hight; j++)
                 {
                     map2[j, i] = int.Parse(mapArray2[x2]);
                     x2++;
@@ -114,7 +114,7 @@ namespace GameServer
             int x3 = 0;
             for (int i = map3Width - 1; i >= 0; i--)
             {
-                for (int j = 0; j >= map3Hight; j++)
+                for (int j = 0; j < map3Hight; j++)
                 {
                     map3[j, i] = int.Parse(mapArray3[x3]);
                     x3++;
