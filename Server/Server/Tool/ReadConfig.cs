@@ -72,11 +72,11 @@ namespace GameServer
             }
             var mapArray1 = mapStr1.Split('|');
             int x1 = 0;
-            for (int i = 0; i < map1Width; i++)
+            for (int i = map1Width - 1; i >= 0; i--)
             {
-                for (int j = 0; j < map1Hight; j++)
+                for (int j = 0; j >= map1Hight; j++)
                 {
-                    map1[i, j] = 0;//int.Parse(mapArray1[x1]);
+                    map1[j, i] = int.Parse(mapArray1[x1]);
                     x1++;
                 }
             }
@@ -92,11 +92,11 @@ namespace GameServer
             }
             var mapArray2 = mapStr2.Split('|');
             int x2 = 0;
-            for (int i = 0; i < map2Width; i++)
+            for (int i = map2Width - 1; i >= 0; i--)
             {
-                for (int j = 0; j < map2Hight; j++)
+                for (int j = 0; j >= map2Hight; j++)
                 {
-                    map2[i, j] = 0;//int.Parse(mapArray2[x2]);
+                    map2[j, i] = int.Parse(mapArray2[x2]);
                     x2++;
                 }
             }
@@ -112,11 +112,11 @@ namespace GameServer
             }
             var mapArray3 = mapStr3.Split('|');
             int x3 = 0;
-            for (int i = 0; i < map3Width; i++)
+            for (int i = map3Width - 1; i >= 0; i--)
             {
-                for (int j = 0; j < map3Hight; j++)
+                for (int j = 0; j >= map3Hight; j++)
                 {
-                    map3[i, j] = 0;//int.Parse(mapArray3[x3]);
+                    map3[j, i] = int.Parse(mapArray3[x3]);
                     x3++;
                 }
             }
