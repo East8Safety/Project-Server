@@ -149,7 +149,7 @@ namespace GameServer
                     }
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(30);
             }
         }
     }
