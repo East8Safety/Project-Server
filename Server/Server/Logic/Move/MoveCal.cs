@@ -42,5 +42,62 @@ namespace GameServer
             }
             return false;
         }
+
+        public int CalToward(C2SMove model)
+        {
+            int toward = 1;
+
+            if (model.x >= 0)
+            {
+                if (model.z >= 0)
+                {
+                    if (model.x >= model.z)
+                    {
+                        toward = 2;
+                    }
+                    else
+                    {
+                        toward = 1;
+                    }
+                }
+                else if (model.z < 0)
+                {
+                    if (model.x >= -model.z)
+                    {
+                        toward = 2;
+                    }
+                    else
+                    {
+                        toward = 3;
+                    }
+                }
+            }
+            else if (model.x < 0)
+            {
+                if (model.z >= 0)
+                {
+                    if (-model.x >= model.z)
+                    {
+                        toward = 4;
+                    }
+                    else
+                    {
+                        toward = 1;
+                    }
+                }
+                else if (model.z < 0)
+                {
+                    if (-model.x >= -model.z)
+                    {
+                        toward = 4;
+                    }
+                    else
+                    {
+                        toward = 3;
+                    }
+                } 
+            }
+            return toward;
+        }
     }
 }

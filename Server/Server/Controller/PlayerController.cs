@@ -116,6 +116,30 @@ namespace GameServer
                     C2SMove c2SMove;
                     if (PlayerManager.instance.playerMove.TryGetValue(playerId, out c2SMove))
                     {
+                        int toward = MoveCal.instance.CalToward(c2SMove);
+
+                        switch (toward)
+                        {
+                            case 1:
+                                c2SMove.z = 0.1F;
+                                c2SMove.x = 0;
+                                break;
+                            case 2:
+                                c2SMove.x = 0.1F;
+                                c2SMove.z = 0;
+                                break;
+                            case 3:
+                                c2SMove.z = -0.1F;
+                                c2SMove.x = 0;
+                                break;
+                            case 4:
+                                c2SMove.x = -0.1F;
+                                c2SMove.z = 0;
+                                break;
+                            default:
+                                break;
+                        }
+
                         EventManager.instance.AddEvent(() =>
                         {
                             GameProcess.instance.ClientMove(playerId, c2SMove);
@@ -125,7 +149,7 @@ namespace GameServer
                     }
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
         }
     }
