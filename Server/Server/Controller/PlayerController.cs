@@ -125,7 +125,7 @@ namespace GameServer
                     }
                 }
 
-                Thread.Sleep(30);
+                Thread.Sleep(1000);
             }
         }
     }
