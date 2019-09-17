@@ -13,6 +13,8 @@ namespace GameServer
         public int z { get; set; }
         public float locationX { get; set; }
         public float locationZ { get; set; }
+        public float locationXB { get; set; }
+        public float locationZB { get; set; }
 
         public int HP { get; set; }
         public int HPMax { get; set; }

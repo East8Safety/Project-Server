@@ -140,6 +140,10 @@ namespace GameServer
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
 
+            S2CAttack s2CAttack = new S2CAttack();
+            s2CAttack.playerId = playerId;
+            SendAttack(s2CAttack);
+
             if (weaponId == -1)
             {
                 switch (player.toward)
@@ -269,12 +273,6 @@ namespace GameServer
                 ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},泡泡位置: {1} {2}", weaponId, x, z));
 
                 bomb.timer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
-
-                S2CAttack s2CAttack = new S2CAttack();
-                s2CAttack.weaponId = weaponId;
-                s2CAttack.x = x;
-                s2CAttack.z = z;
-                SendAttack(s2CAttack);
             }
         }
 
@@ -557,6 +555,19 @@ namespace GameServer
             s2CSyncState.shield = player.shield;
             s2CSyncState.bombCount = player.bombCount;
             SendData.instance.Broadcast((int)messageType.S2CSyncState, s2CSyncState);
+        }
+
+        public void ClientChangeWeapon(int clientId, C2SChangeWeapon c2SChangeWeapon)
+        {
+            SendChangeWeapon(c2SChangeWeapon.playerId, c2SChangeWeapon.weaponId);
+        }
+
+        public void SendChangeWeapon(int playerId, int weaponId)
+        {
+            S2CChangeWeapon s2CChangeWeapon = new S2CChangeWeapon();
+            s2CChangeWeapon.playerId = playerId;
+            s2CChangeWeapon.weaponId = weaponId;
+            SendData.instance.Broadcast((int)messageType.S2CChangeWeapon, s2CChangeWeapon);
         }
     }
 }

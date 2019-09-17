@@ -17,6 +17,7 @@ namespace GameServer
         S2CCellChange =             1009,           //地形变化
         S2CSyncItem =               1010,           //同步物品
         S2CSyncState =              1011,           //同步状态
+        S2CChangeWeapon =           1012,           //转换武器
 
         S2CSendCharId =             1102,           //发送charId
         S2CSendClientId =           1103,           //发送客户端Id
@@ -33,5 +34,6 @@ namespace GameServer
         C2SChooseChar =             2004,           //客户端选择角色
         C2SChooseLocation =         2005,           //客户端选位置
         C2SDeleteItem =             2006,           //客户端丢弃物品
+        C2SChangeWeapon =           2007,           //客户端换武器
     }
 }

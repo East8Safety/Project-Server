@@ -17,6 +17,10 @@ namespace GameServer
         public float locationX { get; set; }
         [ProtoMember(4)]
         public float locationZ { get; set; }
+        [ProtoMember(5)]
+        public int toward { get; set; }
+        [ProtoMember(6)]
+        public bool isMove { get; set; }
     }
 
     //初始位置坐标
@@ -96,11 +100,7 @@ namespace GameServer
     public class S2CAttack
     {
         [ProtoMember(1)]
-        public int weaponId { get; set; }
-        [ProtoMember(2)]
-        public int x { get; set; }
-        [ProtoMember(3)]
-        public int z { get; set; }
+        public int playerId { get; set; }
     }
 
     [ProtoContract]
@@ -203,6 +203,15 @@ namespace GameServer
         public int bombCount { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CChangeWeapon
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+        [ProtoMember(2)]
+        public int weaponId { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage
@@ -263,6 +272,15 @@ namespace GameServer
         public int itemId { get; set; }
         [ProtoMember(2)]
         public int index { get; set; }
+    }
+
+    [ProtoContract]
+    public class C2SChangeWeapon
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+        [ProtoMember(2)]
+        public int weaponId { get; set; }
     }
 
     #endregion

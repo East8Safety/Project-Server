@@ -38,6 +38,15 @@ namespace GameServer
             {
                 Location location = new Location();
                 var player = item.Value;
+                if (!(player.locationX == player.locationXB && player.locationZ == player.locationZB))
+                {
+                    location.isMove = true;
+                }
+                else
+                {
+                    location.isMove = false;
+                }
+                location.toward = player.toward;
                 location.x = player.x;
                 location.z = player.z;
                 location.locationX = player.locationX;
