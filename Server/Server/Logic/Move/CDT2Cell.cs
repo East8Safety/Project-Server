@@ -12,7 +12,7 @@ namespace GameServer
         public int CDT2X(float x)
         {
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-            int boxX = (int)x;
+            int boxX = (int)(x+0.5);
             if (boxX < 0)
             {
                 return boxX = 0;
@@ -29,7 +29,7 @@ namespace GameServer
         public int CDT2Z(float z)
         {
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
-            int boxZ = (int)z;
+            int boxZ = (int)(z+0.5);
             if (boxZ < 0)
             {
                 return boxZ = 0;
@@ -44,12 +44,12 @@ namespace GameServer
 
         public float CDX2T(int x)
         {
-            return x * ReadConfig.instance.cellSize + (int)ReadConfig.instance.cellSize / 2;
+            return x ;
         }
 
         public float CDZ2T(int z)
         {
-            return z * ReadConfig.instance.cellSize + (int)ReadConfig.instance.cellSize / 2;
+            return z ;
         }
     }
 }
