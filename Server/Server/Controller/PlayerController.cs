@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace GameServer
 {
@@ -102,6 +103,30 @@ namespace GameServer
             player.speedMax = configPlayer.speedMax;
             player.damage = configPlayer.damage;
             player.damageMax = configPlayer.damageMax;
+        }
+
+        public void SendMoveTimes(int playerId)
+        {
+            while (true)
+            {
+                Player player = PlayerManager.instance.GetPlayer(playerId);
+
+                lock (PlayerManager.instance.playerMove)
+                {
+                    C2SMove c2SMove;
+                    if (PlayerManager.instance.playerMove.TryGetValue(playerId, out c2SMove))
+                    {
+                        EventManager.instance.AddEvent(() =>
+                        {
+                            GameProcess.instance.ClientMove(playerId, c2SMove);
+                        });
+
+                        PlayerManager.instance.playerMove.Remove(playerId);
+                    }
+                }
+
+                Thread.Sleep(30);
+            }
         }
     }
 }

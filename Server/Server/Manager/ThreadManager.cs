@@ -78,5 +78,15 @@ namespace GameServer
             serverReceiveThread.Name = "serverReceiveThread";
             serverReceiveThread.Start();
         }
+
+        public void PlayerThread(int playerId)
+        {
+            Thread thread = new Thread(() =>
+            {
+                PlayerController.instance.SendMoveTimes(playerId);
+            });
+            thread.Name = playerId.ToString();
+            thread.Start();
+        }
     }
 }

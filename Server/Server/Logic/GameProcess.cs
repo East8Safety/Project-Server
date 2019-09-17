@@ -409,6 +409,11 @@ namespace GameServer
                 SendData.instance.Broadcast((int)messageType.S2CGameStart, s2CGameStart);
                 ServerUpdate.isSendLocation = true;
                 ConsoleLog.instance.Info("游戏开始");
+
+                foreach (var item in PlayerManager.instance.playerDic.Keys)
+                {
+                    ThreadManager.instance.PlayerThread(item);
+                }
             });
         }
 

@@ -15,11 +15,19 @@ namespace GameServer
             {
                 case (int)messageType.C2SMove:
                     C2SMove c2SMove = SerializeFunc.instance.DeSerialize<C2SMove>(msg.msg);
-                    EventManager.instance.AddEvent(() =>
+                    int playerId = Server.instance.GetPlayerId(msg.clientId);
+                    lock (PlayerManager.instance.playerMove)
                     {
-                        int playerId = Server.instance.GetPlayerId(msg.clientId);
-                        GameProcess.instance.ClientMove(playerId, c2SMove);
-                    });
+                        if (!PlayerManager.instance.playerMove.ContainsKey(playerId))
+                        {
+                            PlayerManager.instance.playerMove.Add(playerId, c2SMove);
+                        }
+                        else
+                        {
+                            PlayerManager.instance.playerMove[playerId] = c2SMove;
+                        }
+                    }
+                    
                     break;
                 case (int)messageType.C2SAttack:
                     C2SAttack c2SAttack = SerializeFunc.instance.DeSerialize<C2SAttack>(msg.msg);
