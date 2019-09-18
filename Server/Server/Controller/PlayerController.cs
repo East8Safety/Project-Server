@@ -34,6 +34,7 @@ namespace GameServer
             player.toward = 1;
             player.damageCommon1 = 99;
             player.damageCommon2 = 98;
+            player.bombCount = 20;
         }
 
         //玩家受到伤害
