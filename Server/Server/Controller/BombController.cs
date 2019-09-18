@@ -329,6 +329,7 @@ namespace GameServer
             //    }
             //}
 
+            BombManager.instance.DeleteBomb(bomb.id);
             bomb = null;
         }
 

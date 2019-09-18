@@ -13,6 +13,7 @@ namespace GameServer
         public int chooseCharCount = 0;
         public int chooseLocationCount = 0;
         public Dictionary<int, C2SMove> playerMove = new Dictionary<int, C2SMove>();
+        public Dictionary<int, Player> nextPlayers = new Dictionary<int, Player>();
 
         //创建玩家
         public void CreatePlayer(int clientId)

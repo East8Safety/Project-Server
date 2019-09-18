@@ -28,5 +28,10 @@ namespace GameServer
             bombDic.TryGetValue(id, out bomb);
             return bomb;
         }
+
+        public void DeleteBomb(int id)
+        {
+            bombDic.Remove(id);
+        }
     }
 }
