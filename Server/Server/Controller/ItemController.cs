@@ -68,7 +68,8 @@ namespace GameServer
                     {
                         player.HP += hp1;
                     }
-                    GameProcess.instance.SendHPChange(player);
+                    //GameProcess.instance.SendHPChange(player);
+                    GameProcess.instance.SyncState(player);
                     break;
                 case 2002:
                     var hp2 = ReadConfig.instance.ItemId2Value[itemId];
@@ -80,7 +81,8 @@ namespace GameServer
                     {
                         player.HP += hp2;
                     }
-                    GameProcess.instance.SendHPChange(player);
+                    //GameProcess.instance.SendHPChange(player);
+                    GameProcess.instance.SyncState(player);
                     break;
                 case 2003:
                     var hp3 = ReadConfig.instance.ItemId2Value[itemId];
@@ -92,7 +94,8 @@ namespace GameServer
                     {
                         player.HP += hp3;
                     }
-                    GameProcess.instance.SendHPChange(player);
+                    //GameProcess.instance.SendHPChange(player);
+                    GameProcess.instance.SyncState(player);
                     break;
                 case 2004:
                     var shieldValue1 = ReadConfig.instance.ItemId2Value[itemId];

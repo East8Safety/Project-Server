@@ -78,7 +78,8 @@ namespace GameServer
                 return;
             }
 
-            GameProcess.instance.SendHPChange(player);
+            GameProcess.instance.SyncState(player);
+            //GameProcess.instance.SendHPChange(player);
             ConsoleLog.instance.Info(string.Format("玩家收到伤害 playerId:{0} 伤害值:{1}", player.playerId, damage));
         }
 

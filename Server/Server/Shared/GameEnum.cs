@@ -28,6 +28,7 @@ namespace GameServer
         S2CPlayerCount =            1108,           //发送服务器人数
         S2CBombNone =               1109,           //泡泡没了
         S2CBombRange =              1110,           //泡泡爆炸范围
+        S2CCellBroken =             1111,
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,           //客户端攻击

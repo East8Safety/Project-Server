@@ -32,7 +32,7 @@ namespace GameServer
             S2CSendClientId s2CSendClientId = new S2CSendClientId();
             s2CSendClientId.clientId = clientId;
             s2CSendClientId.playerId = playerId;
-            SendData.instance.Broadcast((int)messageType.S2CSendClientId, s2CSendClientId);
+            SendData.instance.SendMessage(clientId, (int)messageType.S2CSendClientId, s2CSendClientId);
         }
 
         //发送服务器分配的charId
@@ -289,6 +289,7 @@ namespace GameServer
             int playerId = Server.instance.GetPlayerId(clientId);
             var player = PlayerManager.instance.GetPlayer(playerId);
             PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
+            GameProcess.instance.SyncState(player);
             SendCharId(clientId, c2SChooseChar.charId);
             ConsoleLog.instance.Info(string.Format("Player {0} 选择角色 {1}", player.playerId, c2SChooseChar.charId));
             PlayerManager.instance.chooseCharCount++;

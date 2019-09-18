@@ -35,7 +35,7 @@ namespace GameServer
                 Bomb bomb = (Bomb)state;
 
                 BombRange(bomb);
-                PlayerDamage(playerId2Damage);
+                PlayerDamage();
                 BombRange();
             });
         }
@@ -333,7 +333,7 @@ namespace GameServer
             bomb = null;
         }
 
-        public void PlayerDamage(Dictionary<int, int> playerId2Damage)
+        public void PlayerDamage()
         {
             foreach (var item in playerId2Damage)
             {

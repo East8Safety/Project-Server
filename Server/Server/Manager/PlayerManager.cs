@@ -9,7 +9,7 @@ namespace GameServer
         public static readonly PlayerManager instance = new PlayerManager();
 
         public Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
-        public Stack<int> playerPool = new Stack<int>();
+        public Queue<int> playerPool = new Queue<int>();
         public int chooseCharCount = 0;
         public int chooseLocationCount = 0;
         public Dictionary<int, C2SMove> playerMove = new Dictionary<int, C2SMove>();
@@ -31,29 +31,33 @@ namespace GameServer
         public void AddPlayer(Player player)
         {
             playerDic.TryAdd(player.playerId, player);
-            playerPool.Push(player.playerId);
+            playerPool.Enqueue(player.playerId);
         }
 
         //减少玩家
         public void DeletePlayer(int playerId)
         {
+            playerDic.Remove(playerId);
+
             int playerCount = playerPool.Count;
             for (int i = 0; i < playerCount; i++)
             {
-                var mPlayerId = playerPool.Pop();
+                var mPlayerId = playerPool.Dequeue();
                 if (mPlayerId == playerId)
                 {
                     break;
                 }
-                playerPool.Push(mPlayerId);
+                playerPool.Enqueue(mPlayerId);
             }
         }
 
         public int GetWinner()
         {
+            int playerId;
             if (playerPool.Count == 1)
             {
-                return playerPool.Pop();
+                playerPool.TryDequeue(out playerId);
+                return playerId;
             }
             return 0;
         }
