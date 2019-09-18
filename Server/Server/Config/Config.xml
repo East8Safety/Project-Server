@@ -9,12 +9,12 @@
 	<ItemMap id="2007" count="20"/>
 	<ItemMap id="2008" count="20"/>
 	<ItemMap id="2009" count="20"/>
-	<ItemMap id="2010" count="20"/>
-	<ItemMap id="2011" count="20"/>
-	<ItemMap id="2012" count="20"/>
-	<ItemMap id="2013" count="20"/>
-	<ItemMap id="2014" count="20"/>
-	<ItemMap id="2015" count="20"/>
+	<ItemMap id="2010" count="100"/>
+	<ItemMap id="2011" count="100"/>
+	<ItemMap id="2012" count="100"/>
+	<ItemMap id="2013" count="100"/>
+	<ItemMap id="2014" count="100"/>
+	<ItemMap id="2015" count="100"/>
 	<ItemMap id="3001" count="20"/>
 
 	<Item id="2001" value="10"/>
@@ -26,14 +26,14 @@
 	<Item id="2007" value="10"/>
 	<Item id="2008" value="20"/>
 	<Item id="2009" value="30"/>
-	<Item id="2010" value="10"/>
-	<Item id="2011" value="20"/>
-	<Item id="2012" value="30"/>
+	<Item id="2010" value="4"/>
+	<Item id="2011" value="6"/>
+	<Item id="2012" value="10"/>
 	<Item id="2013" value="10"/>
 	<Item id="2014" value="20"/>
 	<Item id="2015" value="30"/>
 
-	<Char charid="1" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>
+	<Char charid="1" hp="100" hpMax="150" speed="10" speedMax="30" damage="50" damageMax="80"/>
 	<Char charid="2" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>
 	<Char charid="3" hp="100" hpMax="150" speed="10" speedMax="15" damage="50" damageMax="80"/>
 </root>

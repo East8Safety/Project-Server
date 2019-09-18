@@ -112,7 +112,7 @@ namespace GameServer
             while (true)
             {
                 Player player = PlayerManager.instance.GetPlayer(playerId);
-
+                int speed = 0;
                 lock (PlayerManager.instance.playerMove)
                 {
                     C2SMove c2SMove;
@@ -154,10 +154,15 @@ namespace GameServer
                     {
                         player.locationXB = player.locationX;
                         player.locationZB = player.locationZ;
+                        speed = 40 - player.speed;
+                    }
+                    else
+                    {
+                        speed = 30;
                     }
                 }
 
-                Thread.Sleep(30);
+                Thread.Sleep(speed);
             }
         }
     }

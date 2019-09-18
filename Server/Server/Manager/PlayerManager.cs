@@ -51,11 +51,6 @@ namespace GameServer
                 playerPool.Enqueue(mPlayerId);
             }
 
-            if (playerPool.Count <= 0)
-            {
-                GameProcess.instance.GameOver();
-            }
-
             playerMove.Remove(playerId);
 
             int clientId = 0;
@@ -70,6 +65,11 @@ namespace GameServer
             Server.instance.clientPools.Remove(clientId);
 
             Server.instance.clientId2PlayerId.Remove(clientId);
+
+            if (playerPool.Count <= 0)
+            {
+                GameProcess.instance.GameOver();
+            }
         }
 
         public int GetWinner()
