@@ -149,6 +149,7 @@ namespace GameServer
                         });
 
                         PlayerManager.instance.playerMove.Remove(playerId);
+                        continue;
                     }
                     player.locationXB = player.locationX;
                     player.locationZB = player.locationZ;
