@@ -30,8 +30,6 @@ namespace GameServer
         public int[,] groundMap3;
 
         public int charCountToStart = 1;
-        public int gameStartDelay = 3;
-        public float cellSize = 10;
         public List<int[]> mapRandom = new List<int[]>();
         public Dictionary<int, int> itemCount = new Dictionary<int, int>();
         public Dictionary<int, ConfigPlayer> configPlayers = new Dictionary<int, ConfigPlayer>();

@@ -221,9 +221,20 @@ namespace GameServer
         public int weaponId { get; set; }
     }
 
+    [ProtoContract]
     public class S2CBombRange
     {
+        [ProtoMember(1)]
         public List<BombLoc> BombLocList { get; set; }
+    }
+
+    [ProtoContract]
+    public class S2CCellBroken
+    {
+        [ProtoMember(1)]
+        public int x { get; set; }
+        [ProtoMember(2)]
+        public int z { get; set; }
     }
 
     #endregion

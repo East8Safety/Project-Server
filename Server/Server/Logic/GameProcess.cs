@@ -264,7 +264,6 @@ namespace GameServer
 
                 player.bombCount--;
 
-
                 var x = CDT2Cell.instance.CDT2X(data.locationX);
                 var z = CDT2Cell.instance.CDT2Z(data.locationZ);
 

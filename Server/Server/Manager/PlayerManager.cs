@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace GameServer
 {
@@ -49,6 +50,21 @@ namespace GameServer
                 }
                 playerPool.Enqueue(mPlayerId);
             }
+
+            playerMove.Remove(playerId);
+
+            int clientId = 0;
+            foreach (var item in Server.instance.clientId2PlayerId)
+            {
+                if (item.Value == playerId)
+                {
+                    clientId = item.Key;
+                    break;
+                }
+            }
+            Server.instance.clientPools.Remove(clientId);
+
+            Server.instance.clientId2PlayerId.Remove(clientId);
         }
 
         public int GetWinner()
