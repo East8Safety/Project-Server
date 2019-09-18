@@ -37,6 +37,15 @@ namespace GameServer
         public int z { get; set; }
     }
 
+    [ProtoContract]
+    public class BombLoc
+    {
+        [ProtoMember(1)]
+        public int x { get; set; }
+        [ProtoMember(2)]
+        public int z { get; set; }
+    }
+
     #region S2CMessage
 
     //S2CMove用 所有人位置信息
@@ -210,6 +219,11 @@ namespace GameServer
         public int playerId { get; set; }
         [ProtoMember(2)]
         public int weaponId { get; set; }
+    }
+
+    public class S2CBombRange
+    {
+        public List<BombLoc> BombLocList { get; set; }
     }
 
     #endregion
