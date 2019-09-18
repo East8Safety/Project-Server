@@ -124,6 +124,8 @@ namespace GameServer
                     }
                 }
 
+                player.locationXB = player.locationX;
+                player.locationZB = player.locationZ;
                 player.locationX += model.x;
                 player.locationZ += model.z;
                 player.x = cellX;
