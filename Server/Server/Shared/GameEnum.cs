@@ -29,6 +29,9 @@ namespace GameServer
         S2CBombNone =               1109,           //泡泡没了
         S2CBombRange =              1110,           //泡泡爆炸范围
         S2CCellBroken =             1111,           //墙裂开
+        S2CInPortal =               1112,           //进传送门
+        S2CGameOver =               1113,           //游戏结束
+        S2CStart =                  1114,           //开始
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,           //客户端攻击

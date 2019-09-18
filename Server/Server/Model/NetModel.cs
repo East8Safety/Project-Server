@@ -237,6 +237,27 @@ namespace GameServer
         public int z { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CInPortal
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+    }
+
+    [ProtoContract]
+    public class S2CGameOver
+    {
+        [ProtoMember(1)]
+        public int placeholder { get; set; }
+    }
+
+    [ProtoContract]
+    public class S2CStart
+    {
+        [ProtoMember(1)]
+        public int witchGame { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage

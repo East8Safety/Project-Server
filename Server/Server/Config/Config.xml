@@ -15,6 +15,7 @@
 	<ItemMap id="2013" count="20"/>
 	<ItemMap id="2014" count="20"/>
 	<ItemMap id="2015" count="20"/>
+	<ItemMap id="3001" count="20"/>
 
 	<Item id="2001" value="10"/>
 	<Item id="2002" value="20"/>

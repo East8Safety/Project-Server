@@ -56,9 +56,7 @@ namespace GameServer
             //角色死亡
             if (player.HP <= 0)
             {
-                S2CDie s2CDie = new S2CDie();
-                s2CDie.playerId = player.playerId;
-                GameProcess.instance.SendCharDie(s2CDie);
+                GameProcess.instance.SendCharDie(player.playerId);
                 PlayerManager.instance.DeletePlayer(player.playerId);
                 ConsoleLog.instance.Info(string.Format("玩家死亡 playerId:{0}", player.playerId));
 
@@ -152,8 +150,11 @@ namespace GameServer
                         PlayerManager.instance.playerMove.Remove(playerId);
                         continue;
                     }
-                    player.locationXB = player.locationX;
-                    player.locationZB = player.locationZ;
+                    if (player != null)
+                    {
+                        player.locationXB = player.locationX;
+                        player.locationZB = player.locationZ;
+                    }
                 }
 
                 Thread.Sleep(30);

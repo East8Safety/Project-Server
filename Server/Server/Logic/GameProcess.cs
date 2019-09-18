@@ -156,6 +156,7 @@ namespace GameServer
 
                 int playerId = (int)state;
                 Player player = PlayerManager.instance.GetPlayer(playerId);
+                SendInPortal(playerId);
 
                 ResetPlayer(player);
                 PlayerManager.instance.nextPlayers.TryAdd(playerId, player);
@@ -164,6 +165,13 @@ namespace GameServer
                     GameOver();
                 }
             });
+        }
+
+        public void SendInPortal(int playerId)
+        {
+            S2CInPortal s2CInPortal = new S2CInPortal();
+            s2CInPortal.playerId = playerId;
+            SendData.instance.Broadcast((int)messageType.S2CInPortal, s2CInPortal);
         }
 
         public void GameOver(object state = null)
@@ -186,6 +194,7 @@ namespace GameServer
                 item.Value.timer.Change(Timeout.Infinite, Timeout.Infinite);
                 if (!PlayerManager.instance.nextPlayers.ContainsKey(item.Key))
                 {
+                    GameProcess.instance.SendCharDie(item.Key);
                     PlayerManager.instance.DeletePlayer(item.Key);
                 }
             }
@@ -193,6 +202,8 @@ namespace GameServer
             PlayerManager.instance.chooseCharCount = 0;
             PlayerManager.instance.chooseLocationCount = 0;
             PlayerManager.instance.playerMove.Clear();
+
+            SendGameOver();
 
             if (Server.instance.whichGame == 1)
             {
@@ -206,6 +217,13 @@ namespace GameServer
                 GameInit();
                 return;
             }
+        }
+
+        public void SendGameOver()
+        {
+            S2CGameOver s2CGameOver = new S2CGameOver();
+            s2CGameOver.placeholder = 0;
+            SendData.instance.Broadcast((int)messageType.S2CGameOver, s2CGameOver);
         }
 
         public void GameInit()
@@ -225,6 +243,14 @@ namespace GameServer
 
             Server.instance.isGaming = true;
             ServerUpdate.isSendLocation = true;
+            SendStartAgain(Server.instance.whichGame);
+        }
+
+        public void SendStartAgain(int witchGame)
+        {
+            S2CStart s2CStart = new S2CStart();
+            s2CStart.witchGame = witchGame;
+            SendData.instance.Broadcast((int)messageType.S2CStart, s2CStart);
         }
 
         public void ResetPlayer(Player player)
@@ -478,6 +504,8 @@ namespace GameServer
                 initLocation.x = player.x;
                 initLocation.z = player.z;
                 s2CAllLocation.allLocation.TryAdd(playerId, initLocation);
+
+                SendMapChange(player.x, player.z, 0);
             }
 
             SendData.instance.Broadcast((int)messageType.S2CAllLocation, s2CAllLocation);
@@ -514,8 +542,10 @@ namespace GameServer
         }
 
         //发送角色死亡
-        public void SendCharDie(S2CDie s2CDie)
+        public void SendCharDie(int playerId)
         {
+            S2CDie s2CDie = new S2CDie();
+            s2CDie.playerId = playerId;
             SendData.instance.Broadcast((int)messageType.S2CDie, s2CDie);
             //foreach (var item in Server.instance.clientPools)
             //{
