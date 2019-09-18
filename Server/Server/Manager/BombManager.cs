@@ -8,7 +8,7 @@ namespace GameServer
     {
         public static readonly BombManager instance = new BombManager();
 
-        private Dictionary<int, Bomb> bombDic = new Dictionary<int, Bomb>();
+        public Dictionary<int, Bomb> bombDic = new Dictionary<int, Bomb>();
 
         public Bomb CreateBomb(Player player, int x, int z)
         {

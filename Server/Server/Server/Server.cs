@@ -28,6 +28,9 @@ namespace GameServer
         //clientId与charId绑定
         public Dictionary<int, int> clientId2PlayerId;
 
+        public bool isGaming = true;
+        public int whichGame = 1;
+
         private Server()
         {
             messageWaited = new Queue<Message>();

@@ -16,7 +16,7 @@ namespace GameServer
         //创建地图
         public void CreateMap(int width, int height, int[,] configMap, int[,] configItemMap, int[,] configGroundMap)
         {
-            //if (mapDic.Count > 0)
+            if (Server.instance.whichGame == 1)
             {
                 GameMap gameMap = MapController.instance.Create(width, height);
                 ItemMap itemMap = MapController.instance.CreateItemMap(width, height);

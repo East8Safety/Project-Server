@@ -111,13 +111,6 @@ namespace GameServer
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(player, cellX, cellZ))
             {
-                player.locationXB = player.locationX;
-                player.locationZB = player.locationZ;
-                player.locationX += model.x;
-                player.locationZ += model.z;
-                player.x = cellX;
-                player.z = cellZ;
-
                 if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)  // get item
                 {
                     if (player.index2ItemId.Count < 6)
@@ -130,7 +123,126 @@ namespace GameServer
                         ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, itemId));
                     }
                 }
+                else if(gameMap.gameMap[cellX, cellZ] == 3001 && gameMap.gameMap[player.x, player.z] != 3001)
+                {
+                    player.timer = new Timer(new TimerCallback(PlayerWin), player.playerId, ReadConfig.instance.portalTime * 1000, Timeout.Infinite);
+                }
+                else if (gameMap.gameMap[cellX, cellZ] != 3001 && gameMap.gameMap[player.x, player.z] == 3001)
+                {
+                    if (player.timer != null)
+                    {
+                        player.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    }
+                }
+
+                player.locationXB = player.locationX;
+                player.locationZB = player.locationZ;
+                player.locationX += model.x;
+                player.locationZ += model.z;
+                player.x = cellX;
+                player.z = cellZ;
             }
+        }
+
+        public void PlayerWin(object state)
+        {
+            EventManager.instance.AddEvent(() =>
+            {
+                int playerId = (int)state;
+                Player player = PlayerManager.instance.GetPlayer(playerId);
+
+                ResetPlayer(player);
+                PlayerManager.instance.nextPlayers.TryAdd(playerId, player);
+                if (PlayerManager.instance.nextPlayers.Count >= ReadConfig.instance.portalPlayerCount)
+                {
+                    GameOver();
+                }
+            });
+        }
+
+        public void GameOver()
+        {
+            Server.instance.isGaming = false;
+            ServerUpdate.isSendLocation = false;
+
+            foreach (var item in BombManager.instance.bombDic)
+            {
+                item.Value.timer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
+            BombManager.instance.bombDic.Clear();
+            GameMapManager.instance.boxDic.Clear();
+            PlayerManager.instance.playerPool.Clear();
+
+            foreach (var item in PlayerManager.instance.playerDic)
+            {
+                item.Value.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                if (!PlayerManager.instance.nextPlayers.ContainsKey(item.Key))
+                {
+                    PlayerManager.instance.DeletePlayer(item.Key);
+                }
+            }
+
+            PlayerManager.instance.chooseCharCount = 0;
+            PlayerManager.instance.chooseLocationCount = 0;
+            PlayerManager.instance.playerMove.Clear();
+
+            if (Server.instance.whichGame == 1)
+            {
+                Server.instance.whichGame = 2;
+                GameInit();
+                return;
+            }
+            else if (Server.instance.whichGame == 2)
+            {
+                Server.instance.whichGame = 3;
+                GameInit();
+                return;
+            }
+        }
+
+        public void GameInit()
+        {
+            SetNoLocationPlayers();
+
+            if (Server.instance.whichGame == 2)
+            {
+                GenerateItem.Generate(ReadConfig.instance.map2, ReadConfig.instance.itemCount, ReadConfig.map2Width, ReadConfig.map2Hight, 2);
+                GameMapManager.instance.CreateMap(ReadConfig.map2Width, ReadConfig.map2Hight, ReadConfig.instance.map2, ReadConfig.instance.itemMap2, ReadConfig.instance.groundMap2);
+            }
+            else if (Server.instance.whichGame == 3)
+            {
+                GenerateItem.Generate(ReadConfig.instance.map3, ReadConfig.instance.itemCount, ReadConfig.map3Width, ReadConfig.map3Hight, 3);
+                GameMapManager.instance.CreateMap(ReadConfig.map3Width, ReadConfig.map3Hight, ReadConfig.instance.map3, ReadConfig.instance.itemMap3, ReadConfig.instance.groundMap3);
+            }
+
+            Server.instance.isGaming = true;
+            ServerUpdate.isSendLocation = true;
+        }
+
+        public void ResetPlayer(Player player)
+        {
+            int playerCount = PlayerManager.instance.playerPool.Count;
+            for (int i = 0; i < playerCount; i++)
+            {
+                var mPlayerId = PlayerManager.instance.playerPool.Dequeue();
+                if (mPlayerId == player.playerId)
+                {
+                    break;
+                }
+                PlayerManager.instance.playerPool.Enqueue(mPlayerId);
+            }
+
+            player.x = -1;
+            player.z = -1;
+            player.locationX = 0;
+            player.locationZ = 0;
+            player.mapValueBefore = -1;
+            player.xBefore = -1;
+            player.zBefore = -1;
+            player.toward = 1;
+            player.damageCommon1 = 99;
+            player.damageCommon2 = 98;
+            player.bombCount = 20;
         }
 
         //客户端攻击
@@ -273,7 +385,7 @@ namespace GameServer
 
                 ConsoleLog.instance.Info(string.Format("角色攻击,武器Id: {0},泡泡位置: {1} {2}", weaponId, x, z));
 
-                bomb.timer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, 3 * 1000, Timeout.Infinite);
+                bomb.timer = new Timer(new TimerCallback(BombController.instance.BombTrigger), bomb, ReadConfig.instance.bombTime * 1000, Timeout.Infinite);
             }
         }
 

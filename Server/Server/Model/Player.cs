@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace GameServer
 {
@@ -31,7 +32,7 @@ namespace GameServer
         public int toward { get; set; }
         public int damageCommon1 { get; set; }
         public int damageCommon2 { get; set; }
-
+        public Timer timer { get; set; }
         public Dictionary<int, int> index2ItemId { get; set; }
     }
 }

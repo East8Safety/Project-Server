@@ -11,6 +11,10 @@ namespace GameServer
         //消息分发
         public void ReceiveMsgControl(Message msg)
         {
+            if (Server.instance.isGaming == false)
+            {
+                return;
+            }
             switch (msg.messageType)
             {
                 case (int)messageType.C2SMove:

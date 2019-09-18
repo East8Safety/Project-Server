@@ -35,6 +35,9 @@ namespace GameServer
         public Dictionary<int, ConfigPlayer> configPlayers = new Dictionary<int, ConfigPlayer>();
         public int timeToChooseLocation = 5;
         public Dictionary<int, int> ItemId2Value = new Dictionary<int, int>();
+        public int portalTime = 5;
+        public int bombTime = 3;
+        public int portalPlayerCount = 8;
 
         //读取配置文件
         public void Read()
