@@ -111,6 +111,13 @@ namespace GameServer
             int cellZ = CDT2Cell.instance.CDT2Z(player.locationZ + model.z);
             if (MoveCal.instance.IsCanMove(player, cellX, cellZ))
             {
+                player.locationXB = player.locationX;
+                player.locationZB = player.locationZ;
+                player.locationX += model.x;
+                player.locationZ += model.z;
+                player.x = cellX;
+                player.z = cellZ;
+
                 if (gameMap.gameMap[cellX, cellZ] >= 2001 && gameMap.gameMap[cellX, cellZ] <= 3000)  // get item
                 {
                     if (player.index2ItemId.Count < 6)
@@ -123,13 +130,6 @@ namespace GameServer
                         ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, itemId));
                     }
                 }
-
-                player.locationXB = player.locationX;
-                player.locationZB = player.locationZ;
-                player.locationX += model.x;
-                player.locationZ += model.z;
-                player.x = cellX;
-                player.z = cellZ;
             }
         }
 
