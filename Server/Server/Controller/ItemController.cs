@@ -163,6 +163,42 @@ namespace GameServer
                     }
                     GameProcess.instance.SyncState(player);
                     break;
+                case 2013:
+                    var damage1 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.damage + damage1) > player.damageMax)
+                    {
+                        player.damage = player.damageMax;
+                    }
+                    else
+                    {
+                        player.damage += damage1;
+                    }
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2014:
+                    var damage2 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.damage + damage2) > player.damageMax)
+                    {
+                        player.damage = player.damageMax;
+                    }
+                    else
+                    {
+                        player.damage += damage2;
+                    }
+                    GameProcess.instance.SyncState(player);
+                    break;
+                case 2015:
+                    var damage3 = ReadConfig.instance.ItemId2Value[itemId];
+                    if ((player.damage + damage3) > player.damageMax)
+                    {
+                        player.damage = player.damageMax;
+                    }
+                    else
+                    {
+                        player.damage += damage3;
+                    }
+                    GameProcess.instance.SyncState(player);
+                    break;
                 default:
                     break;
             }

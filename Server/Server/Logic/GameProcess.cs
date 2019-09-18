@@ -11,6 +11,7 @@ namespace GameServer
         public static readonly GameProcess instance = new GameProcess();
 
         private Timer chooseLocationTimer;
+        private Timer GameEndTimer;
 
         //客户端连接之后执行任务
         public void AfterConnect(int clientId)
@@ -148,6 +149,11 @@ namespace GameServer
         {
             EventManager.instance.AddEvent(() =>
             {
+                if (GameEndTimer == null)
+                {
+                    GameEndTimer = new Timer(new TimerCallback(GameOver), null, ReadConfig.instance.gameEndTime * 1000, Timeout.Infinite);
+                }
+
                 int playerId = (int)state;
                 Player player = PlayerManager.instance.GetPlayer(playerId);
 
@@ -160,10 +166,12 @@ namespace GameServer
             });
         }
 
-        public void GameOver()
+        public void GameOver(object state = null)
         {
             Server.instance.isGaming = false;
             ServerUpdate.isSendLocation = false;
+
+            GameEndTimer = null;
 
             foreach (var item in BombManager.instance.bombDic)
             {
@@ -230,6 +238,11 @@ namespace GameServer
                     break;
                 }
                 PlayerManager.instance.playerPool.Enqueue(mPlayerId);
+            }
+
+            if (PlayerManager.instance.playerPool.Count <= 0)
+            {
+                GameOver();
             }
 
             player.x = -1;

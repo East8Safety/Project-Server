@@ -51,6 +51,11 @@ namespace GameServer
                 playerPool.Enqueue(mPlayerId);
             }
 
+            if (playerPool.Count <= 0)
+            {
+                GameProcess.instance.GameOver();
+            }
+
             playerMove.Remove(playerId);
 
             int clientId = 0;
