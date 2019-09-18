@@ -90,6 +90,8 @@ namespace GameServer
             player.z = z;
             player.locationX = CDT2Cell.instance.CDX2T(x);
             player.locationZ = CDT2Cell.instance.CDZ2T(z);
+            player.locationXB = player.locationX;
+            player.locationZB = player.locationZ;
         }
 
         //设置玩家
