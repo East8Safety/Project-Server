@@ -14,6 +14,7 @@ namespace GameServer
         public Thread serverReceiveThread;
         public Thread eventManagerThread;
         public Thread serverUpdateThread;
+        public Dictionary<int, Thread> playerMoveThread = new Dictionary<int, Thread>();
 
         public void AllThreadStart()
         {
@@ -87,6 +88,7 @@ namespace GameServer
             });
             thread.Name = playerId.ToString();
             thread.Start();
+            playerMoveThread.TryAdd(playerId, thread);
         }
     }
 }

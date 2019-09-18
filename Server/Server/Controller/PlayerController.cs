@@ -150,6 +150,8 @@ namespace GameServer
 
                         PlayerManager.instance.playerMove.Remove(playerId);
                     }
+                    player.locationXB = player.locationX;
+                    player.locationZB = player.locationZ;
                 }
 
                 Thread.Sleep(30);
