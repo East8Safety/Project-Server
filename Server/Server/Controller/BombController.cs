@@ -49,7 +49,7 @@ namespace GameServer
             MapController.instance.SetMapValue(gameMap, bomb.x, bomb.z, 0);
             ConsoleLog.instance.Info(string.Format("泡泡爆炸,武器Id: {0},泡泡位置: {1} {2}", bomb.weaponId, bomb.x, bomb.z));
 
-            for (int i = bomb.x - 1; i >= bomb.x - bomb.damageX; i--)
+            for (int i = bomb.x; i >= bomb.x - bomb.damageX; i--)
             {
                 if (i < 0 || i >= gameMap.width)
                 {

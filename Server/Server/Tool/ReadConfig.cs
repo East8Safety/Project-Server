@@ -159,7 +159,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map3Hight; j++)
                 {
-                    map1[i, j] = int.Parse(mapArray3[x3]);
+                    map3[i, j] = int.Parse(mapArray3[x3]);
                     x3++;
                 }
             }

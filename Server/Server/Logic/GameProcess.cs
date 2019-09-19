@@ -371,6 +371,7 @@ namespace GameServer
         {
             int playerId = Server.instance.GetPlayerId(clientId);
             var player = PlayerManager.instance.GetPlayer(playerId);
+            if (player == null) return;
             var weaponId = data.weaponId;
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
