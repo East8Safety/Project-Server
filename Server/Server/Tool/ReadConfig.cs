@@ -29,7 +29,7 @@ namespace GameServer
         public int[,] groundMap2;
         public int[,] groundMap3;
 
-        public int charCountToStart = 2;
+        public int charCountToStart = 1;
         public List<int[]> mapRandom = new List<int[]>();
         public List<int[]> mapRandomChicken = new List<int[]>();
         public Dictionary<int, int> itemCount1 = new Dictionary<int, int>();
@@ -43,7 +43,7 @@ namespace GameServer
         public int portalPlayerCount = 8;
         public int gameEndTime = 3 * 60;
         public int gameInitTime = 10;
-        public int chickenGameTime = 3 * 60;
+        public int chickenGameTime = 10;
         public int canChickenDis = 10;
         public int deBuffNumber = 10;
 

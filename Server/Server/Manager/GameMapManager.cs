@@ -26,6 +26,18 @@ namespace GameServer
                 itemMapDic.TryAdd(itemMap.mapId, itemMap);
                 groundMapDic.TryAdd(groundMap.mapId, groundMap);
             }
+            else if (Server.instance.whichGame == 3)
+            {
+                mapDic[0].gameMap = new int[width, height];
+                mapDic[0].width = width;
+                mapDic[0].height = height;
+                itemMapDic[0].itemMap = new int[width, height];
+                itemMapDic[0].width = width;
+                itemMapDic[0].height = height;
+                groundMapDic[0].groundMap = new int[width, height];
+                groundMapDic[0].width = width;
+                groundMapDic[0].height = height;
+            }
 
             MapController.instance.Init(mapDic[0], width, height, configMap);
             MapController.instance.InitItemMap(itemMapDic[0], width, height, configItemMap);

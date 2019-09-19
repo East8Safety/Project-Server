@@ -151,18 +151,6 @@ namespace GameServer
                     }
                     GameProcess.instance.SyncState(player);
                     break;
-                case 2012:
-                    var speedValue3 = ReadConfig.instance.ItemId2Value[itemId];
-                    if ((player.speed + speedValue3) > player.speedMax)
-                    {
-                        player.speed = player.speedMax;
-                    }
-                    else
-                    {
-                        player.speed += speedValue3;
-                    }
-                    GameProcess.instance.SyncState(player);
-                    break;
                 case 2013:
                     var damage1 = ReadConfig.instance.ItemId2Value[itemId];
                     if ((player.damage + damage1) > player.damageMax)

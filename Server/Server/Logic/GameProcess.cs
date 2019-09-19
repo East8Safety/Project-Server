@@ -678,8 +678,18 @@ namespace GameServer
                 {
                     while (true)
                     {
-                        var x = GenerateItem.random.Next(0, 48);
-                        var z = GenerateItem.random.Next(0, 48);
+                        int x = 0; int z = 0;
+                        if (Server.instance.whichGame == 1 || Server.instance.whichGame == 2)
+                        {
+                            x = GenerateItem.random.Next(0, 48);
+                            z = GenerateItem.random.Next(0, 48);
+                        }
+                        else if(Server.instance.whichGame == 3)
+                        {
+                            x = GenerateItem.random.Next(0, 36);
+                            z = GenerateItem.random.Next(0, 36);
+                        }
+                        
                         if (ReadConfig.instance.map1[x, z] > 0 && ReadConfig.instance.map1[x, z] <= 1000)
                         {
                             PlayerController.instance.SetLocation(player, x, z);
