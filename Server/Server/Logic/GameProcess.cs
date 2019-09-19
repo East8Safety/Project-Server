@@ -299,12 +299,12 @@ namespace GameServer
 
             if (Server.instance.whichGame == 2)
             {
-                GenerateItem.Generate(ReadConfig.instance.map2, ReadConfig.instance.itemCount, ReadConfig.map2Width, ReadConfig.map2Hight, 2);
+                GenerateItem.Generate(ReadConfig.instance.map2, ReadConfig.instance.itemCount2, ReadConfig.map2Width, ReadConfig.map2Hight, 2);
                 GameMapManager.instance.CreateMap(ReadConfig.map2Width, ReadConfig.map2Hight, ReadConfig.instance.map2, ReadConfig.instance.itemMap2, ReadConfig.instance.groundMap2);
             }
             else if (Server.instance.whichGame == 3)
             {
-                GenerateItem.Generate(ReadConfig.instance.map3, ReadConfig.instance.itemCount, ReadConfig.map3Width, ReadConfig.map3Hight, 3);
+                GenerateItem.Generate(ReadConfig.instance.map3, ReadConfig.instance.itemCount3, ReadConfig.map3Width, ReadConfig.map3Hight, 3);
                 GameMapManager.instance.CreateMap(ReadConfig.map3Width, ReadConfig.map3Hight, ReadConfig.instance.map3, ReadConfig.instance.itemMap3, ReadConfig.instance.groundMap3);
             }
 

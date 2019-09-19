@@ -105,7 +105,7 @@ namespace GameServer
         public void CreateMap()
         {
             //初始化地图
-            GenerateItem.Generate(ReadConfig.instance.map1, ReadConfig.instance.itemCount, ReadConfig.map1Width, ReadConfig.map1Hight, 1);
+            GenerateItem.Generate(ReadConfig.instance.map1, ReadConfig.instance.itemCount1, ReadConfig.map1Width, ReadConfig.map1Hight, 1);
             GameMapManager.instance.CreateMap(ReadConfig.map1Width, ReadConfig.map1Hight, ReadConfig.instance.map1, ReadConfig.instance.itemMap1, ReadConfig.instance.groundMap1);
             ConsoleLog.instance.Info("初始化完毕");
         }

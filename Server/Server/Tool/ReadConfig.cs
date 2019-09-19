@@ -32,7 +32,9 @@ namespace GameServer
         public int charCountToStart = 2;
         public List<int[]> mapRandom = new List<int[]>();
         public List<int[]> mapRandomChicken = new List<int[]>();
-        public Dictionary<int, int> itemCount = new Dictionary<int, int>();
+        public Dictionary<int, int> itemCount1 = new Dictionary<int, int>();
+        public Dictionary<int, int> itemCount2 = new Dictionary<int, int>();
+        public Dictionary<int, int> itemCount3 = new Dictionary<int, int>();
         public Dictionary<int, ConfigPlayer> configPlayers = new Dictionary<int, ConfigPlayer>();
         public int timeToChooseLocation = 5;
         public Dictionary<int, int> ItemId2Value = new Dictionary<int, int>();
@@ -108,14 +110,6 @@ namespace GameServer
                     x1++;
                 }
             }
-            //for (int i = map1Width - 1; i >= 0; i--)
-            //{
-            //    for (int j = 0; j < map1Hight; j++)
-            //    {
-            //        map1[j, i] = int.Parse(mapArray1[x1]);
-            //        x1++;
-            //    }
-            //}
 
             map2 = new int[map2Width, map2Hight];
             string path2 = "../../../Config/map2.txt";
@@ -136,14 +130,6 @@ namespace GameServer
                     x2++;
                 }
             }
-            //for (int i = map2Width - 1; i >= 0; i--)
-            //{
-            //    for (int j = 0; j < map2Hight; j++)
-            //    {
-            //        map2[j, i] = int.Parse(mapArray2[x2]);
-            //        x2++;
-            //    }
-            //}
 
             map3 = new int[map3Width, map3Hight];
             string path3 = "../../../Config/map3.txt";
@@ -164,14 +150,6 @@ namespace GameServer
                     x3++;
                 }
             }
-            //for (int i = map3Width - 1; i >= 0; i--)
-            //{
-            //    for (int j = 0; j < map3Hight; j++)
-            //    {
-            //        map3[j, i] = int.Parse(mapArray3[x3]);
-            //        x3++;
-            //    }
-            //}
         }
 
         public void SetPlayerLocation(Player player, ref int[,] map)
@@ -206,16 +184,31 @@ namespace GameServer
             doc.Load("../../../Config/Config.xml");
 
             XmlElement rootElem = doc.DocumentElement;
-            XmlNodeList ItemMapNodes = rootElem.GetElementsByTagName("ItemMap");
+            XmlNodeList ItemMapNodes1 = rootElem.GetElementsByTagName("ItemMap1");
+            XmlNodeList ItemMapNodes2 = rootElem.GetElementsByTagName("ItemMap2");
+            XmlNodeList ItemMapNodes3 = rootElem.GetElementsByTagName("ItemMap3");
             XmlNodeList CharNodes = rootElem.GetElementsByTagName("Char");
             XmlNodeList ItemNodes = rootElem.GetElementsByTagName("Item");
-            XmlNodeList damageCommonNodes = rootElem.GetElementsByTagName("damageCommon");
 
-            foreach (var item in ItemMapNodes)
+            foreach (var item in ItemMapNodes1)
             {
                 int id = int.Parse(((XmlElement)item).GetAttribute("id"));
                 int count = int.Parse(((XmlElement)item).GetAttribute("count"));
-                ReadConfig.instance.itemCount.Add(id, count);
+                ReadConfig.instance.itemCount1.Add(id, count);
+            }
+
+            foreach (var item in ItemMapNodes2)
+            {
+                int id = int.Parse(((XmlElement)item).GetAttribute("id"));
+                int count = int.Parse(((XmlElement)item).GetAttribute("count"));
+                ReadConfig.instance.itemCount2.Add(id, count);
+            }
+
+            foreach (var item in ItemMapNodes3)
+            {
+                int id = int.Parse(((XmlElement)item).GetAttribute("id"));
+                int count = int.Parse(((XmlElement)item).GetAttribute("count"));
+                ReadConfig.instance.itemCount3.Add(id, count);
             }
 
             foreach (var item in CharNodes)
