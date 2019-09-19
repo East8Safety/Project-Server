@@ -137,9 +137,19 @@ namespace GameServer
                         player.timer.Change(Timeout.Infinite, Timeout.Infinite);
                     }
                 }
-                else if (Server.instance.whichGame == 3 && gameMap.gameMap[cellX, cellZ] == 3003)
+                else if (Server.instance.whichGame == 3)
                 {
-                    player.isHaveChicken = true;
+                    if (gameMap.gameMap[cellX, cellZ] == 3003 && gameMap.gameMap[player.x, player.z] != 3003)
+                    {
+                        player.isHaveChicken = true;
+                    }
+                    else if (gameMap.gameMap[cellX, cellZ] == 3003 && gameMap.gameMap[player.x, player.z] == 3003)
+                    {
+                        if (player.timer != null)
+                        {
+                            player.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                        }
+                    }
                 }
 
                 player.locationXB = player.locationX;
@@ -234,7 +244,7 @@ namespace GameServer
         public void SendGameOver()
         {
             S2CGameOver s2CGameOver = new S2CGameOver();
-            s2CGameOver.placeholder = 0;
+            s2CGameOver.overGame = Server.instance.whichGame;
             SendData.instance.Broadcast((int)messageType.S2CGameOver, s2CGameOver);
         }
 

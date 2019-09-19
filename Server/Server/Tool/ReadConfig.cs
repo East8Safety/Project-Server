@@ -42,6 +42,7 @@ namespace GameServer
         public int gameEndTime = 3 * 60;
         public int chickenGameTime = 3 * 60;
         public int canChickenDis = 10;
+        public int deBuffNumber = 10;
 
         //读取配置文件
         public void Read()

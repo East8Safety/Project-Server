@@ -33,6 +33,7 @@ namespace GameServer
         public int damageCommon1 { get; set; }
         public int damageCommon2 { get; set; }
         public bool isHaveChicken { get; set; }
+        public int debuff { get; set; }
         public Timer timer { get; set; }
         public Dictionary<int, int> index2ItemId { get; set; }
     }

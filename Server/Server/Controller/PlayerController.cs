@@ -35,6 +35,8 @@ namespace GameServer
             player.damageCommon1 = 99;
             player.damageCommon2 = 98;
             player.bombCount = 20;
+            player.isHaveChicken = false;
+            player.debuff = 0;
         }
 
         //玩家受到伤害
@@ -155,6 +157,7 @@ namespace GameServer
                         player.locationXB = player.locationX;
                         player.locationZB = player.locationZ;
                         speed = 40 - player.speed;
+                        speed += player.debuff;
                     }
                     else
                     {

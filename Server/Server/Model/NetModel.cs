@@ -259,7 +259,7 @@ namespace GameServer
     public class S2CGameOver
     {
         [ProtoMember(1)]
-        public int placeholder { get; set; }
+        public int overGame { get; set; }
     }
 
     [ProtoContract]
