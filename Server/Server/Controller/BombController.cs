@@ -22,7 +22,7 @@ namespace GameServer
             bomb.z = z;
             bomb.damageX = 3;
             bomb.damageZ = 3;
-            bomb.damage = player.damage + 100;
+            bomb.damage = player.damage + 10;
             bombGuid++;
 
             return bomb;

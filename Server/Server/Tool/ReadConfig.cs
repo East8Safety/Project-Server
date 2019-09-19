@@ -29,22 +29,24 @@ namespace GameServer
         public int[,] groundMap2;
         public int[,] groundMap3;
 
-        public int charCountToStart = 1;
+        public int charCountToStart = 4;
         public List<int[]> mapRandom = new List<int[]>();
         public List<int[]> mapRandomChicken = new List<int[]>();
+        public List<int[]> mapRandomPortal = new List<int[]>();
         public Dictionary<int, int> itemCount1 = new Dictionary<int, int>();
         public Dictionary<int, int> itemCount2 = new Dictionary<int, int>();
         public Dictionary<int, int> itemCount3 = new Dictionary<int, int>();
         public Dictionary<int, ConfigPlayer> configPlayers = new Dictionary<int, ConfigPlayer>();
-        public int timeToChooseLocation = 5;
+        public int timeToChooseLocation = 2;
         public Dictionary<int, int> ItemId2Value = new Dictionary<int, int>();
-        public int portalTime = 5;
+        public int portalTime = 3;
         public int bombTime = 3;
-        public int portalPlayerCount = 8;
-        public int gameEndTime = 3 * 60;
-        public int gameInitTime = 10;
-        public int chickenGameTime = 10;
-        public int canChickenDis = 10;
+        public int portalPlayerCount = 5;
+        public int gameEndTime = 1 * 60;
+        public int gameInitTime = 5;
+        public int chickenGameTime = 30;
+        public int portalGameTime = 1 * 60;
+        public int canChickenDis = 8;
         public int deBuffNumber = 10;
 
         //读取配置文件
@@ -68,7 +70,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map1Hight; j++)
                 {
-                    groundMap1[i, j] = 100;
+                    groundMap1[i, j] = 15;
                 }
             }
             groundMap2 = new int[map2Width, map2Hight];
@@ -76,7 +78,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map2Hight; j++)
                 {
-                    groundMap2[i, j] = 100;
+                    groundMap2[i, j] = 15;
                 }
             }
             groundMap3 = new int[map3Width, map3Hight];
@@ -84,7 +86,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map3Hight; j++)
                 {
-                    groundMap3[i, j] = 100;
+                    groundMap3[i, j] = 15;
                 }
             }
         }

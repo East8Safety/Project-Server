@@ -14,6 +14,7 @@ namespace GameServer
         private Timer GameEndTimer;
         private Timer GameInitTimer;
         private Timer chickenGameTimer;
+        private Timer portalTimer;
 
         //客户端连接之后执行任务
         public void AfterConnect(int clientId)
@@ -318,6 +319,16 @@ namespace GameServer
             {
                 chickenGameTimer = new Timer(new TimerCallback(Generate), null, ReadConfig.instance.chickenGameTime * 1000, Timeout.Infinite);
             }
+            else if (Server.instance.whichGame == 2)
+            {
+                portalTimer = new Timer(new TimerCallback(GeneratePortal), null, ReadConfig.instance.portalGameTime * 1000, Timeout.Infinite);
+            }
+        }
+
+        public void GeneratePortal(object state)
+        {
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            GenerateItem.GeneratePortal(gameMap, 48, 48);
         }
 
         public void Generate(object state)

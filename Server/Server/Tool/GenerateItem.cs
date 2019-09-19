@@ -134,5 +134,38 @@ namespace GameServer
             map.gameMap[x, z] = 3003;
             ReadConfig.instance.mapRandom.Remove(ReadConfig.instance.mapRandomChicken[mapRandomIndex]);
         }
+
+        public static void GeneratePortal(GameMap map, int width, int hight)
+        {
+            int portalCount = 0;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < hight; j++)
+                {
+                    if (map.gameMap[i, j] == 0)
+                    {
+                        int[] mapXZ = new int[2];
+                        mapXZ[0] = i;
+                        mapXZ[1] = j;
+                        ReadConfig.instance.mapRandomPortal.Add(mapXZ);
+                    }
+                }
+            }
+
+            while (true)
+            {
+                if (portalCount >= 1)
+                {
+                    break;
+                }
+
+                int mapRandomIndex = random.Next(0, ReadConfig.instance.mapRandomPortal.Count);
+                var x = ReadConfig.instance.mapRandomChicken[mapRandomIndex][0];
+                var z = ReadConfig.instance.mapRandomChicken[mapRandomIndex][1];
+
+                MapController.instance.SetMapValue(map, x, z, 3001);
+                portalCount++;
+            }
+        }
     }
 }

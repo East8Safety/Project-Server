@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
-	<ItemMap1 id="2001" count="10"/>
-	<ItemMap1 id="2002" count="20"/>
-	<ItemMap1 id="2003" count="20"/>
-	<ItemMap1 id="2004" count="20"/>
-	<ItemMap1 id="2005" count="20"/>
-	<ItemMap1 id="2006" count="20"/>
-	<ItemMap1 id="2007" count="20"/>
-	<ItemMap1 id="2008" count="20"/>
-	<ItemMap1 id="2009" count="20"/>
-	<ItemMap1 id="2010" count="10"/>
-	<ItemMap1 id="2011" count="10"/>
-	<ItemMap1 id="2012" count="10"/>
-	<ItemMap1 id="2013" count="10"/>
-	<ItemMap1 id="2014" count="10"/>
-	<ItemMap1 id="2015" count="10"/>
-	<ItemMap1 id="3001" count="500"/>
+	<ItemMap1 id="2001" count="30"/>
+	<ItemMap1 id="2002" count="30"/>
+	<ItemMap1 id="2003" count="30"/>
+	<ItemMap1 id="2004" count="30"/>
+	<ItemMap1 id="2005" count="30"/>
+	<ItemMap1 id="2006" count="30"/>
+	<ItemMap1 id="2007" count="100"/>
+	<ItemMap1 id="2008" count="100"/>
+	<ItemMap1 id="2009" count="100"/>
+	<ItemMap1 id="2010" count="50"/>
+	<ItemMap1 id="2011" count="50"/>
+	<ItemMap1 id="2013" count="50"/>
+	<ItemMap1 id="2014" count="50"/>
+	<ItemMap1 id="2015" count="50"/>
+	<ItemMap1 id="3001" count="0"/>
   
-  <ItemMap2 id="2001" count="10"/>
-	<ItemMap2 id="2002" count="20"/>
-	<ItemMap2 id="2003" count="20"/>
-	<ItemMap2 id="2004" count="20"/>
-	<ItemMap2 id="2005" count="20"/>
-	<ItemMap2 id="2006" count="20"/>
-	<ItemMap2 id="2007" count="20"/>
-	<ItemMap2 id="2008" count="20"/>
-	<ItemMap2 id="2009" count="20"/>
-	<ItemMap2 id="2010" count="10"/>
-	<ItemMap2 id="2011" count="10"/>
-	<ItemMap2 id="2013" count="10"/>
-	<ItemMap2 id="2014" count="10"/>
-	<ItemMap2 id="2015" count="10"/>
-	<ItemMap2 id="3001" count="500"/>
+  <ItemMap2 id="2001" count="30"/>
+	<ItemMap2 id="2002" count="30"/>
+	<ItemMap2 id="2003" count="30"/>
+	<ItemMap2 id="2004" count="30"/>
+	<ItemMap2 id="2005" count="30"/>
+	<ItemMap2 id="2006" count="30"/>
+	<ItemMap2 id="2007" count="100"/>
+	<ItemMap2 id="2008" count="100"/>
+	<ItemMap2 id="2009" count="100"/>
+	<ItemMap2 id="2010" count="50"/>
+	<ItemMap2 id="2011" count="50"/>
+	<ItemMap2 id="2013" count="50"/>
+	<ItemMap2 id="2014" count="50"/>
+	<ItemMap2 id="2015" count="50"/>
+	<ItemMap2 id="3001" count="0"/>
   
-  <ItemMap3 id="2001" count="10"/>
-	<ItemMap3 id="2002" count="20"/>
-	<ItemMap3 id="2003" count="20"/>
-	<ItemMap3 id="2004" count="20"/>
-	<ItemMap3 id="2005" count="20"/>
-	<ItemMap3 id="2006" count="20"/>
+  <ItemMap3 id="2001" count="15"/>
+	<ItemMap3 id="2002" count="15"/>
+	<ItemMap3 id="2003" count="15"/>
+	<ItemMap3 id="2004" count="15"/>
+	<ItemMap3 id="2005" count="15"/>
+	<ItemMap3 id="2006" count="15"/>
 	<ItemMap3 id="2007" count="20"/>
 	<ItemMap3 id="2008" count="20"/>
 	<ItemMap3 id="2009" count="20"/>
@@ -48,22 +47,22 @@
 	<ItemMap3 id="2014" count="10"/>
 	<ItemMap3 id="2015" count="10"/>
 
-	<Item id="2001" value="10"/>
-	<Item id="2002" value="20"/>
-	<Item id="2003" value="30"/>
-	<Item id="2004" value="10"/>
-	<Item id="2005" value="20"/>
-	<Item id="2006" value="30"/>
-	<Item id="2007" value="10"/>
-	<Item id="2008" value="20"/>
-	<Item id="2009" value="30"/>
-	<Item id="2010" value="4"/>
-	<Item id="2011" value="6"/>
-	<Item id="2013" value="10"/>
-	<Item id="2014" value="20"/>
-	<Item id="2015" value="30"/>
+	<Item id="2001" value="50"/>
+	<Item id="2002" value="80"/>
+	<Item id="2003" value="100"/>
+	<Item id="2004" value="30"/>
+	<Item id="2005" value="50"/>
+	<Item id="2006" value="80"/>
+	<Item id="2007" value="20"/>
+	<Item id="2008" value="30"/>
+	<Item id="2009" value="50"/>
+	<Item id="2010" value="1"/>
+	<Item id="2011" value="2"/>
+	<Item id="2013" value="1"/>
+	<Item id="2014" value="2"/>
+	<Item id="2015" value="3"/>
 
-	<Char charid="1" hp="100" hpMax="100" speed="12" speedMax="30" damage="50" damageMax="80"/>
-	<Char charid="2" hp="120" hpMax="120" speed="10" speedMax="15" damage="50" damageMax="80"/>
-	<Char charid="3" hp="100" hpMax="100" speed="10" speedMax="15" damage="50" damageMax="80"/>
+	<Char charid="1" hp="100" hpMax="100" speed="10" speedMax="25" damage="13" damageMax="25"/>
+	<Char charid="2" hp="100" hpMax="100" speed="12" speedMax="30" damage="10" damageMax="23"/>
+	<Char charid="3" hp="120" hpMax="120" speed="10" speedMax="27" damage="10" damageMax="23"/>
 </root>
