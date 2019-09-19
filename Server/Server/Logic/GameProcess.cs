@@ -374,9 +374,6 @@ namespace GameServer
             player.xBefore = -1;
             player.zBefore = -1;
             player.toward = 1;
-            player.damageCommon1 = 99;
-            player.damageCommon2 = 98;
-            player.bombCount = 20;
 
             int playerCount = PlayerManager.instance.playerPool.Count;
             for (int i = 0; i < playerCount; i++)

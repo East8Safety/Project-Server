@@ -34,6 +34,10 @@ namespace GameServer
 
         public void DeleteItem(Player player, int index)
         {
+            if (player == null)
+            {
+                return;
+            }
             if (!player.index2ItemId.ContainsKey(index))
             {
                 return;
