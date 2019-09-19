@@ -19,6 +19,10 @@ namespace GameServer
                 {
                     Send();
                 }
+                else
+                {
+                    Thread.Sleep(2);
+                }
             }
         }
 

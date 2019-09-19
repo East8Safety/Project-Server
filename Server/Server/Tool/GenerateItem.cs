@@ -56,8 +56,11 @@ namespace GameServer
             }
         }
 
-        public void GenerateChicken(GameMap map, int width, int hight)
+        public static void GenerateChicken(GameMap map, int width, int hight, ref S2CChickenLoc s2CChickenLoc)
         {
+            int mid = width / 2;
+            int chickenCount = 0;
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < hight; j++)
@@ -72,12 +75,63 @@ namespace GameServer
                 }
             }
 
-            int mapRandomIndex = random.Next(0, ReadConfig.instance.mapRandomChicken.Count);
-            var x = ReadConfig.instance.mapRandomChicken[mapRandomIndex][0];
-            var z = ReadConfig.instance.mapRandomChicken[mapRandomIndex][1];
+            while (true)
+            {
+                if (chickenCount >= 4)
+                {
+                    break;
+                }
 
+                ChickenLoc chickenLoc = new ChickenLoc();
+
+                int mapRandomIndex = random.Next(0, ReadConfig.instance.mapRandomChicken.Count);
+                var x = ReadConfig.instance.mapRandomChicken[mapRandomIndex][0];
+                var z = ReadConfig.instance.mapRandomChicken[mapRandomIndex][1];
+
+                if (x < mid && x - ReadConfig.instance.canChickenDis < 0 )
+                {
+                    if (z < mid && z - ReadConfig.instance.canChickenDis < 0)
+                    {
+                        setMapvalue(map, x, z, mapRandomIndex);
+                        chickenLoc.x = x;
+                        chickenLoc.z = z;
+                        s2CChickenLoc.chickenLocList.Add(chickenLoc);
+                        chickenCount++;
+                    }
+                    else if (z >= mid && z + ReadConfig.instance.canChickenDis >= hight)
+                    {
+                        setMapvalue(map, x, z, mapRandomIndex);
+                        chickenLoc.x = x;
+                        chickenLoc.z = z;
+                        s2CChickenLoc.chickenLocList.Add(chickenLoc);
+                        chickenCount++;
+                    }
+                }
+                else if (x >= mid && x + ReadConfig.instance.canChickenDis >= width)
+                {
+                    if (z < mid && z - ReadConfig.instance.canChickenDis < 0)
+                    {
+                        setMapvalue(map, x, z, mapRandomIndex);
+                        chickenLoc.x = x;
+                        chickenLoc.z = z;
+                        s2CChickenLoc.chickenLocList.Add(chickenLoc);
+                        chickenCount++;
+                    }
+                    else if (z >= mid && z + ReadConfig.instance.canChickenDis >= hight)
+                    {
+                        setMapvalue(map, x, z, mapRandomIndex);
+                        chickenLoc.x = x;
+                        chickenLoc.z = z;
+                        s2CChickenLoc.chickenLocList.Add(chickenLoc);
+                        chickenCount++;
+                    }
+                }
+            }
+        }
+
+        private static void setMapvalue(GameMap map, int x, int z, int mapRandomIndex)
+        {
             map.gameMap[x, z] = 3003;
-
             ReadConfig.instance.mapRandom.Remove(ReadConfig.instance.mapRandomChicken[mapRandomIndex]);
         }
     }

@@ -29,6 +29,10 @@ namespace GameServer
                         }
                     }
                 }
+                else
+                {
+                    Thread.Sleep(2);
+                }
             }
         }
 

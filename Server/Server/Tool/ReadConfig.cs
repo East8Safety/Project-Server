@@ -40,6 +40,8 @@ namespace GameServer
         public int bombTime = 3;
         public int portalPlayerCount = 8;
         public int gameEndTime = 3 * 60;
+        public int chickenGameTime = 3 * 60;
+        public int canChickenDis = 10;
 
         //读取配置文件
         public void Read()

@@ -32,6 +32,7 @@ namespace GameServer
         S2CInPortal =               1112,           //进传送门
         S2CGameOver =               1113,           //游戏结束
         S2CStart =                  1114,           //开始
+        S2CChickenLoc =             1115,           //鸡的位置
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,           //客户端攻击

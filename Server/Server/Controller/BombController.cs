@@ -10,7 +10,8 @@ namespace GameServer
         public static readonly BombController instance = new BombController();
 
         public Dictionary<int, int> playerId2Damage = new Dictionary<int, int>();
-        public List<BombLoc> bombLocList = new List<BombLoc>();
+        public List<BombLoc> bombLocListW = new List<BombLoc>();
+        public List<BombLoc> bombLocListH = new List<BombLoc>();
         private int bombGuid = 100001;
 
         public Bomb Create(Player player, int x, int z)
@@ -76,12 +77,12 @@ namespace GameServer
                 {
                     GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
                     MapController.instance.Damage(groundMap, i, bomb.z, bomb.damage);
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                     break;
                 }
                 else if (gameMap.gameMap[i, bomb.z] >= 100001)
                 {
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                     var bombId = gameMap.gameMap[i, bomb.z];
                     Bomb newBomb = BombManager.instance.GetBomb(bombId);
                     BombRange(newBomb);
@@ -93,11 +94,11 @@ namespace GameServer
                 }
                 else if (gameMap.gameMap[i, bomb.z] >= 2001 && gameMap.gameMap[i, bomb.z] <= 3000)
                 {
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                 }
                 else if(gameMap.gameMap[i, bomb.z] == 0)
                 {
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                 }
             }
             for (int i = bomb.x + 1; i <= bomb.x + bomb.damageX; i++)
@@ -128,12 +129,12 @@ namespace GameServer
                 {
                     GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
                     MapController.instance.Damage(groundMap, i, bomb.z, bomb.damage);
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                     break;
                 }
                 else if (gameMap.gameMap[i, bomb.z] >= 100001)
                 {
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                     var bombId = gameMap.gameMap[i, bomb.z];
                     Bomb newBomb = BombManager.instance.GetBomb(bombId);
                     BombRange(newBomb);
@@ -145,11 +146,11 @@ namespace GameServer
                 }
                 else if (gameMap.gameMap[i, bomb.z] >= 2001 && gameMap.gameMap[i, bomb.z] <= 3000)
                 {
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                 }
                 else if (gameMap.gameMap[i, bomb.z] == 0)
                 {
-                    AddBombRange(i, bomb.z);
+                    AddBombRange(i, bomb.z, wORh.w);
                 }
             }
             for (int i = bomb.z - 1; i >= bomb.z - bomb.damageZ; i--)
@@ -180,12 +181,12 @@ namespace GameServer
                 {
                     GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
                     MapController.instance.Damage(groundMap, bomb.x, i, bomb.damage);
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                     break;
                 }
                 else if (gameMap.gameMap[bomb.x, i] >= 100001)
                 {
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                     var bombId = gameMap.gameMap[bomb.x, i];
                     Bomb newBomb = BombManager.instance.GetBomb(bombId);
                     BombRange(newBomb);
@@ -197,11 +198,11 @@ namespace GameServer
                 }
                 else if (gameMap.gameMap[bomb.x, i] >= 2001 && gameMap.gameMap[bomb.x, i] <= 3000)
                 {
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                 }
                 else if (gameMap.gameMap[bomb.x, i] == 0)
                 {
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                 }
             }
             for (int i = bomb.z + 1; i <= bomb.z + bomb.damageZ; i++)
@@ -232,12 +233,12 @@ namespace GameServer
                 {
                     GroundMap groundMap = GameMapManager.instance.GetGroundMap(0);
                     MapController.instance.Damage(groundMap, bomb.x, i, bomb.damage);
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                     break;
                 }
                 else if (gameMap.gameMap[bomb.x, i] >= 100001)
                 {
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                     var bombId = gameMap.gameMap[bomb.x, i];
                     Bomb newBomb = BombManager.instance.GetBomb(bombId);
                     BombRange(newBomb);
@@ -249,11 +250,11 @@ namespace GameServer
                 }
                 else if (gameMap.gameMap[bomb.x, i] >= 2001 && gameMap.gameMap[bomb.x, i] <= 3000)
                 {
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                 }
                 else if (gameMap.gameMap[bomb.x, i] == 0)
                 {
-                    AddBombRange(bomb.x, i);
+                    AddBombRange(bomb.x, i, wORh.h);
                 }
             }
 
@@ -348,16 +349,25 @@ namespace GameServer
 
         public void BombRange()
         {
-            S2CBombRange s2CBombRange = new S2CBombRange(){BombLocList = bombLocList };
+            S2CBombRange s2CBombRange = new S2CBombRange(){BombLocListW = bombLocListW, BombLocListH = bombLocListH };
             SendData.instance.Broadcast((int)messageType.S2CBombRange, s2CBombRange);
 
-            bombLocList.Clear();
+            bombLocListW.Clear();
+            bombLocListH.Clear();
         }
 
-        public void AddBombRange(int x, int z)
+        public void AddBombRange(int x, int z, wORh wORh)
         {
-            BombLoc bombLoc = new BombLoc(){x = x, z = z};
-            bombLocList.Add(bombLoc);
+            if (wORh == wORh.w)
+            {
+                BombLoc bombLoc = new BombLoc() { x = x, z = z };
+                bombLocListW.Add(bombLoc);
+            }
+            else if (wORh == wORh.h)
+            {
+                BombLoc bombLoc = new BombLoc() { x = x, z = z };
+                bombLocListH.Add(bombLoc);
+            }
         }
     }
 }

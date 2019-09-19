@@ -13,6 +13,7 @@ namespace GameServer
         private Timer chooseLocationTimer;
         private Timer GameEndTimer;
         private Timer GameInitTimer;
+        private Timer chickenGameTimer;
 
         //客户端连接之后执行任务
         public void AfterConnect(int clientId)
@@ -136,9 +137,9 @@ namespace GameServer
                         player.timer.Change(Timeout.Infinite, Timeout.Infinite);
                     }
                 }
-                else if ( gameMap.gameMap[cellX, cellZ] == 3003)
+                else if (Server.instance.whichGame == 3 && gameMap.gameMap[cellX, cellZ] == 3003)
                 {
-
+                    player.isHaveChicken = true;
                 }
 
                 player.locationXB = player.locationX;
@@ -255,6 +256,25 @@ namespace GameServer
             Server.instance.isGaming = true;
             ServerUpdate.isSendLocation = true;
             SendStartAgain(Server.instance.whichGame);
+
+            if (Server.instance.whichGame == 3)
+            {
+                chickenGameTimer = new Timer(new TimerCallback(Generate), null, ReadConfig.instance.chickenGameTime * 1000, Timeout.Infinite);
+            }
+        }
+
+        public void Generate(object state)
+        {
+            S2CChickenLoc s2CChickenLoc = new S2CChickenLoc() { chickenLocList = new List<ChickenLoc>()};
+
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            GenerateItem.GenerateChicken(gameMap, 36, 36, ref s2CChickenLoc);
+            SendChickenLoc(s2CChickenLoc);
+        }
+
+        public void SendChickenLoc(S2CChickenLoc s2CChickenLoc)
+        {
+            SendData.instance.Broadcast((int)messageType.S2CChickenLoc, s2CChickenLoc);
         }
 
         public void SendStartAgain(int witchGame)

@@ -46,6 +46,15 @@ namespace GameServer
         public int z { get; set; }
     }
 
+    [ProtoContract]
+    public class ChickenLoc
+    {
+        [ProtoMember(1)]
+        public int x { get; set; }
+        [ProtoMember(2)]
+        public int z { get; set; }
+    }
+
     #region S2CMessage
 
     //S2CMove用 所有人位置信息
@@ -225,7 +234,9 @@ namespace GameServer
     public class S2CBombRange
     {
         [ProtoMember(1)]
-        public List<BombLoc> BombLocList { get; set; }
+        public List<BombLoc> BombLocListW { get; set; }
+        [ProtoMember(2)]
+        public List<BombLoc> BombLocListH { get; set; }
     }
 
     [ProtoContract]
@@ -256,6 +267,13 @@ namespace GameServer
     {
         [ProtoMember(1)]
         public int witchGame { get; set; }
+    }
+
+    [ProtoContract]
+    public class S2CChickenLoc
+    {
+        [ProtoMember(1)]
+        public List<ChickenLoc> chickenLocList { get; set; }
     }
 
     #endregion
