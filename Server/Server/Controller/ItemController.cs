@@ -17,12 +17,12 @@ namespace GameServer
 
         public void AddItem(Player player, int itemId, int count)
         {
-            if (player.index2ItemId.Count >= 6)
+            if (player.index2ItemId.Count >= 7)
             {
                 return;
             }
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 7; i++)
             {
                 if (!player.index2ItemId.ContainsKey(i))
                 {
@@ -198,6 +198,10 @@ namespace GameServer
                         player.damage += damage3;
                     }
                     GameProcess.instance.SyncState(player);
+                    break;
+                case 3003:
+                    player.isHaveChicken = true;
+                    player.debuff = ReadConfig.instance.deBuffNumber;
                     break;
                 default:
                     break;

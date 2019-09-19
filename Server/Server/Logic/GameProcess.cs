@@ -125,7 +125,18 @@ namespace GameServer
 
                         ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, itemId));
                     }
-                    
+                    else if(player.index2ItemId.Count == 6)
+                    {
+                        var itemId = gameMap.gameMap[cellX, cellZ];
+                        if (itemId >= 2007 && itemId <= 2015)
+                        {
+                            ItemController.instance.AddItem(player, itemId, 1);
+                            MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
+                            SyncItem(player);
+
+                            ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, itemId));
+                        }
+                    }
                 }
                 else if(gameMap.gameMap[cellX, cellZ] == 3001 && gameMap.gameMap[player.x, player.z] != 3001)
                 {
@@ -144,19 +155,27 @@ namespace GameServer
                     {
                         if (player.isHaveChicken == false)
                         {
-                            player.isHaveChicken = true;
-                            player.debuff = ReadConfig.instance.deBuffNumber;
+                            ItemController.instance.AddItem(player, 3003, 1);
                             MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
+                            SyncItem(player);
+
+                            ConsoleLog.instance.Info(string.Format("Player {0} 捡起鸡 {1}", player.playerId, 3003));
                         }
                     }
                     else if (!(cellX == player.x && cellZ == player.z))
                     {
                         if (player.isHaveChicken == false && gameMap.gameMap[cellX, cellZ] == 3003 && gameMap.gameMap[player.x, player.z] == 3003)
                         {
-                            player.isHaveChicken = true;
-                            player.debuff = ReadConfig.instance.deBuffNumber;
+                            ItemController.instance.AddItem(player, 3003, 1);
                             MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
+                            SyncItem(player);
+
+                            ConsoleLog.instance.Info(string.Format("Player {0} 捡起鸡 {1}", player.playerId, 3003));
                         }
+                    }
+                    else if (gameMap.gameMap[cellX, cellZ] == 3002 && player.isHaveChicken == true)
+                    {
+                        PlayerFinalWin(player);
                     }
                 }
 
@@ -190,6 +209,16 @@ namespace GameServer
                     GameOver();
                 }
             });
+        }
+
+        public void PlayerFinalWin(Player player)
+        {
+            var playerId = player.playerId;
+
+            PlayerManager.instance.nextPlayers.TryAdd(playerId, player);
+            ResetPlayer(player);
+
+            
         }
 
         public void SendInPortal(int playerId)
@@ -304,6 +333,18 @@ namespace GameServer
 
         public void ResetPlayer(Player player)
         {
+            player.x = -1;
+            player.z = -1;
+            player.locationX = 0;
+            player.locationZ = 0;
+            player.mapValueBefore = -1;
+            player.xBefore = -1;
+            player.zBefore = -1;
+            player.toward = 1;
+            player.damageCommon1 = 99;
+            player.damageCommon2 = 98;
+            player.bombCount = 20;
+
             int playerCount = PlayerManager.instance.playerPool.Count;
             for (int i = 0; i < playerCount; i++)
             {
@@ -319,18 +360,6 @@ namespace GameServer
             {
                 GameOver();
             }
-
-            player.x = -1;
-            player.z = -1;
-            player.locationX = 0;
-            player.locationZ = 0;
-            player.mapValueBefore = -1;
-            player.xBefore = -1;
-            player.zBefore = -1;
-            player.toward = 1;
-            player.damageCommon1 = 99;
-            player.damageCommon2 = 98;
-            player.bombCount = 20;
         }
 
         //客户端攻击

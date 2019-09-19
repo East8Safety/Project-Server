@@ -20,7 +20,7 @@ namespace GameServer
                 {
                     return true;
                 }
-                if (gameMap.gameMap[x, z] == 0 || gameMap.gameMap[x, z] == 3001 || gameMap.gameMap[x, z] == 3002)
+                if (gameMap.gameMap[x, z] == 0 || gameMap.gameMap[x, z] == 3001 || gameMap.gameMap[x, z] == 3002 || gameMap.gameMap[x, z] == 3003)
                 {
                     return true;
                 }
@@ -31,7 +31,7 @@ namespace GameServer
             }
             else
             {
-                if (gameMap.gameMap[x, z] == 0 || gameMap.gameMap[x, z] == 3001 || gameMap.gameMap[x, z] == 3002)
+                if (gameMap.gameMap[x, z] == 0 || gameMap.gameMap[x, z] == 3001 || gameMap.gameMap[x, z] == 3002 || gameMap.gameMap[x, z] == 3003)
                 {
                     return true;
                 }
