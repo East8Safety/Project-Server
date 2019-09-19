@@ -306,6 +306,13 @@ namespace GameServer
         public int playerId { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CTimer
+    {
+        [ProtoMember(1)]
+        public int time { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage

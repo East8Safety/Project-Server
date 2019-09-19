@@ -198,6 +198,7 @@ namespace GameServer
                 if (GameEndTimer == null)
                 {
                     GameEndTimer = new Timer(new TimerCallback(GameOver), null, ReadConfig.instance.gameEndTime * 1000, Timeout.Infinite);
+                    SendTimer(ReadConfig.instance.gameEndTime);
                 }
 
                 int playerId = (int)state;
@@ -906,6 +907,13 @@ namespace GameServer
             S2CEndTimer s2CEndTimer = new S2CEndTimer();
             s2CEndTimer.playerId = playerId;
             SendData.instance.Broadcast((int)messageType.S2CEndTimer, s2CEndTimer);
+        }
+
+        public void SendTimer(int time)
+        {
+            S2CTimer s2CTimer = new S2CTimer();
+            s2CTimer.time = time;
+            SendData.instance.Broadcast((int)messageType.S2CTimer, s2CTimer);
         }
     }
 }

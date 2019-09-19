@@ -37,6 +37,7 @@ namespace GameServer
         S2CFinalWin =               1116,           //最后获胜
         S2CBeginTimer =             1117,           //开始计时
         S2CEndTimer =               1118,           //结束计时
+        S2CTimer =                  1119,           //
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,           //客户端攻击
