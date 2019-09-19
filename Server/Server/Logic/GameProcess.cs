@@ -201,7 +201,7 @@ namespace GameServer
                 item.Value.timer.Change(Timeout.Infinite, Timeout.Infinite);
                 if (!PlayerManager.instance.nextPlayers.ContainsKey(item.Key))
                 {
-                    GameProcess.instance.SendCharDie(item.Key);
+                    SendCharDie(item.Key);
                     PlayerManager.instance.DeletePlayer(item.Key);
                 }
             }
