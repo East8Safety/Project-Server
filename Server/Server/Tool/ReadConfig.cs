@@ -17,8 +17,8 @@ namespace GameServer
         public static int map1Hight = 48;
         public static int map2Width = 48;
         public static int map2Hight = 48;
-        public static int map3Width = 48;
-        public static int map3Hight = 48;
+        public static int map3Width = 36;
+        public static int map3Hight = 36;
         public int[,] map1;
         public int[,] map2;
         public int[,] map3;
@@ -69,7 +69,21 @@ namespace GameServer
                 }
             }
             groundMap2 = new int[map2Width, map2Hight];
+            for (int i = 0; i < map2Width; i++)
+            {
+                for (int j = 0; j < map2Hight; j++)
+                {
+                    groundMap2[i, j] = 100;
+                }
+            }
             groundMap3 = new int[map3Width, map3Hight];
+            for (int i = 0; i < map3Width; i++)
+            {
+                for (int j = 0; j < map3Hight; j++)
+                {
+                    groundMap3[i, j] = 100;
+                }
+            }
         }
 
         public void ReadMap()

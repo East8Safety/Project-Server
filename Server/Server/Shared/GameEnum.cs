@@ -41,5 +41,6 @@ namespace GameServer
         C2SChooseLocation =         2005,           //客户端选位置
         C2SDeleteItem =             2006,           //客户端丢弃物品
         C2SChangeWeapon =           2007,           //客户端换武器
+        C2SDeleteChicken =          2008,           //丢鸡
     }
 }

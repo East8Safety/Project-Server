@@ -347,5 +347,12 @@ namespace GameServer
         public int weaponId { get; set; }
     }
 
+    [ProtoContract]
+    public class C2SDeleteChicken
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+    }
+
     #endregion
 }

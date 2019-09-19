@@ -125,6 +125,7 @@ namespace GameServer
 
                         ConsoleLog.instance.Info(string.Format("Player {0} 获得道具 {1}", player.playerId, itemId));
                     }
+                    
                 }
                 else if(gameMap.gameMap[cellX, cellZ] == 3001 && gameMap.gameMap[player.x, player.z] != 3001)
                 {
@@ -141,13 +142,20 @@ namespace GameServer
                 {
                     if (gameMap.gameMap[cellX, cellZ] == 3003 && gameMap.gameMap[player.x, player.z] != 3003)
                     {
-                        player.isHaveChicken = true;
-                    }
-                    else if (gameMap.gameMap[cellX, cellZ] == 3003 && gameMap.gameMap[player.x, player.z] == 3003)
-                    {
-                        if (player.timer != null)
+                        if (player.isHaveChicken == false)
                         {
-                            player.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                            player.isHaveChicken = true;
+                            player.debuff = ReadConfig.instance.deBuffNumber;
+                            MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
+                        }
+                    }
+                    else if (!(cellX == player.x && cellZ == player.z))
+                    {
+                        if (player.isHaveChicken == false && gameMap.gameMap[cellX, cellZ] == 3003 && gameMap.gameMap[player.x, player.z] == 3003)
+                        {
+                            player.isHaveChicken = true;
+                            player.debuff = ReadConfig.instance.deBuffNumber;
+                            MapController.instance.SetMapValue(gameMap, cellX, cellZ, 0);
                         }
                     }
                 }
@@ -771,6 +779,18 @@ namespace GameServer
             s2CChangeWeapon.playerId = playerId;
             s2CChangeWeapon.weaponId = weaponId;
             SendData.instance.Broadcast((int)messageType.S2CChangeWeapon, s2CChangeWeapon);
+        }
+
+        public void ClientDeleteChicken(int clientId, C2SDeleteChicken c2SDeleteChicken)
+        {
+            GameMap gameMap = GameMapManager.instance.GetGameMap(0);
+            int playerId = c2SDeleteChicken.playerId;
+            Player player = PlayerManager.instance.GetPlayer(playerId);
+            var x = player.x;
+            var z = player.z;
+            player.isHaveChicken = false;
+            player.debuff = 0;
+            MapController.instance.SetMapValue(gameMap, x, z, 3003);
         }
     }
 }

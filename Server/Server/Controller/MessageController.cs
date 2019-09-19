@@ -67,12 +67,19 @@ namespace GameServer
                     {
                         GameProcess.instance.UseItem(msg.clientId, c2SUseItem);
                     });
-                    break;
+                    break; 
                 case (int)messageType.C2SChangeWeapon:
                     C2SChangeWeapon c2SChangeWeapon = SerializeFunc.instance.DeSerialize<C2SChangeWeapon>(msg.msg);
                     EventManager.instance.AddEvent(() =>
                     {
                         GameProcess.instance.ClientChangeWeapon(msg.clientId, c2SChangeWeapon);
+                    });
+                    break;
+                case (int)messageType.C2SDeleteChicken:
+                    C2SDeleteChicken c2SDeleteChicken = SerializeFunc.instance.DeSerialize<C2SDeleteChicken>(msg.msg);
+                    EventManager.instance.AddEvent(() =>
+                    {
+                        GameProcess.instance.ClientDeleteChicken(msg.clientId, c2SDeleteChicken);
                     });
                     break;
 
