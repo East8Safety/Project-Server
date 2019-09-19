@@ -550,6 +550,7 @@ namespace GameServer
         //客户端位置
         public void ChooseLocation(int clientId, C2SChooseLocation c2SChooseLocation)
         {
+            return;
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
             PlayerController.instance.SetLocation(player, c2SChooseLocation.x, c2SChooseLocation.z);
             SendAllLocation();

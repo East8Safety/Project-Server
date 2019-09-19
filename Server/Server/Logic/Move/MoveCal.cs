@@ -14,6 +14,11 @@ namespace GameServer
             GameMap gameMap;
             GameMapManager.instance.mapDic.TryGetValue(0, out gameMap);
 
+            if (x < 0 || x >= gameMap.width || z < 0 || z >= gameMap.height)
+            {
+                return false;
+            }
+
             if (gameMap.gameMap[player.x, player.z] >= 100001)
             {
                 if (gameMap.gameMap[x, z] == gameMap.gameMap[player.x, player.z])
