@@ -35,6 +35,8 @@ namespace GameServer
         S2CStart =                  1114,           //开始
         S2CChickenLoc =             1115,           //鸡的位置
         S2CFinalWin =               1116,           //最后获胜
+        S2CBeginTimer =             1117,           //开始计时
+        S2CEndTimer =               1118,           //结束计时
 
         C2SMove =                   2001,           //客户端发送移动
         C2SAttack =                 2002,           //客户端攻击

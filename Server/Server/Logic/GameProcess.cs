@@ -141,12 +141,14 @@ namespace GameServer
                 else if(gameMap.gameMap[cellX, cellZ] == 3001 && gameMap.gameMap[player.x, player.z] != 3001)
                 {
                     player.timer = new Timer(new TimerCallback(PlayerWin), player.playerId, ReadConfig.instance.portalTime * 1000, Timeout.Infinite);
+                    SendBeginTimer(playerId, ReadConfig.instance.portalTime);
                 }
                 else if (gameMap.gameMap[cellX, cellZ] != 3001 && gameMap.gameMap[player.x, player.z] == 3001)
                 {
                     if (player.timer != null)
                     {
                         player.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                        SendEndTimer(playerId);
                     }
                 }
                 else if (Server.instance.whichGame == 3)
@@ -860,6 +862,21 @@ namespace GameServer
             S2CAction s2CAction = new S2CAction();
             s2CAction.playerId = playerId;
             SendData.instance.Broadcast((int)messageType.S2CAction, s2CAction);
+        }
+
+        public void SendBeginTimer(int playerId, int second)
+        {
+            S2CBeginTimer s2CBeginTimer = new S2CBeginTimer();
+            s2CBeginTimer.playerId = playerId;
+            s2CBeginTimer.second = second;
+            SendData.instance.Broadcast((int)messageType.S2CBeginTimer, s2CBeginTimer);
+        }
+
+        public void SendEndTimer(int playerId)
+        {
+            S2CEndTimer s2CEndTimer = new S2CEndTimer();
+            s2CEndTimer.playerId = playerId;
+            SendData.instance.Broadcast((int)messageType.S2CEndTimer, s2CEndTimer);
         }
     }
 }
