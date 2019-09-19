@@ -554,6 +554,7 @@ namespace GameServer
         {
             int playerId = Server.instance.GetPlayerId(clientId);
             var player = PlayerManager.instance.GetPlayer(playerId);
+            if (player == null) return;
             PlayerController.instance.SetCharId(player, c2SChooseChar.charId);
             GameProcess.instance.SyncState(player);
             SendCharId(clientId, c2SChooseChar.charId);
@@ -793,7 +794,8 @@ namespace GameServer
         public void DeleteItem(int clientId, C2SDeleteItem c2SDeleteItem)
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
-            if(ItemController.instance.IsHaveItem(player, c2SDeleteItem.index))
+            if (player == null) return;
+            if (ItemController.instance.IsHaveItem(player, c2SDeleteItem.index))
             {
                 GameMap gameMap = GameMapManager.instance.GetGameMap(0);
                 var ret = MapController.instance.GetEmptyCell(player, gameMap, c2SDeleteItem.itemId);
@@ -823,6 +825,7 @@ namespace GameServer
         public void UseItem(int clientId, C2SUseItem c2SUseItem)
         {
             Player player = PlayerManager.instance.GetPlayer(Server.instance.GetPlayerId(clientId));
+            if (player == null) return;
             ItemController.instance.UseItem(player, c2SUseItem.index, c2SUseItem.itemId);
             ConsoleLog.instance.Info(string.Format("Player {0} 使用道具 {1}", player.playerId, c2SUseItem.itemId));
             SendUseItem(player.playerId, c2SUseItem.itemId);
@@ -876,6 +879,7 @@ namespace GameServer
             GameMap gameMap = GameMapManager.instance.GetGameMap(0);
             int playerId = c2SDeleteChicken.playerId;
             Player player = PlayerManager.instance.GetPlayer(playerId);
+            if (player == null) return;
             var x = player.x;
             var z = player.z;
             player.isHaveChicken = false;
