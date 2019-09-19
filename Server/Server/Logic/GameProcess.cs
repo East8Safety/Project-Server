@@ -251,6 +251,12 @@ namespace GameServer
             }
             GameEndTimer = null;
 
+            if (portalTimer != null)
+            {
+                portalTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
+            portalTimer = null;
+
             foreach (var item in BombManager.instance.bombDic)
             {
                 item.Value.timer.Change(Timeout.Infinite, Timeout.Infinite);
@@ -671,6 +677,7 @@ namespace GameServer
                 s2CGameStart.placeholder = 0;
                 SendData.instance.Broadcast((int)messageType.S2CGameStart, s2CGameStart);
                 ServerUpdate.isSendLocation = true;
+                portalTimer = new Timer(new TimerCallback(GeneratePortal), null, ReadConfig.instance.portalGameTime * 1000, Timeout.Infinite);
                 ConsoleLog.instance.Info("游戏开始");
 
                 foreach (var item in PlayerManager.instance.playerDic.Keys)
