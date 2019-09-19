@@ -18,6 +18,7 @@ namespace GameServer
         S2CSyncItem =               1010,           //同步物品
         S2CSyncState =              1011,           //同步状态
         S2CChangeWeapon =           1012,           //转换武器
+        S2CAction =                 1013,           //播动作
 
         S2CSendCharId =             1102,           //发送charId
         S2CSendClientId =           1103,           //发送客户端Id
@@ -43,5 +44,6 @@ namespace GameServer
         C2SDeleteItem =             2006,           //客户端丢弃物品
         C2SChangeWeapon =           2007,           //客户端换武器
         C2SDeleteChicken =          2008,           //丢鸡
+        C2SAction =                 2009,           //播动作
     }
 }

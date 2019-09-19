@@ -82,6 +82,13 @@ namespace GameServer
                         GameProcess.instance.ClientDeleteChicken(msg.clientId, c2SDeleteChicken);
                     });
                     break;
+                case (int)messageType.C2SAction:
+                    C2SAction c2SAction = SerializeFunc.instance.DeSerialize<C2SAction>(msg.msg);
+                    EventManager.instance.AddEvent(() =>
+                    {
+                        GameProcess.instance.ClientAction(msg.clientId, c2SAction);
+                    });
+                    break;
 
                 default:
                     return;

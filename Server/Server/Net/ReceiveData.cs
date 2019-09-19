@@ -80,6 +80,7 @@ namespace GameServer
 
             if (msg == null)
             {
+                Thread.Sleep(2);
                 return;
             }
 

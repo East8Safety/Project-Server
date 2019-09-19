@@ -848,5 +848,18 @@ namespace GameServer
             player.debuff = 0;
             MapController.instance.SetMapValue(gameMap, x, z, 3003);
         }
+
+        public void ClientAction(int clientId, C2SAction c2SAction)
+        {
+            int playerId = Server.instance.GetPlayerId(clientId);
+            SendClientAction(playerId);
+        }
+
+        public void SendClientAction(int playerId)
+        {
+            S2CAction s2CAction = new S2CAction();
+            s2CAction.playerId = playerId;
+            SendData.instance.Broadcast((int)messageType.S2CAction, s2CAction);
+        }
     }
 }

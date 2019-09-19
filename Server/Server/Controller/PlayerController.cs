@@ -71,10 +71,12 @@ namespace GameServer
                 GameMap gameMap = GameMapManager.instance.GetGameMap(0);
                 MapController.instance.SetMapValue(gameMap, player.x, player.z, box.boxId);
 
-                int winnerId = PlayerManager.instance.GetWinner();
-                if (winnerId != 0)
+                if (PlayerManager.instance.playerDic.Count == 1)
                 {
-                    GameProcess.instance.SendWinner(winnerId);
+                    foreach (var item in PlayerManager.instance.playerDic)
+                    {
+                        GameProcess.instance.SendWinner(item.Key);
+                    }
                 }
                 return;
             }

@@ -283,6 +283,13 @@ namespace GameServer
         public int playerId { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CAction
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage
@@ -356,6 +363,13 @@ namespace GameServer
 
     [ProtoContract]
     public class C2SDeleteChicken
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+    }
+
+    [ProtoContract]
+    public class C2SAction
     {
         [ProtoMember(1)]
         public int playerId { get; set; }
