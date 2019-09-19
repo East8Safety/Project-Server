@@ -29,6 +29,11 @@ namespace GameServer
             {
                 for (int i = 0; i < itemCount[itemId]; i++)
                 {
+                    if (ReadConfig.instance.mapRandom.Count == 0)
+                    {
+                        return;
+                    }
+
                     int mapRandomIndex = random.Next(0, ReadConfig.instance.mapRandom.Count);
                     var x = ReadConfig.instance.mapRandom[mapRandomIndex][0];
                     var z = ReadConfig.instance.mapRandom[mapRandomIndex][1];

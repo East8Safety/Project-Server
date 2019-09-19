@@ -90,7 +90,7 @@ namespace GameServer
             if (groundMap.groundMap[x, z] - damage <= 0)
             {
                 var itemMap = GameMapManager.instance.GetItemMap(0);
-                if (itemMap.itemMap[x, z] >= 2001 && itemMap.itemMap[x, z] <= 3000)
+                if (itemMap.itemMap[x, z] >= 2001 && itemMap.itemMap[x, z] <= 4000)
                 {
                     gameMap.gameMap[x, z] = itemMap.itemMap[x, z];
                 }

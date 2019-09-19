@@ -12,6 +12,7 @@ namespace GameServer
 
         private Timer chooseLocationTimer;
         private Timer GameEndTimer;
+        private Timer GameInitTimer;
 
         //客户端连接之后执行任务
         public void AfterConnect(int clientId)
@@ -158,8 +159,9 @@ namespace GameServer
                 Player player = PlayerManager.instance.GetPlayer(playerId);
                 SendInPortal(playerId);
 
-                ResetPlayer(player);
                 PlayerManager.instance.nextPlayers.TryAdd(playerId, player);
+                ResetPlayer(player);
+                
                 if (PlayerManager.instance.nextPlayers.Count >= ReadConfig.instance.portalPlayerCount)
                 {
                     GameOver();
@@ -176,6 +178,11 @@ namespace GameServer
 
         public void GameOver(object state = null)
         {
+            if (Server.instance.isGaming == false)
+            {
+                return;
+            }
+
             Server.instance.isGaming = false;
             ServerUpdate.isSendLocation = false;
 

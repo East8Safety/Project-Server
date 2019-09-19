@@ -9,13 +9,13 @@
 	<ItemMap id="2007" count="20"/>
 	<ItemMap id="2008" count="20"/>
 	<ItemMap id="2009" count="20"/>
-	<ItemMap id="2010" count="100"/>
-	<ItemMap id="2011" count="100"/>
-	<ItemMap id="2012" count="100"/>
-	<ItemMap id="2013" count="100"/>
-	<ItemMap id="2014" count="100"/>
-	<ItemMap id="2015" count="100"/>
-	<ItemMap id="3001" count="20"/>
+	<ItemMap id="2010" count="10"/>
+	<ItemMap id="2011" count="10"/>
+	<ItemMap id="2012" count="10"/>
+	<ItemMap id="2013" count="10"/>
+	<ItemMap id="2014" count="10"/>
+	<ItemMap id="2015" count="10"/>
+	<ItemMap id="3001" count="500"/>
 
 	<Item id="2001" value="10"/>
 	<Item id="2002" value="20"/>
