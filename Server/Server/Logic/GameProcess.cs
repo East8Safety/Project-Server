@@ -215,10 +215,14 @@ namespace GameServer
         {
             var playerId = player.playerId;
 
-            PlayerManager.instance.nextPlayers.TryAdd(playerId, player);
-            ResetPlayer(player);
+            SendFinalWin(playerId);
+        }
 
-            
+        public void SendFinalWin(int playerId)
+        {
+            S2CFinalWin s2CFinalWin = new S2CFinalWin();
+            s2CFinalWin.playerId = playerId;
+            SendData.instance.Broadcast((int)messageType.S2CFinalWin, s2CFinalWin);
         }
 
         public void SendInPortal(int playerId)

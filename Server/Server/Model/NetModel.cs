@@ -276,6 +276,13 @@ namespace GameServer
         public List<ChickenLoc> chickenLocList { get; set; }
     }
 
+    [ProtoContract]
+    public class S2CFinalWin
+    {
+        [ProtoMember(1)]
+        public int playerId { get; set; }
+    }
+
     #endregion
 
     #region C2SMessage
