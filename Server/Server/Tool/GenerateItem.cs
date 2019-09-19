@@ -160,8 +160,8 @@ namespace GameServer
                 }
 
                 int mapRandomIndex = random.Next(0, ReadConfig.instance.mapRandomPortal.Count);
-                var x = ReadConfig.instance.mapRandomChicken[mapRandomIndex][0];
-                var z = ReadConfig.instance.mapRandomChicken[mapRandomIndex][1];
+                var x = ReadConfig.instance.mapRandomPortal[mapRandomIndex][0];
+                var z = ReadConfig.instance.mapRandomPortal[mapRandomIndex][1];
 
                 MapController.instance.SetMapValue(map, x, z, 3001);
                 portalCount++;

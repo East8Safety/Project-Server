@@ -29,7 +29,7 @@ namespace GameServer
         public int[,] groundMap2;
         public int[,] groundMap3;
 
-        public int charCountToStart = 4;
+        public int charCountToStart = 2;
         public List<int[]> mapRandom = new List<int[]>();
         public List<int[]> mapRandomChicken = new List<int[]>();
         public List<int[]> mapRandomPortal = new List<int[]>();
