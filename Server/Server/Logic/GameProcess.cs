@@ -242,6 +242,10 @@ namespace GameServer
             Server.instance.isGaming = false;
             ServerUpdate.isSendLocation = false;
 
+            if (GameEndTimer != null)
+            {
+                GameEndTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
             GameEndTimer = null;
 
             foreach (var item in BombManager.instance.bombDic)
@@ -271,13 +275,13 @@ namespace GameServer
             if (Server.instance.whichGame == 1)
             {
                 Server.instance.whichGame = 2;
-                GameInit();
+                GameInitTimer = new Timer(new TimerCallback(GameInit), null, ReadConfig.instance.gameInitTime * 1000, Timeout.Infinite);
                 return;
             }
             else if (Server.instance.whichGame == 2)
             {
                 Server.instance.whichGame = 3;
-                GameInit();
+                GameInitTimer = new Timer(new TimerCallback(GameInit), null, ReadConfig.instance.gameInitTime * 1000, Timeout.Infinite);
                 return;
             }
         }
@@ -289,7 +293,7 @@ namespace GameServer
             SendData.instance.Broadcast((int)messageType.S2CGameOver, s2CGameOver);
         }
 
-        public void GameInit()
+        public void GameInit(object state)
         {
             SetNoLocationPlayers();
 
@@ -501,6 +505,11 @@ namespace GameServer
                 var x = CDT2Cell.instance.CDT2X(data.locationX);
                 var z = CDT2Cell.instance.CDT2Z(data.locationZ);
 
+                if (gameMap.gameMap[x, z] == 3001 || gameMap.gameMap[x, z] == 3002 || gameMap.gameMap[x, z] == 3003)
+                {
+                    return;
+                }
+
                 Bomb bomb = BombManager.instance.CreateBomb(player, x, z);
 
                 MapController.instance.SetMapValue(gameMap, x, z, bomb.id);
@@ -544,7 +553,7 @@ namespace GameServer
             SendAllLocation();
             ConsoleLog.instance.Info(string.Format("Player {0} 选位置 {1},{2}", player.playerId, c2SChooseLocation.x, c2SChooseLocation.z));
 
-            ReadConfig.instance.SetPlayerLocation(player);
+            ReadConfig.instance.SetPlayerLocation(player, ref ReadConfig.instance.map1);
         }
 
         //发送所有charId
@@ -671,7 +680,20 @@ namespace GameServer
                         if (ReadConfig.instance.map1[x, z] > 0 && ReadConfig.instance.map1[x, z] <= 1000)
                         {
                             PlayerController.instance.SetLocation(player, x, z);
-                            ReadConfig.instance.SetPlayerLocation(player);
+                            switch (Server.instance.whichGame)
+                            {
+                                case 1:
+                                    ReadConfig.instance.SetPlayerLocation(player, ref ReadConfig.instance.map1);
+                                    break;
+                                case 2:
+                                    ReadConfig.instance.SetPlayerLocation(player, ref ReadConfig.instance.map2);
+                                    break;
+                                case 3:
+                                    ReadConfig.instance.SetPlayerLocation(player, ref ReadConfig.instance.map3);
+                                    break;
+                                default:
+                                    break;
+                            }
                             break;
                         }
                     }

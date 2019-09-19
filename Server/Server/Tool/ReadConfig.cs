@@ -40,6 +40,7 @@ namespace GameServer
         public int bombTime = 3;
         public int portalPlayerCount = 8;
         public int gameEndTime = 3 * 60;
+        public int gameInitTime = 10;
         public int chickenGameTime = 3 * 60;
         public int canChickenDis = 10;
         public int deBuffNumber = 10;
@@ -173,7 +174,7 @@ namespace GameServer
             //}
         }
 
-        public void SetPlayerLocation(Player player)
+        public void SetPlayerLocation(Player player, ref int[,] map)
         {
             var x = player.x;
             var z = player.z;
@@ -187,16 +188,16 @@ namespace GameServer
             {
                 player.xBefore = x;
                 player.zBefore = z;
-                player.mapValueBefore = map1[x, z];
-                map1[x, z] = 0;
+                player.mapValueBefore = map[x, z];
+                map[x, z] = 0;
                 return;
             }
-            
-            map1[player.xBefore, player.zBefore] = player.mapValueBefore;
+
+            map[player.xBefore, player.zBefore] = player.mapValueBefore;
             player.xBefore = x;
             player.zBefore = z;
-            player.mapValueBefore = map1[x, z];
-            map1[x, z] = 0;
+            player.mapValueBefore = map[x, z];
+            map[x, z] = 0;
         }
 
         public static void ReadXML()
