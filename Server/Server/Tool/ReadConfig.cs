@@ -31,6 +31,7 @@ namespace GameServer
 
         public int charCountToStart = 1;
         public List<int[]> mapRandom = new List<int[]>();
+        public List<int[]> mapRandomChicken = new List<int[]>();
         public Dictionary<int, int> itemCount = new Dictionary<int, int>();
         public Dictionary<int, ConfigPlayer> configPlayers = new Dictionary<int, ConfigPlayer>();
         public int timeToChooseLocation = 5;

@@ -55,5 +55,30 @@ namespace GameServer
                 }
             }
         }
+
+        public void GenerateChicken(GameMap map, int width, int hight)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < hight; j++)
+                {
+                    if (map.gameMap[i, j] == 0)
+                    {
+                        int[] mapXZ = new int[2];
+                        mapXZ[0] = i;
+                        mapXZ[1] = j;
+                        ReadConfig.instance.mapRandomChicken.Add(mapXZ);
+                    }
+                }
+            }
+
+            int mapRandomIndex = random.Next(0, ReadConfig.instance.mapRandomChicken.Count);
+            var x = ReadConfig.instance.mapRandomChicken[mapRandomIndex][0];
+            var z = ReadConfig.instance.mapRandomChicken[mapRandomIndex][1];
+
+            map.gameMap[x, z] = 3003;
+
+            ReadConfig.instance.mapRandom.Remove(ReadConfig.instance.mapRandomChicken[mapRandomIndex]);
+        }
     }
 }

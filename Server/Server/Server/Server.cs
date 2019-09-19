@@ -10,6 +10,7 @@ namespace GameServer
     public class Server
     {
         public static readonly Server instance = new Server();
+        public static int connectCount = 0;
 
         //套接字
         private Socket socket;
@@ -62,6 +63,14 @@ namespace GameServer
         {
             try
             {
+                if (connectCount >= ReadConfig.instance.charCountToStart)
+                {
+                    socket.BeginAccept(AsyncAccept, null);
+                    return;
+                }
+
+                connectCount++;
+
                 //结束监听，同时获取到客户端
                 Socket userSocket = socket.EndAccept(result);
                 

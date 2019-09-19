@@ -136,6 +136,10 @@ namespace GameServer
                         player.timer.Change(Timeout.Infinite, Timeout.Infinite);
                     }
                 }
+                else if ( gameMap.gameMap[cellX, cellZ] == 3003)
+                {
+
+                }
 
                 player.locationXB = player.locationX;
                 player.locationZB = player.locationZ;
