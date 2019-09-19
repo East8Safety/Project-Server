@@ -29,7 +29,7 @@ namespace GameServer
         public int[,] groundMap2;
         public int[,] groundMap3;
 
-        public int charCountToStart = 2;
+        public int charCountToStart = 1;
         public List<int[]> mapRandom = new List<int[]>();
         public List<int[]> mapRandomChicken = new List<int[]>();
         public List<int[]> mapRandomPortal = new List<int[]>();
@@ -108,7 +108,7 @@ namespace GameServer
             {
                 for (int j = 0; j < map1Hight; j++)
                 {
-                    map1[i, j] = int.Parse(mapArray1[x1]);
+                    map1[i, j] = 0;// int.Parse(mapArray1[x1]);
                     x1++;
                 }
             }

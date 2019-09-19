@@ -266,9 +266,14 @@ namespace GameServer
             GameMapManager.instance.boxDic.Clear();
             PlayerManager.instance.playerPool.Clear();
 
-            foreach (var item in PlayerManager.instance.playerDic)
+            Dictionary<int, Player> substitute = new Dictionary<int, Player>(PlayerManager.instance.playerDic);
+            foreach (var item in substitute)
             {
-                item.Value.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                if (item.Value.timer != null)
+                {
+                    item.Value.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                }
+
                 if (!PlayerManager.instance.nextPlayers.ContainsKey(item.Key))
                 {
                     SendCharDie(item.Key);
