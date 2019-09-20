@@ -62,7 +62,7 @@ namespace GameServer
                     break;
                 }
             }
-            Server.instance.clientPools.Remove(clientId);
+            //Server.instance.clientPools.Remove(clientId);
 
             Server.instance.clientId2PlayerId.Remove(clientId);
 

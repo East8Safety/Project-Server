@@ -219,6 +219,12 @@ namespace GameServer
         public int shield { get; set; }
         [ProtoMember(5)]
         public int bombCount { get; set; }
+        [ProtoMember(6)]
+        public int damage { get; set; }
+        [ProtoMember(7)]
+        public bool isHave { get; set; }
+        [ProtoMember(8)]
+        public int hpMax { get; set; }
     }
 
     [ProtoContract]

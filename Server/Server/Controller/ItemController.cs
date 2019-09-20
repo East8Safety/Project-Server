@@ -194,6 +194,7 @@ namespace GameServer
                 case 3003:
                     player.isHaveChicken = true;
                     player.debuff = ReadConfig.instance.deBuffNumber;
+                    GameProcess.instance.SyncState(player);
                     break;
                 default:
                     break;

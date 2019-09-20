@@ -56,6 +56,11 @@ namespace GameServer
                 for (int j = 0; j < height; j++)
                 {
                     gameMap.gameMap[i, j] = map[i, j];
+                    if(map[i,j] == 0)
+                    {
+                        ConsoleLog.instance.Info(i+" "+j);
+                    }
+                    
                 }
             }
         }

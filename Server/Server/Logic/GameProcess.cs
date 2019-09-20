@@ -858,6 +858,9 @@ namespace GameServer
             s2CSyncState.speed = player.speed;
             s2CSyncState.shield = player.shield;
             s2CSyncState.bombCount = player.bombCount;
+            s2CSyncState.isHave = player.isHaveChicken;
+            s2CSyncState.damage = player.damage + 10;
+            s2CSyncState.hpMax = player.HPMax;
             SendData.instance.Broadcast((int)messageType.S2CSyncState, s2CSyncState);
         }
 
@@ -884,6 +887,7 @@ namespace GameServer
             var z = player.z;
             player.isHaveChicken = false;
             player.debuff = 0;
+            SyncState(player);
             MapController.instance.SetMapValue(gameMap, x, z, 3003);
         }
 

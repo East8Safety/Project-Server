@@ -77,7 +77,7 @@ namespace GameServer
 
             while (true)
             {
-                if (chickenCount >= 4)
+                if (chickenCount >= 104)
                 {
                     break;
                 }
@@ -132,6 +132,7 @@ namespace GameServer
         private static void setMapvalue(GameMap map, int x, int z, int mapRandomIndex)
         {
             map.gameMap[x, z] = 3003;
+            GameProcess.instance.SendMapChange(x, z, 3003);
             ReadConfig.instance.mapRandom.Remove(ReadConfig.instance.mapRandomChicken[mapRandomIndex]);
         }
 
@@ -148,6 +149,7 @@ namespace GameServer
                         mapXZ[0] = i;
                         mapXZ[1] = j;
                         ReadConfig.instance.mapRandomPortal.Add(mapXZ);
+                        ConsoleLog.instance.Info("+++"+i+" "+j);
                     }
                 }
             }
@@ -156,14 +158,25 @@ namespace GameServer
             {
                 if (portalCount >= 1)
                 {
+                    ReadConfig.instance.mapRandomPortal.Clear();
                     break;
                 }
 
                 int mapRandomIndex = random.Next(0, ReadConfig.instance.mapRandomPortal.Count);
-                var x = ReadConfig.instance.mapRandomPortal[mapRandomIndex][0];
-                var z = ReadConfig.instance.mapRandomPortal[mapRandomIndex][1];
+                int x = 0;int z = 0;
+                if (ReadConfig.instance.mapRandomPortal.Count == 0)
+                {
+                    x = 4;
+                    z = 9;
+                }
+                else
+                {
+                    x = ReadConfig.instance.mapRandomPortal[mapRandomIndex][0];
+                    z = ReadConfig.instance.mapRandomPortal[mapRandomIndex][1];
+                }
 
                 MapController.instance.SetMapValue(map, x, z, 3001);
+                ConsoleLog.instance.Info("SetMapValue 3001" + x +" " + z);
                 portalCount++;
             }
         }
