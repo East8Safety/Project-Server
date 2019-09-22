@@ -34,7 +34,7 @@ namespace GameServer
             player.toward = 1;
             player.damageCommon1 = 14;
             player.damageCommon2 = 14;
-            player.bombCount = 20;
+            player.bombCount = 100;
             player.isHaveChicken = false;
             player.debuff = 0;
         }

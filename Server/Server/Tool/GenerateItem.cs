@@ -77,7 +77,7 @@ namespace GameServer
 
             while (true)
             {
-                if (chickenCount >= 104)
+                if (chickenCount >= 4)
                 {
                     break;
                 }
